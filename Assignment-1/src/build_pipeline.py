@@ -1,6 +1,6 @@
 """One-command reproducible data pipeline for EB-NeRD.
 
-    python build_pipeline.py
+    python src/build_pipeline.py   # run from anywhere; paths resolve relative to repo root
 
 Raw zip -> clean -> unified schema (articles / behaviors / click history)
 -> time-based train/val/test split -> small on-disk feature store.
@@ -28,6 +28,8 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
 
 RAW_TABLES = {
     "articles": "articles.parquet",
@@ -380,8 +382,8 @@ def run_pipeline(args: argparse.Namespace) -> None:
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("--raw-zip", default="data/ebnerd_demo.zip")
-    p.add_argument("--work-dir", default="data")
+    p.add_argument("--raw-zip", default=str(REPO_ROOT / "data" / "ebnerd_demo.zip"))
+    p.add_argument("--work-dir", default=str(REPO_ROOT / "data"))
     p.add_argument("--extracted-dir", default=None, help="reuse an already-extracted dataset instead of unzipping")
     p.add_argument("--val-days", type=int, default=2, help="last N days of the raw train window -> new val")
     p.add_argument("--train-days", type=int, default=None, help="preceding M days -> new train (default: all remaining)")
