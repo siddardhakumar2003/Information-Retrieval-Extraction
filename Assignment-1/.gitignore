@@ -2,4 +2,4 @@
 *.pt
 *.ckpt 
 __pycache__/
- data/*
+data/
