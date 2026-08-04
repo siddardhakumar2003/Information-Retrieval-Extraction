@@ -3,3 +3,6 @@
 *.ckpt 
 __pycache__/
 data/
+claude session.txt
+*.pkl
+*.parquet

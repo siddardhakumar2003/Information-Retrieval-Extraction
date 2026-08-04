@@ -1,0 +1,25 @@
+{
+  "config": {
+    "k1": 1.5,
+    "b": 0.75,
+    "k_values": [
+      50,
+      100,
+      150
+    ]
+  },
+  "num_users_evaluated": 1533,
+  "num_users_excluded": 57,
+  "recall@50": {
+    "macro": 0.012178693107713077,
+    "num_users_with_nonzero_recall": 160
+  },
+  "recall@100": {
+    "macro": 0.021429736629427817,
+    "num_users_with_nonzero_recall": 282
+  },
+  "recall@150": {
+    "macro": 0.03098329150205533,
+    "num_users_with_nonzero_recall": 375
+  }
+}
