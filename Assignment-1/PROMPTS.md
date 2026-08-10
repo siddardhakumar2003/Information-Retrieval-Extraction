@@ -33,3 +33,9 @@ Log of prompts submitted to Claude Code for this project, kept for AI-usage disc
 2. BM25 retrieval baseline: Build inverted index from article titles+abstracts. For each user, concatenate their pre-train click history (title+abstract of each article), use as BM25 query. Retrieve top-K (50, 100, 150) articles. Measure Recall@K against actual user clicks in train window (union of all clicks per user). Output: recall_results.json + per_user_recall.parquet -> file name "src/bm25_retrieval.py"
 
 3. Use processed feature store (cleaned articles, users_train_region with click_history, train behaviors) not raw zip files. Ground truth from train split only (1533 users have clicks, 57 excluded). BM25 parameters: k1=1.5, b=0.75, CLI-configurable.
+
+---
+
+### 2026-08-10
+
+1. Build Q3 with BGE-base semantic embeddings + FAISS IVF indexing. User profiles: average embedding of click history. Retrieve top-K articles, evaluate Recall@K against train impressions. File name: "src/semantic_retrieval.py"

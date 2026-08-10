@@ -1,0 +1,25 @@
+{
+  "config": {
+    "model": "BAAI/bge-base-en-v1.5",
+    "k_values": [
+      50,
+      100,
+      150
+    ],
+    "nlist": 100,
+    "nprobe": 10
+  },
+  "num_users_evaluated": 1590,
+  "recall@50": {
+    "macro": 0.008840115347169221,
+    "num_users_with_nonzero_recall": 171
+  },
+  "recall@100": {
+    "macro": 0.014092451593170137,
+    "num_users_with_nonzero_recall": 272
+  },
+  "recall@150": {
+    "macro": 0.0193337096283363,
+    "num_users_with_nonzero_recall": 345
+  }
+}
