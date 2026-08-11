@@ -39,3 +39,38 @@ Log of prompts submitted to Claude Code for this project, kept for AI-usage disc
 ### 2026-08-10
 
 1. Build Q3 with BGE-base semantic embeddings + FAISS IVF indexing. User profiles: average embedding of click history. Retrieve top-K articles, evaluate Recall@K against train impressions. File name: "src/semantic_retrieval.py"
+
+---
+
+### 2026-08-11
+
+MIND Dataset (MINDsmall_train + MINDsmall_dev)
+
+Q1-MIND: Build pipeline for MIND TSV format
+- Load news.tsv and behaviors.tsv from MINDsmall_train and MINDsmall_dev
+- Parse impressions with click labels (articleid-label format)
+- Time-based split: last 1 day of train → val, rest → train
+- MINDsmall_dev → test set
+- File: "src/mind_build_pipeline.py"
+
+Q2-MIND: BM25 retrieval baseline for MIND
+- Build inverted index from article titles+abstracts
+- Use train click history to create user profiles
+- Evaluate on validation impressions (ground truth clicks)
+- File: "src/mind_bm25_retrieval.py"
+
+Q2-MIND: BM25 retrieval baseline for MIND
+- Build inverted index from article titles+abstracts
+- Use train click history to create user profiles
+- Evaluate on validation impressions (ground truth clicks)
+- File: "src/mind_bm25_retrieval.py"
+- Status: IN PROGRESS (optimizing for 65K articles)
+
+Q3-MIND: Semantic retrieval with BGE-base + FAISS IVF for MIND ✓
+- Embed all articles using BAAI/bge-base-en-v1.5
+- Build FAISS IVF index (100 clusters, nprobe=10)
+- User profiles: average embedding of training click history
+- Evaluate on validation impressions
+- File: "src/mind_semantic_retrieval.py"
+- Status: COMPLETE
+- Results: Recall@50=1.21%, Recall@100=1.92%, Recall@150=2.52%
