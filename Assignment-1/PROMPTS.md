@@ -64,7 +64,12 @@ Q2-MIND: BM25 retrieval baseline for MIND
 - Use train click history to create user profiles
 - Evaluate on validation impressions (ground truth clicks)
 - File: "src/mind_bm25_retrieval.py"
-- Status: IN PROGRESS (optimizing for 65K articles)
+- Status: INCOMPLETE - Performance issue
+- Note: Retrieval evaluation on 45K users × top-K retrieval is too slow
+  - Built index successfully (65K articles, 60K unique terms)
+  - Evaluation phase exceeded 23+ minutes without completing
+  - Suggests O(n*m) complexity where n=users, m=retrieval candidates
+  - Needs optimization: batching, approximate retrieval, or sampling
 
 Q3-MIND: Semantic retrieval with BGE-base + FAISS IVF for MIND ✓
 - Embed all articles using BAAI/bge-base-en-v1.5
@@ -74,3 +79,22 @@ Q3-MIND: Semantic retrieval with BGE-base + FAISS IVF for MIND ✓
 - File: "src/mind_semantic_retrieval.py"
 - Status: COMPLETE
 - Results: Recall@50=1.21%, Recall@100=1.92%, Recall@150=2.52%
+
+### 2026-08-19
+
+Q4: Offline Evaluation Harness ✓
+- Metrics: AUC, MRR, nDCG@5, nDCG@10, Recall@K
+- Beyond-accuracy: Diversity (intra-list), Novelty (unseen articles), Coverage (catalog utilization)
+- Slicing: Cold-start vs warm users, Head vs tail articles
+- Statistical: Bootstrap 95% CI (1000 samples)
+- File: "src/metrics.py" (920 lines, comprehensive evaluation framework)
+- Examples: "src/eval_example.py" (demonstrates all metrics)
+- Evaluation script: "src/evaluate_models.py" (integrates with existing results)
+- Documentation: "METRICS_README.md" (usage guide + metric reference)
+- Status: COMPLETE
+- Features:
+  * Single-user and batch evaluation
+  * Slicing by user activity and article popularity
+  * Bootstrap confidence intervals
+  * Category-aware diversity metric
+  * All metrics computed in ~O(n log n) complexity
