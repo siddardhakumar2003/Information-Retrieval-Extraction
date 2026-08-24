@@ -88,6 +88,7 @@ def evaluate(dataset: str, method: str) -> dict:
         retrieved_scores = np.array(row["retrieved_scores"])
         hits = np.array(row["hits"])
         history_len = row["history_len"]
+        n_true_relevant = int(row["n_true_relevant"]) if "n_true_relevant" in predictions_df.columns else None
 
         # Skip if no predictions
         if len(retrieved_ids) == 0:
@@ -104,6 +105,7 @@ def evaluate(dataset: str, method: str) -> dict:
             article_ids=list(retrieved_ids),
             article_categories=article_categories if article_categories else None,
             user_history=list(range(history_len)),  # Proxy for history length
+            n_true_relevant=n_true_relevant,
         )
         metrics["user_id"] = user_id
         metrics["history_len"] = history_len

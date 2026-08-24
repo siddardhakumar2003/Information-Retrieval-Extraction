@@ -1,36 +1,30 @@
 #!/usr/bin/env python3
 """
-Upload EB-NeRD checkpoint (scores.parquet + predictions.txt + embeddings) to Kaggle as a Dataset.
+Upload EB-NeRD checkpoint (predictions.txt + scores_all.parquet + embeddings) to Kaggle as a Dataset.
 
 After Kaggle notebook timeout, download outputs from the "Output" tab, then run:
     python3 upload_ebnerd_checkpoint.py --checkpoint codabench_files/ebnerd --dataset-name ebnerd-checkpoint-v1
 
 This creates a new Kaggle Dataset that can be referenced as /kaggle/input/<dataset-slug>/ in the next notebook run.
-Requires: kaggle CLI configured (~/.kaggle/kaggle.json) with API key.
+Requires: kagglehub configured with valid API key (~/.kaggle/kaggle.json).
 """
 
 import argparse
 import json
-import os
-import subprocess
 import sys
 from pathlib import Path
 
-
-def run_cmd(cmd):
-    """Run shell command and return success."""
-    print(f"  $ {' '.join(cmd)}")
-    result = subprocess.run(cmd, capture_output=True, text=True)
-    if result.returncode != 0:
-        print(f"ERROR: {result.stderr}")
-        return False
-    print(result.stdout)
-    return True
+try:
+    import kagglehub
+except ImportError:
+    print("ERROR: kagglehub not installed. Install with:")
+    print("  pip install kagglehub")
+    sys.exit(1)
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Upload EB-NeRD checkpoint to Kaggle Dataset"
+        description="Upload EB-NeRD checkpoint to Kaggle Dataset using kagglehub"
     )
     parser.add_argument(
         "--checkpoint",
@@ -61,7 +55,7 @@ def main():
         print(f"WARNING: Missing files: {missing}")
         print(f"  Available files: {list(checkpoint_dir.glob('*'))}")
 
-    # Create metadata.csv for dataset
+    # Create metadata.json for dataset
     metadata_path = checkpoint_dir / "dataset-metadata.json"
     metadata = {
         "title": f"EB-NeRD Checkpoint - {args.dataset_name}",
@@ -70,48 +64,51 @@ def main():
         "resources": [
             {
                 "path": f"{checkpoint_dir.name}/checkpoint.json",
-                "description": "Resume checkpoint (last_index, pred_lines, part count)",
+                "description": "Resume checkpoint (last_index, pred_lines, scores_rows)",
             },
             {
                 "path": f"{checkpoint_dir.name}/predictions.txt",
-                "description": "Codabench predictions file (append mode)",
+                "description": "Codabench predictions file (append mode) - source of truth for resume",
+            },
+            {
+                "path": f"{checkpoint_dir.name}/scores_all.parquet",
+                "description": "Merged BM25 + semantic scores (single file)",
             },
             {
                 "path": f"{checkpoint_dir.name}/embeddings.npy",
-                "description": "Cached article embeddings (optional)",
+                "description": "Cached article embeddings",
             },
             {
-                "path": f"{checkpoint_dir.name}/scores_parts",
-                "description": "Parquet part files for scores",
+                "path": f"{checkpoint_dir.name}/article_ids.npy",
+                "description": "Article ID mapping for embeddings",
             },
         ],
     }
 
     with open(metadata_path, "w") as f:
         json.dump(metadata, f, indent=2)
-    print(f"Created dataset metadata: {metadata_path}")
+    print(f"✓ Created dataset metadata: {metadata_path}")
 
-    # Upload via kaggle CLI
-    print(f"\nUploading checkpoint to Kaggle as '{args.dataset_name}'...")
-    cmd = [
-        "kaggle",
-        "datasets",
-        "create",
-        "-p",
-        str(checkpoint_dir),
-        "-m",
-    ]
-    if not run_cmd(cmd):
-        print("\nDataset may already exist. Try updating instead:")
-        print(
-            f"  kaggle datasets version -p {checkpoint_dir} -m 'Resume checkpoint v2'"
+    # Upload via kagglehub
+    dataset_handle = f"kspsvlnsiddardha/{args.dataset_name}"
+    print(f"\n🚀 Uploading checkpoint to Kaggle Dataset: {dataset_handle}")
+    print(f"   Source directory: {checkpoint_dir}")
+
+    try:
+        kagglehub.dataset_upload(
+            handle=dataset_handle,
+            local_dataset_dir=str(checkpoint_dir),
         )
-        sys.exit(1)
+        print(f"\n✓ Upload complete!")
+        print(f"Dataset: https://www.kaggle.com/datasets/{dataset_handle}")
+        print(f"\n📌 In next Kaggle notebook run, set:")
+        print(f"   RESUME_DIR = '/kaggle/input/sidhardhakumar2003-{args.dataset_name}/'")
 
-    print(f"\n✓ Upload complete!")
-    print(f"Dataset: https://www.kaggle.com/datasets/sidhardhakumar2003/{args.dataset_name}")
-    print(f"\nIn next Kaggle notebook run, set:")
-    print(f"  RESUME_DIR = '/kaggle/input/sidhardhakumar2003-{args.dataset_name}/'")
+    except Exception as e:
+        print(f"\n✗ Upload failed: {e}")
+        print(f"\nNote: If dataset already exists, you may need to create a new version.")
+        print(f"Check your Kaggle datasets: https://www.kaggle.com/settings/datasets")
+        sys.exit(1)
 
 
 if __name__ == "__main__":

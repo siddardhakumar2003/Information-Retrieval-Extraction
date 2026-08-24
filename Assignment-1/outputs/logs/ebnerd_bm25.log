@@ -1,0 +1,34 @@
+[1/6] Loading feature store and splits (train+val for profiles, test for eval)
+[2/6] Building inverted index
+  31621 unique terms, 11777 documents
+[3/6] Building user profiles from train+val click history and test ground truth
+  1590 users with train+val click history
+  1562 users with test-split clicks (evaluation targets)
+  1217 users in both (will evaluate)
+  345 users excluded (no train+val history)
+[4/6] Scoring and ranking all users (k1=1.5, b=0.75)
+  [100/1217] users scored
+  [200/1217] users scored
+  [300/1217] users scored
+  [400/1217] users scored
+  [500/1217] users scored
+  [600/1217] users scored
+  [700/1217] users scored
+  [800/1217] users scored
+  [900/1217] users scored
+  [1000/1217] users scored
+  [1100/1217] users scored
+  [1200/1217] users scored
+[5/6] Writing outputs
+[6/6] Summary
+
+Recall@K (macro-averaged over 1217 users):
+  recall@50: 0.0074
+  recall@100: 0.0149
+  recall@200: 0.0293
+
+Outputs:
+  outputs/lexical/inverted_index.pkl
+  outputs/lexical/recall_results.json
+  outputs/lexical/per_user_recall.parquet
+  outputs/lexical/per_user_predictions.parquet (Q4 input)

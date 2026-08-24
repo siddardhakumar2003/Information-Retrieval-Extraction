@@ -1,0 +1,34 @@
+INFO:__main__:Config: k=[50, 100, 200], k1=1.5, b=0.75
+INFO:__main__:Loaded 65238 articles
+INFO:__main__:Loaded 126694 train impressions
+INFO:__main__:Loaded 30271 val impressions
+INFO:__main__:Loaded 73152 test impressions (for evaluation)
+INFO:__main__:Building BM25 index...
+INFO:__main__:  Indexing article 0/65238
+INFO:__main__:  Indexing article 10000/65238
+INFO:__main__:  Indexing article 20000/65238
+INFO:__main__:  Indexing article 30000/65238
+INFO:__main__:  Indexing article 40000/65238
+INFO:__main__:  Indexing article 50000/65238
+INFO:__main__:  Indexing article 60000/65238
+INFO:__main__:  Built index: 65238 articles, 60865 unique terms
+INFO:__main__:Retrieving and evaluating...
+INFO:__main__:Ground truth: 50000 users with clicks in test
+INFO:__main__:User profiles: 49108 users with history in train+val
+INFO:__main__:  Evaluated 1000/5766 users
+INFO:__main__:  Evaluated 2000/5766 users
+INFO:__main__:  Evaluated 3000/5766 users
+INFO:__main__:  Evaluated 4000/5766 users
+INFO:__main__:  Evaluated 5000/5766 users
+INFO:__main__:Evaluated 5766 users
+INFO:__main__:Saving results...
+INFO:__main__:Results saved to outputs/mind_lexical
+
+============================================================
+MIND BM25 RETRIEVAL RESULTS
+============================================================
+Recall@ 50: 0.0059 (  65 users with ≥1 hit)
+Recall@100: 0.0107 ( 122 users with ≥1 hit)
+Recall@200: 0.0179 ( 199 users with ≥1 hit)
+============================================================
+

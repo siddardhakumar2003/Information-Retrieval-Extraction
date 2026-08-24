@@ -22,30 +22,45 @@ class OfflineMetrics:
         self.k_values = k_values or [5, 10, 50, 100]
         self.results = {}
 
-    def compute_auc(self, labels: np.ndarray) -> float:
+    def compute_auc(self, scores: np.ndarray, labels: np.ndarray) -> float:
         """
-        Compute AUC-ROC for ranking.
+        Rank-based AUC-ROC using Mann-Whitney U statistic (no sklearn needed).
+        Equivalent to sklearn.metrics.roc_auc_score(labels, scores).
+        Handles ties via averaged ranks.
         Args:
+            scores: Prediction scores for each article (order matters for ranking)
             labels: Binary labels (1 = clicked, 0 = not clicked)
         Returns:
             AUC score (0-1)
         """
-        n_pos = np.sum(labels)
-        n_neg = len(labels) - n_pos
+        scores = np.asarray(scores, dtype=float)
+        labels = np.asarray(labels)
+        n_pos = int(np.sum(labels == 1))
+        n_neg = int(np.sum(labels == 0))
 
         if n_pos == 0 or n_neg == 0:
             return np.nan
 
-        # Count pairs where positive ranked higher than negative
-        # Simpler: use ranking-based AUC
-        ranks = np.argsort(-labels)  # Descending order
-        auc = 0.0
-        for i, rank in enumerate(ranks):
-            if labels[rank] == 1:
-                auc += (len(labels) - i - n_neg)
+        ranks = self._rankdata_average(scores)
+        sum_ranks_pos = ranks[labels == 1].sum()
+        u_stat = sum_ranks_pos - n_pos * (n_pos + 1) / 2.0
+        return u_stat / (n_pos * n_neg)
 
-        auc = auc / (n_pos * n_neg) if n_pos * n_neg > 0 else np.nan
-        return auc
+    @staticmethod
+    def _rankdata_average(a: np.ndarray) -> np.ndarray:
+        """
+        Compute average ranks for array elements (scipy.stats.rankdata equivalent).
+        Handles ties by assigning average rank to tied elements.
+        """
+        a = np.asarray(a)
+        sorter = np.argsort(a, kind="mergesort")
+        inv = np.empty_like(sorter)
+        inv[sorter] = np.arange(len(a))
+        a_sorted = a[sorter]
+        _, inverse, counts = np.unique(a_sorted, return_inverse=True, return_counts=True)
+        cum = np.cumsum(counts)
+        avg_rank_per_group = cum - (counts - 1) / 2.0
+        return avg_rank_per_group[inverse][inv]
 
     def compute_mrr(self, labels: np.ndarray) -> float:
         """
@@ -83,16 +98,19 @@ class OfflineMetrics:
         ndcg = dcg / idcg if idcg > 0 else 0.0
         return ndcg
 
-    def compute_recall(self, labels: np.ndarray, k: int = 50) -> float:
+    def compute_recall(self, labels: np.ndarray, k: int = 50,
+                       n_total_relevant: Optional[int] = None) -> float:
         """
         Recall@K: fraction of relevant items in top-K.
         Args:
             labels: Binary labels in ranked order
             k: Cutoff rank
+            n_total_relevant: True total number of relevant items in corpus.
+                             If None, uses sum(labels) (only covers retrieved top-K).
         Returns:
             Recall@K (0-1)
         """
-        n_relevant = np.sum(labels)
+        n_relevant = n_total_relevant if n_total_relevant is not None else int(np.sum(labels))
         if n_relevant == 0:
             return 0.0
 
@@ -169,7 +187,8 @@ class OfflineMetrics:
                      ground_truth: np.ndarray,
                      article_ids: List[int],
                      article_categories: Optional[Dict[int, str]] = None,
-                     user_history: Optional[List[int]] = None) -> Dict[str, float]:
+                     user_history: Optional[List[int]] = None,
+                     n_true_relevant: Optional[int] = None) -> Dict[str, float]:
         """
         Evaluate a single user's predictions.
         Args:
@@ -178,6 +197,8 @@ class OfflineMetrics:
             article_ids: Article IDs in same order as predictions
             article_categories: Optional category mapping
             user_history: Optional user's previous click history
+            n_true_relevant: True total number of relevant items in eval set.
+                            If None, uses sum(ground_truth).
         Returns:
             Dictionary of metrics
         """
@@ -187,7 +208,7 @@ class OfflineMetrics:
         ranked_ids = [article_ids[i] for i in ranking_idx]
 
         metrics = {
-            'auc': self.compute_auc(ground_truth),
+            'auc': self.compute_auc(predictions, ground_truth),
             'mrr': self.compute_mrr(ranked_labels),
             'ndcg@5': self.compute_ndcg(ranked_labels, k=5),
             'ndcg@10': self.compute_ndcg(ranked_labels, k=10),
@@ -195,7 +216,8 @@ class OfflineMetrics:
 
         # Recall@K for all configured k_values
         for k in self.k_values:
-            metrics[f'recall@{k}'] = self.compute_recall(ranked_labels, k=k)
+            metrics[f'recall@{k}'] = self.compute_recall(ranked_labels, k=k,
+                                                          n_total_relevant=n_true_relevant)
 
         # Diversity
         if article_categories is not None:

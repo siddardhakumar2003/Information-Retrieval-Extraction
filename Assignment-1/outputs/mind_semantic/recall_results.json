@@ -4,22 +4,22 @@
     "k_values": [
       50,
       100,
-      150
+      200
     ],
     "nlist": 100,
     "nprobe": 10
   },
-  "num_users_evaluated": 46012,
+  "num_users_evaluated": 50000,
   "recall@50": {
-    "macro": 0.012139491069642891,
-    "num_users_with_nonzero_recall": 426
+    "macro": 0.008029134568761021,
+    "num_users_with_nonzero_recall": 105
   },
   "recall@100": {
-    "macro": 0.01921224981095732,
-    "num_users_with_nonzero_recall": 674
+    "macro": 0.015620728057628621,
+    "num_users_with_nonzero_recall": 195
   },
-  "recall@150": {
-    "macro": 0.02519412352605979,
-    "num_users_with_nonzero_recall": 900
+  "recall@200": {
+    "macro": 0.025521460749880754,
+    "num_users_with_nonzero_recall": 332
   }
 }

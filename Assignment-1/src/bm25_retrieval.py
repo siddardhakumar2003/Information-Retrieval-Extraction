@@ -264,6 +264,7 @@ def run_evaluation(args: argparse.Namespace) -> None:
             "retrieved_scores": top_k_scores,
             "hits": hit_vector,
             "history_len": len(history),
+            "n_true_relevant": len(truth),
         })
 
     print(f"[5/6] Writing outputs")

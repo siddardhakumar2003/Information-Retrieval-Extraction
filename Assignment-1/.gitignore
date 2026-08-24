@@ -11,3 +11,6 @@ predictions.txt
 kaggle_bundle_mind/*
 kaggle_bundle_ebnerd/*
 codabench_files/*
+kaggle_bundle_ebnerd/*
+kaggle_bundle_mind/*
+.venv/

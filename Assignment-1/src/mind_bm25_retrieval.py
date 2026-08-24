@@ -75,24 +75,59 @@ class InvertedIndex:
         logger.info(f"  Built index: {N} articles, {len(postings)} unique terms")
         return cls(postings, doc_len, N, avgdl)
 
+    def idf(self, term: str) -> float:
+        """Compute IDF for a term."""
+        df = len(self.postings.get(term, {}))
+        return math.log((self.N - df + 0.5) / (df + 0.5) + 1)
+
+    def score_documents_batch(self, candidate_ids: set[int], qtf_counter: Counter,
+                               k1: float = 1.5, b: float = 0.75) -> dict[int, float]:
+        """Score a set of candidate documents against a query."""
+        scores = {}
+        idf_cache = {term: self.idf(term) for term in qtf_counter}
+
+        for doc_idx in candidate_ids:
+            score = 0.0
+            dl = self.doc_len.get(doc_idx, 0)
+            norm_factor = 1 - b + b * (dl / self.avgdl) if self.avgdl > 0 else 1
+
+            for term, qtf in qtf_counter.items():
+                tf = self.postings.get(term, {}).get(doc_idx, 0)
+                if tf == 0:
+                    continue
+                term_score = idf_cache[term] * (tf * (k1 + 1)) / (tf + k1 * norm_factor)
+                score += qtf * term_score
+
+            if score > 0:
+                scores[doc_idx] = score
+
+        return scores
+
     def search(self, query_tokens: list[str], k: int, k1: float = 1.5, b: float = 0.75) -> list[tuple[int, float]]:
-        """BM25 search. Returns list of (article_idx, score)."""
-        scores = defaultdict(float)
+        """BM25 search. Returns list of (article_idx, score).
+        Optimized: first narrows to candidate docs sharing query terms, then scores."""
+        if not query_tokens or all(t == "" for t in query_tokens):
+            return []
 
-        for term in set(query_tokens):
-            if term not in self.postings:
-                continue
+        query_terms = set(t for t in query_tokens if t)
+        if not query_terms:
+            return []
 
-            idf = math.log((self.N - len(self.postings[term]) + 0.5) / (len(self.postings[term]) + 0.5) + 1)
+        # Gather candidate docs: union of posting lists for all query terms
+        candidate_ids = set()
+        for term in query_terms:
+            if term in self.postings:
+                candidate_ids.update(self.postings[term].keys())
 
-            for doc_idx, freq in self.postings[term].items():
-                dl = self.doc_len[doc_idx]
-                numerator = freq * (k1 + 1)
-                denominator = freq + k1 * (1 - b + b * (dl / self.avgdl))
-                scores[doc_idx] += idf * (numerator / denominator)
+        if not candidate_ids:
+            return []
+
+        # Score candidates
+        qtf_counter = Counter(query_tokens)
+        scores = self.score_documents_batch(candidate_ids, qtf_counter, k1, b)
 
         # Sort and return top-k
-        return sorted(scores.items(), key=lambda x: x[1], reverse=True)[:k]
+        return sorted(scores.items(), key=lambda x: (-x[1], x[0]))[:k]
 
 
 @dataclass
@@ -218,6 +253,7 @@ def _retrieve_and_evaluate(
             "retrieved_scores": retrieved_scores,
             "hits": hit_vector,
             "history_len": len(history),
+            "n_true_relevant": len(user_all_clicks),
         })
 
     # Normalize

@@ -68,7 +68,7 @@ def _embed_articles(articles: pd.DataFrame, model: SentenceTransformer) -> np.nd
     texts = []
     for _, row in articles.iterrows():
         title = str(row.get("title", "")) or ""
-        abstract = str(row.get("subtitle", "")) or ""  # subtitle is abstract
+        abstract = str(row.get("abstract", "")) or ""
         text = f"{title} {abstract}".strip()
         texts.append(text if text else "[empty]")
 
@@ -219,6 +219,7 @@ def _retrieve_and_evaluate(
             "retrieved_scores": retrieved_scores.tolist(),
             "hits": hit_vector,
             "history_len": np.sum(profile_embedding != 0),  # Rough proxy for history length
+            "n_true_relevant": len(ground_truth),
         })
 
     logger.info(f"Skipped {skipped_not_in_clicks} users (not in user_clicks)")

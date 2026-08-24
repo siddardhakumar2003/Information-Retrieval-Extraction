@@ -1,0 +1,17 @@
+# Q2/Q3/Q4 IR Pipeline Dependencies
+
+# Core data processing
+pandas>=3.0.0
+numpy>=2.5.0
+pyarrow>=10.0.0  # Required for pandas parquet support
+
+# ML/Embeddings
+torch>=2.0.0  # CPU-only: install with --index-url https://download.pytorch.org/whl/cpu
+faiss-cpu>=1.7.0
+sentence-transformers>=2.2.0
+
+# Kaggle API (for checkpoint uploads)
+kagglehub>=0.1.0
+
+# Note: Install torch CPU-only with:
+# pip install torch --index-url https://download.pytorch.org/whl/cpu

@@ -1,13 +1,14 @@
 """Semantic embedding-based retrieval with FAISS IVF for MIND dataset.
 
-    python src/mind_semantic_retrieval.py [--k 50 100 150] [--nlist 100] [--nprobe 10]
+    python src/mind_semantic_retrieval.py [--k 50 100 200] [--nlist 100] [--nprobe 10]
 
 Uses BGE-base embeddings + FAISS IVF index:
 1. Embed all articles (title + abstract)
 2. Build IVF index (clusters vectors, searches relevant clusters)
-3. Create user profiles: average embedding of training click history
-4. Retrieve top-K articles per user from validation set
-5. Evaluate: Recall@K against validation impressions
+3. Create user profiles: average embedding of train+val combined click history
+4. Retrieve top-K articles per user
+5. Evaluate: Recall@K against test split ground truth
+Outputs: recall_results.json, per_user_recall.parquet, per_user_predictions.parquet (Q4 input).
 """
 from __future__ import annotations
 
@@ -42,19 +43,21 @@ class Config:
     out_dir: Path = Path("outputs/mind_semantic")
 
 
-def _load_data(repo_root: Path) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    """Load articles, train behaviors (for profiles), and val behaviors (for eval)."""
+def _load_data(repo_root: Path) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """Load articles, train+val behaviors (for profiles), and test behaviors (for eval)."""
     feature_store = repo_root / "data" / "mind_processed" / "feature_store"
 
     articles = pd.read_parquet(feature_store / "articles.parquet")
     train_beh = pd.read_parquet(feature_store / "train_behaviors.parquet")
     val_beh = pd.read_parquet(feature_store / "val_behaviors.parquet")
+    test_beh = pd.read_parquet(feature_store / "test_behaviors.parquet")
 
     logger.info(f"Loaded {len(articles)} articles")
     logger.info(f"Loaded {len(train_beh)} train impressions for profiles")
-    logger.info(f"Loaded {len(val_beh)} val impressions for evaluation")
+    logger.info(f"Loaded {len(val_beh)} val impressions for profiles")
+    logger.info(f"Loaded {len(test_beh)} test impressions for evaluation")
 
-    return articles, train_beh, val_beh
+    return articles, train_beh, val_beh, test_beh
 
 
 def _embed_articles(articles: pd.DataFrame, model: SentenceTransformer) -> np.ndarray:
@@ -128,30 +131,31 @@ def _create_user_profiles(
 
 def _retrieve_and_evaluate(
     articles: pd.DataFrame,
-    val_beh: pd.DataFrame,
+    test_beh: pd.DataFrame,
     user_profiles: dict[str, np.ndarray],
     index: faiss.IndexIVFFlat,
     k_values: list[int],
-) -> tuple[dict, pd.DataFrame]:
-    """Retrieve top-K articles per user and evaluate against validation ground truth."""
+) -> tuple[dict, pd.DataFrame, pd.DataFrame]:
+    """Retrieve top-K articles per user and evaluate against test ground truth."""
     logger.info("Retrieving and evaluating...")
 
     article_id_to_idx = {aid: idx for idx, aid in enumerate(articles["article_id"].values)}
     idx_to_article_id = {v: k for k, v in article_id_to_idx.items()}
 
-    # Build ground truth from validation impressions
+    # Build ground truth from test impressions (train+val→test split)
     user_clicks = defaultdict(set)
-    for _, row in val_beh.iterrows():
+    for _, row in test_beh.iterrows():
         user_id = str(row["user_id"])
         clicked_ids = row.get("article_ids_clicked", None)
         if clicked_ids is not None and len(clicked_ids) > 0:
             user_clicks[user_id].update(clicked_ids)
 
-    logger.info(f"Ground truth: {len(user_clicks)} users with clicks in validation")
+    logger.info(f"Ground truth: {len(user_clicks)} users with clicks in test")
 
     # Evaluate
     recall_results = {k: {"macro": 0.0, "num_users_with_nonzero_recall": 0} for k in k_values}
     per_user_recalls = []
+    per_user_predictions = []
 
     max_k = max(k_values)
     evaluated_count = 0
@@ -170,16 +174,20 @@ def _retrieve_and_evaluate(
         # Query FAISS
         if np.all(profile_embedding == 0):
             retrieved_indices = np.random.choice(len(article_id_to_idx), max_k, replace=False)
+            retrieved_scores = np.ones(max_k)
         else:
             query = profile_embedding.reshape(1, -1)
-            _, retrieved_indices = index.search(query, max_k)
+            distances, retrieved_indices = index.search(query, max_k)
             retrieved_indices = retrieved_indices[0]
+            retrieved_scores = -distances[0]  # Negate for similarity (FAISS returns distances)
 
-        retrieved_ids = set(idx_to_article_id.get(idx) for idx in retrieved_indices if idx >= 0)
+        # Keep as ordered list (not set) to preserve FAISS ranking
+        retrieved_ids_list = [idx_to_article_id.get(idx) for idx in retrieved_indices if idx >= 0]
+        retrieved_ids_list = [aid for aid in retrieved_ids_list if aid is not None]
 
         # Calculate recall@k
         for k in k_values:
-            top_k_ids = set(list(retrieved_ids)[:k])
+            top_k_ids = set(retrieved_ids_list[:k])
             recall = len(top_k_ids & ground_truth) / len(ground_truth) if ground_truth else 0.0
 
             per_user_recalls.append({
@@ -195,6 +203,17 @@ def _retrieve_and_evaluate(
             if recall > 0:
                 recall_results[k]["num_users_with_nonzero_recall"] += 1
 
+        # Persist top-K predictions for Q4 (scores + binary hit vector)
+        hit_vector = [1 if aid in ground_truth else 0 for aid in retrieved_ids_list]
+        per_user_predictions.append({
+            "user_id": user_id,
+            "retrieved_ids": retrieved_ids_list,
+            "retrieved_scores": retrieved_scores.tolist() if hasattr(retrieved_scores, "tolist") else list(retrieved_scores),
+            "hits": hit_vector,
+            "history_len": int(np.sum(profile_embedding != 0)),
+            "n_true_relevant": len(ground_truth),
+        })
+
     # Normalize
     if evaluated_count > 0:
         for k in k_values:
@@ -204,7 +223,8 @@ def _retrieve_and_evaluate(
     logger.info(f"Evaluated {evaluated_count} users")
 
     per_user_df = pd.DataFrame(per_user_recalls)
-    return recall_results, per_user_df
+    per_user_preds_df = pd.DataFrame(per_user_predictions)
+    return recall_results, per_user_df, per_user_preds_df
 
 
 def main():
@@ -227,8 +247,8 @@ def main():
 
     logger.info(f"Config: k={config.k_values}, nlist={config.nlist}, nprobe={config.nprobe}")
 
-    # Load data
-    articles, train_beh, val_beh = _load_data(REPO_ROOT)
+    # Load data (train+val for profiles, test for evaluation)
+    articles, train_beh, val_beh, test_beh = _load_data(REPO_ROOT)
 
     # Load embedding model
     logger.info(f"Loading embedding model: {config.model_name}")
@@ -238,12 +258,13 @@ def main():
     article_embeddings = _embed_articles(articles, model)
     faiss_index = _build_faiss_index(article_embeddings, config.nlist, config.nprobe)
 
-    # Create user profiles
-    user_profiles = _create_user_profiles(articles, train_beh, article_embeddings)
+    # Create user profiles from train+val combined history
+    combined_beh = pd.concat([train_beh, val_beh], ignore_index=True)
+    user_profiles = _create_user_profiles(articles, combined_beh, article_embeddings)
 
-    # Retrieve and evaluate
-    recall_results, per_user_df = _retrieve_and_evaluate(
-        articles, val_beh, user_profiles, faiss_index, config.k_values
+    # Retrieve and evaluate against test split
+    recall_results, per_user_df, per_user_preds_df = _retrieve_and_evaluate(
+        articles, test_beh, user_profiles, faiss_index, config.k_values
     )
 
     # Save results
@@ -264,6 +285,7 @@ def main():
         json.dump(results_dict, f, indent=2)
 
     per_user_df.to_parquet(config.out_dir / "per_user_recall.parquet")
+    per_user_preds_df.to_parquet(config.out_dir / "per_user_predictions.parquet")
 
     with open(config.out_dir / "faiss_index.pkl", "wb") as f:
         pickle.dump(faiss_index, f)

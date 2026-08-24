@@ -1,25 +1,25 @@
 {
   "config": {
-    "model": "BAAI/bge-base-en-v1.5",
+    "model": "paraphrase-multilingual-mpnet-base-v2",
     "k_values": [
       50,
       100,
-      150
+      200
     ],
     "nlist": 100,
     "nprobe": 10
   },
   "num_users_evaluated": 1590,
   "recall@50": {
-    "macro": 0.008840115347169221,
-    "num_users_with_nonzero_recall": 171
+    "macro": 0.0032823909364972964,
+    "num_users_with_nonzero_recall": 76
   },
   "recall@100": {
-    "macro": 0.014092451593170137,
-    "num_users_with_nonzero_recall": 272
+    "macro": 0.006874864322675848,
+    "num_users_with_nonzero_recall": 140
   },
-  "recall@150": {
-    "macro": 0.0193337096283363,
-    "num_users_with_nonzero_recall": 345
+  "recall@200": {
+    "macro": 0.01464654142741015,
+    "num_users_with_nonzero_recall": 257
   }
 }

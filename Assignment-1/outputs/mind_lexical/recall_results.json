@@ -10,15 +10,15 @@
   },
   "num_users_evaluated": 5766,
   "recall@50": {
-    "macro": 0.003791382433421975,
-    "num_users_with_nonzero_recall": 41
+    "macro": 0.005868695801057924,
+    "num_users_with_nonzero_recall": 65
   },
   "recall@100": {
-    "macro": 0.010213076706312923,
-    "num_users_with_nonzero_recall": 104
+    "macro": 0.010667344716306877,
+    "num_users_with_nonzero_recall": 122
   },
   "recall@200": {
-    "macro": 0.014968096179074335,
-    "num_users_with_nonzero_recall": 163
+    "macro": 0.017922944167535877,
+    "num_users_with_nonzero_recall": 199
   }
 }
