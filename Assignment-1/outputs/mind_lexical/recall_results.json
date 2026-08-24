@@ -1,0 +1,24 @@
+{
+  "config": {
+    "k1": 1.5,
+    "b": 0.75,
+    "k_values": [
+      50,
+      100,
+      200
+    ]
+  },
+  "num_users_evaluated": 5766,
+  "recall@50": {
+    "macro": 0.003791382433421975,
+    "num_users_with_nonzero_recall": 41
+  },
+  "recall@100": {
+    "macro": 0.010213076706312923,
+    "num_users_with_nonzero_recall": 104
+  },
+  "recall@200": {
+    "macro": 0.014968096179074335,
+    "num_users_with_nonzero_recall": 163
+  }
+}

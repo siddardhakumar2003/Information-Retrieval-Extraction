@@ -5,21 +5,21 @@
     "k_values": [
       50,
       100,
-      150
+      200
     ]
   },
-  "num_users_evaluated": 1533,
-  "num_users_excluded": 57,
+  "num_users_evaluated": 1217,
+  "num_users_excluded": 345,
   "recall@50": {
-    "macro": 0.012178693107713077,
-    "num_users_with_nonzero_recall": 160
+    "macro": 0.0074133667453992165,
+    "num_users_with_nonzero_recall": 134
   },
   "recall@100": {
-    "macro": 0.021429736629427817,
-    "num_users_with_nonzero_recall": 282
+    "macro": 0.014900029603153293,
+    "num_users_with_nonzero_recall": 230
   },
-  "recall@150": {
-    "macro": 0.03098329150205533,
-    "num_users_with_nonzero_recall": 375
+  "recall@200": {
+    "macro": 0.029311685514869092,
+    "num_users_with_nonzero_recall": 368
   }
 }
