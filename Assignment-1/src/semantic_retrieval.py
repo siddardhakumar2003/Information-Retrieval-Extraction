@@ -1,13 +1,13 @@
 """Semantic embedding-based retrieval with FAISS IVF for EB-NeRD.
 
-    python src/semantic_retrieval.py [--k 50 100 150] [--nlist 100] [--nprobe 10] [--out-dir outputs/semantic]
+    python src/semantic_retrieval.py [--k 50 100 200] [--nlist 100] [--nprobe 10] [--model paraphrase-multilingual-mpnet-base-v2] [--out-dir outputs/semantic]
 
-Uses BGE-base embeddings + FAISS IVF index:
-1. Embed all articles (title + abstract)
+Uses multilingual embeddings + FAISS IVF index (Danish articles):
+1. Embed all articles (title + subtitle) with paraphrase-multilingual-mpnet-base-v2
 2. Build IVF index (clusters vectors, searches relevant clusters)
-3. Create user profiles: average embedding of click history
+3. Create user profiles: average embedding of train+val click history
 4. Retrieve top-K articles per user
-5. Evaluate: Recall@K against train impressions
+5. Evaluate: Recall@K (K=50,100,200) against test split
 """
 from __future__ import annotations
 
@@ -38,25 +38,26 @@ class Config:
     k_values: list[int]
     nlist: int  # number of IVF clusters
     nprobe: int  # number of clusters to search
-    model_name: str = "BAAI/bge-base-en-v1.5"
+    model_name: str = "paraphrase-multilingual-mpnet-base-v2"  # Danish text
     out_dir: Path = Path("outputs/semantic")
 
 
-def _load_processed_data(repo_root: Path) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    """Load articles, train behaviors, and user click history."""
+def _load_processed_data(repo_root: Path) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """Load articles, train+val behaviors for profiles, and test behaviors for evaluation."""
     feature_store = repo_root / "data" / "processed" / "feature_store"
-
     articles = pd.read_parquet(feature_store / "articles.parquet")
-    users_train = pd.read_parquet(feature_store / "users_train_region.parquet")
 
     splits = repo_root / "data" / "processed" / "splits"
     train_behaviors = pd.read_parquet(splits / "train" / "behaviors.parquet")
+    val_behaviors = pd.read_parquet(splits / "val" / "behaviors.parquet")
+    test_behaviors = pd.read_parquet(splits / "test" / "behaviors.parquet")
 
     logger.info(f"Loaded {len(articles)} articles")
-    logger.info(f"Loaded {len(users_train)} users with click history")
     logger.info(f"Loaded {len(train_behaviors)} train impressions")
+    logger.info(f"Loaded {len(val_behaviors)} val impressions")
+    logger.info(f"Loaded {len(test_behaviors)} test impressions (for evaluation)")
 
-    return articles, users_train, train_behaviors
+    return articles, train_behaviors, val_behaviors, test_behaviors
 
 
 def _embed_articles(articles: pd.DataFrame, model: SentenceTransformer) -> np.ndarray:
@@ -134,29 +135,32 @@ def _create_user_profiles(
 def _retrieve_and_evaluate(
     articles: pd.DataFrame,
     train_behaviors: pd.DataFrame,
+    val_behaviors: pd.DataFrame,
+    test_behaviors: pd.DataFrame,
     user_profiles: dict[int, np.ndarray],
     index: faiss.IndexIVFFlat,
     k_values: list[int],
-) -> tuple[dict, pd.DataFrame]:
-    """Retrieve top-K articles per user and evaluate against ground truth."""
+) -> tuple[dict, pd.DataFrame, pd.DataFrame]:
+    """Retrieve top-K articles per user and evaluate against test ground truth."""
     logger.info("Retrieving and evaluating...")
 
     article_id_to_idx = {aid: idx for idx, aid in enumerate(articles["article_id"].values)}
     idx_to_article_id = {v: k for k, v in article_id_to_idx.items()}
 
-    # Build ground truth: user -> set of clicked article IDs
+    # Build ground truth: user -> set of clicked article IDs from test split
     user_clicks = defaultdict(set)
-    for _, row in train_behaviors.iterrows():
-        user_id = int(row["user_id"])  # Ensure consistent type
+    for _, row in test_behaviors.iterrows():
+        user_id = int(row["user_id"])
         clicked_ids = row.get("article_ids_clicked", None)
         if clicked_ids is not None and len(clicked_ids) > 0:
             user_clicks[user_id].update(clicked_ids)
 
-    logger.info(f"Ground truth: {len(user_clicks)} users with clicks")
+    logger.info(f"Ground truth: {len(user_clicks)} users with clicks in test split")
 
     # Evaluate
     recall_results = {k: {"macro": 0.0, "num_users_with_nonzero_recall": 0} for k in k_values}
     per_user_recalls = []
+    per_user_predictions = []
 
     max_k = max(k_values)
     evaluated_count = 0
@@ -178,18 +182,20 @@ def _retrieve_and_evaluate(
         if np.all(profile_embedding == 0):
             # User has no history, random retrieval
             retrieved_indices = np.random.choice(len(article_id_to_idx), max_k, replace=False)
+            retrieved_scores = np.ones(max_k)  # Uniform scores
         else:
             # Reshape for FAISS (expects 2D array)
             query = profile_embedding.reshape(1, -1)
-            _, retrieved_indices = index.search(query, max_k)
+            distances, retrieved_indices = index.search(query, max_k)
             retrieved_indices = retrieved_indices[0]  # Get first (only) result
+            retrieved_scores = -distances[0]  # Convert distances to similarity scores
 
-        retrieved_ids = set(idx_to_article_id.get(idx) for idx in retrieved_indices if idx >= 0)
+        retrieved_ids_list = [idx_to_article_id.get(idx) for idx in retrieved_indices if idx >= 0]
         ground_truth = user_clicks[user_id]
 
         # Calculate recall@k
         for k in k_values:
-            top_k_ids = set(list(retrieved_ids)[:k])
+            top_k_ids = set(retrieved_ids_list[:k])
             recall = len(top_k_ids & ground_truth) / len(ground_truth) if ground_truth else 0.0
 
             per_user_recalls.append({
@@ -205,6 +211,16 @@ def _retrieve_and_evaluate(
             if recall > 0:
                 recall_results[k]["num_users_with_nonzero_recall"] += 1
 
+        # Persist top-K predictions for Q4
+        hit_vector = [1 if aid in ground_truth else 0 for aid in retrieved_ids_list]
+        per_user_predictions.append({
+            "user_id": user_id,
+            "retrieved_ids": retrieved_ids_list,
+            "retrieved_scores": retrieved_scores.tolist(),
+            "hits": hit_vector,
+            "history_len": np.sum(profile_embedding != 0),  # Rough proxy for history length
+        })
+
     logger.info(f"Skipped {skipped_not_in_clicks} users (not in user_clicks)")
     logger.info(f"Skipped {skipped_no_ground_truth} users (empty ground truth)")
     logger.info(f"Evaluated {evaluated_count} users")
@@ -217,16 +233,17 @@ def _retrieve_and_evaluate(
         logger.error("No users evaluated! Check user_profiles and user_clicks overlap")
 
     per_user_df = pd.DataFrame(per_user_recalls)
-    return recall_results, per_user_df
+    per_user_preds_df = pd.DataFrame(per_user_predictions)
+    return recall_results, per_user_df, per_user_preds_df
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--k", type=int, nargs="+", default=[50, 100, 150],
+    parser.add_argument("--k", type=int, nargs="+", default=[50, 100, 200],
                         help="Retrieval cutoffs")
     parser.add_argument("--nlist", type=int, default=100, help="IVF clusters")
     parser.add_argument("--nprobe", type=int, default=10, help="Clusters to search")
-    parser.add_argument("--model", type=str, default="BAAI/bge-base-en-v1.5",
+    parser.add_argument("--model", type=str, default="paraphrase-multilingual-mpnet-base-v2",
                         help="Embedding model")
     parser.add_argument("--out-dir", type=Path, default=Path("outputs/semantic"),
                         help="Output directory")
@@ -241,10 +258,10 @@ def main():
     )
     config.out_dir.mkdir(parents=True, exist_ok=True)
 
-    logger.info(f"Config: k={config.k_values}, nlist={config.nlist}, nprobe={config.nprobe}")
+    logger.info(f"Config: k={config.k_values}, nlist={config.nlist}, nprobe={config.nprobe}, model={config.model_name}")
 
-    # Load data
-    articles, users_train, train_behaviors = _load_processed_data(REPO_ROOT)
+    # Load data (train+val for profiles, test for evaluation)
+    articles, train_behaviors, val_behaviors, test_behaviors = _load_processed_data(REPO_ROOT)
 
     # Load embedding model
     logger.info(f"Loading embedding model: {config.model_name}")
@@ -254,12 +271,14 @@ def main():
     article_embeddings = _embed_articles(articles, model)
     faiss_index = _build_faiss_index(article_embeddings, config.nlist, config.nprobe)
 
-    # Create user profiles
-    user_profiles = _create_user_profiles(articles, users_train, article_embeddings)
+    # Create user profiles from train+val combined click history
+    # Combine train and val behaviors for profile building
+    combined_behaviors = pd.concat([train_behaviors, val_behaviors], ignore_index=True)
+    user_profiles = _create_user_profiles(articles, combined_behaviors, article_embeddings)
 
     # Retrieve and evaluate
-    recall_results, per_user_df = _retrieve_and_evaluate(
-        articles, train_behaviors, user_profiles, faiss_index, config.k_values
+    recall_results, per_user_df, per_user_preds_df = _retrieve_and_evaluate(
+        articles, train_behaviors, val_behaviors, test_behaviors, user_profiles, faiss_index, config.k_values
     )
 
     # Save results
@@ -280,6 +299,7 @@ def main():
         json.dump(results_dict, f, indent=2)
 
     per_user_df.to_parquet(config.out_dir / "per_user_recall.parquet")
+    per_user_preds_df.to_parquet(config.out_dir / "per_user_predictions.parquet")
 
     with open(config.out_dir / "faiss_index.pkl", "wb") as f:
         pickle.dump(faiss_index, f)

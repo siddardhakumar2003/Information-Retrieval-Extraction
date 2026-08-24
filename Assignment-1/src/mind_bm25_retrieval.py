@@ -1,9 +1,10 @@
 """BM25 lexical retrieval baseline for MIND news recommendation.
 
-    python src/mind_bm25_retrieval.py [--k 50 100 150] [--k1 1.5] [--b 0.75] [--out-dir outputs/mind_lexical]
+    python src/mind_bm25_retrieval.py [--k 50 100 200] [--k1 1.5] [--b 0.75] [--out-dir outputs/mind_lexical]
 
-Builds inverted index from article titles+abstracts, retrieves top-K articles via BM25,
-and measures recall against ground-truth clicks from training impressions.
+Builds inverted index from article titles+abstracts. User profiles built from train+val
+combined click history. Evaluates recall@K against test split ground truth.
+Outputs: recall_results.json, per_user_recall.parquet, per_user_predictions.parquet (Q4 input).
 """
 from __future__ import annotations
 
@@ -102,75 +103,81 @@ class Config:
     out_dir: Path = Path("outputs/mind_lexical")
 
 
-def _load_data(repo_root: Path) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    """Load articles, train behaviors for profiles, and val behaviors for evaluation."""
+def _load_data(repo_root: Path) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """Load articles, train+val behaviors for profiles, and test behaviors for evaluation."""
     feature_store = repo_root / "data" / "mind_processed" / "feature_store"
 
     articles = pd.read_parquet(feature_store / "articles.parquet")
-    train_beh = pd.read_parquet(feature_store / "train_behaviors.parquet")  # For click history/profiles
-    val_beh = pd.read_parquet(feature_store / "val_behaviors.parquet")      # For evaluation
+    train_beh = pd.read_parquet(feature_store / "train_behaviors.parquet")
+    val_beh = pd.read_parquet(feature_store / "val_behaviors.parquet")
+    test_beh = pd.read_parquet(feature_store / "test_behaviors.parquet")
 
     logger.info(f"Loaded {len(articles)} articles")
-    logger.info(f"Loaded {len(train_beh)} train impressions, {train_beh['user_id'].nunique()} users (for profiles)")
-    logger.info(f"Loaded {len(val_beh)} val impressions, {val_beh['user_id'].nunique()} users (for evaluation)")
+    logger.info(f"Loaded {len(train_beh)} train impressions")
+    logger.info(f"Loaded {len(val_beh)} val impressions")
+    logger.info(f"Loaded {len(test_beh)} test impressions (for evaluation)")
 
-    return articles, train_beh, val_beh
+    return articles, train_beh, val_beh, test_beh
 
 
 def _retrieve_and_evaluate(
     articles: pd.DataFrame,
     train_beh: pd.DataFrame,
     val_beh: pd.DataFrame,
+    test_beh: pd.DataFrame,
     index: InvertedIndex,
     k_values: list[int],
-) -> tuple[dict, pd.DataFrame]:
-    """Retrieve top-K using train profiles and evaluate against val ground truth."""
+) -> tuple[dict, pd.DataFrame, pd.DataFrame]:
+    """Retrieve top-K using train+val profiles and evaluate against test ground truth."""
     logger.info("Retrieving and evaluating...")
 
     # Map article_id to index
     article_id_to_idx = {aid: idx for idx, aid in enumerate(articles["article_id"].values)}
     idx_to_article_id = {v: k for k, v in article_id_to_idx.items()}
 
-    # Build user profiles from train click history
-    user_profiles = defaultdict(list)
-    for _, row in train_beh.iterrows():
-        user_id = row["user_id"]
-        history = row.get("click_history", None)
-        if history is not None and len(history) > 0:
-            user_profiles[user_id].extend(history)
+    # Build user profiles from train+val click history (vectorized via groupby)
+    user_history = defaultdict(set)
+    for uid, group in train_beh.groupby("user_id"):
+        for articles_list in group["click_history"]:
+            if articles_list is not None and len(articles_list) > 0:
+                user_history[uid].update(articles_list)
+    for uid, group in val_beh.groupby("user_id"):
+        for articles_list in group["click_history"]:
+            if articles_list is not None and len(articles_list) > 0:
+                user_history[uid].update(articles_list)
 
-    # Build ground truth from val impressions
+    # Build ground truth from test impressions (vectorized via groupby)
     user_clicks = defaultdict(set)
-    for _, row in val_beh.iterrows():
-        user_id = row["user_id"]
-        clicked = row.get("article_ids_clicked", None)
-        if clicked is not None and len(clicked) > 0:
-            user_clicks[user_id].update(clicked)
+    for uid, group in test_beh.groupby("user_id"):
+        for clicked in group["article_ids_clicked"]:
+            if clicked is not None and len(clicked) > 0:
+                user_clicks[uid].update(clicked)
 
-    logger.info(f"Ground truth: {len(user_clicks)} users with clicks in validation")
-    logger.info(f"User profiles: {len(user_profiles)} users with history in training")
+    logger.info(f"Ground truth: {len(user_clicks)} users with clicks in test")
+    logger.info(f"User profiles: {len(user_history)} users with history in train+val")
 
     # Evaluate
     recall_results = {k: {"macro": 0.0, "num_users_with_nonzero_recall": 0} for k in k_values}
     per_user_recalls = []
+    per_user_predictions = []
 
     max_k = max(k_values)
     evaluated_count = 0
+    common_users = set(user_history.keys()) & set(user_clicks.keys())
 
-    for user_id in user_clicks.keys():
-        # Skip users without profiles
-        if user_id not in user_profiles:
-            continue
+    for user_id in sorted(common_users):
+        if (evaluated_count + 1) % 1000 == 0:
+            logger.info(f"  Evaluated {evaluated_count + 1}/{len(common_users)} users")
 
         evaluated_count += 1
         user_all_clicks = user_clicks[user_id]
 
-        # Get user's click history from training
-        history = user_profiles[user_id]
+        # Get user's click history from train+val
+        history = list(user_history[user_id])
         if not history:
             query_tokens = [""]
         else:
-            # Combine titles of all articles in history
+            # Combine titles of all articles in history (vectorized)
             history_texts = []
             for aid in history:
                 if aid in article_id_to_idx:
@@ -182,11 +189,12 @@ def _retrieve_and_evaluate(
 
         # Retrieve top-K
         retrieved = index.search(query_tokens, max_k)
-        retrieved_ids = {idx_to_article_id[idx] for idx, _ in retrieved}
+        retrieved_ids_raw = [idx_to_article_id[idx] for idx, _ in retrieved]
+        retrieved_scores = [score for _, score in retrieved]
 
         # Calculate recall@k
         for k in k_values:
-            top_k_ids = {idx_to_article_id[idx] for idx, _ in retrieved[:k]}
+            top_k_ids = set(retrieved_ids_raw[:k])
             recall = len(top_k_ids & user_all_clicks) / len(user_all_clicks)
 
             per_user_recalls.append({
@@ -202,19 +210,31 @@ def _retrieve_and_evaluate(
             if recall > 0:
                 recall_results[k]["num_users_with_nonzero_recall"] += 1
 
+        # Persist top-K predictions for Q4 (scores + binary hit vector)
+        hit_vector = [1 if aid in user_all_clicks else 0 for aid in retrieved_ids_raw]
+        per_user_predictions.append({
+            "user_id": user_id,
+            "retrieved_ids": retrieved_ids_raw,
+            "retrieved_scores": retrieved_scores,
+            "hits": hit_vector,
+            "history_len": len(history),
+        })
+
     # Normalize
-    for k in k_values:
-        recall_results[k]["macro"] /= evaluated_count
+    if evaluated_count > 0:
+        for k in k_values:
+            recall_results[k]["macro"] /= evaluated_count
 
     logger.info(f"Evaluated {evaluated_count} users")
 
     per_user_df = pd.DataFrame(per_user_recalls)
-    return recall_results, per_user_df
+    per_user_preds_df = pd.DataFrame(per_user_predictions)
+    return recall_results, per_user_df, per_user_preds_df
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--k", type=int, nargs="+", default=[50, 100, 150], help="Retrieval cutoffs")
+    parser.add_argument("--k", type=int, nargs="+", default=[50, 100, 200], help="Retrieval cutoffs")
     parser.add_argument("--k1", type=float, default=1.5, help="BM25 k1 parameter")
     parser.add_argument("--b", type=float, default=0.75, help="BM25 b parameter")
     parser.add_argument("--out-dir", type=Path, default=Path("outputs/mind_lexical"), help="Output directory")
@@ -231,13 +251,13 @@ def main():
     logger.info(f"Config: k={config.k_values}, k1={config.k1}, b={config.b}")
 
     # Load and build index
-    articles, train_beh, val_beh = _load_data(REPO_ROOT)
+    articles, train_beh, val_beh, test_beh = _load_data(REPO_ROOT)
     logger.info("Building BM25 index...")
     index = InvertedIndex.build(articles)
 
     # Retrieve and evaluate
-    recall_results, per_user_df = _retrieve_and_evaluate(
-        articles, train_beh, val_beh, index, config.k_values
+    recall_results, per_user_df, per_user_preds_df = _retrieve_and_evaluate(
+        articles, train_beh, val_beh, test_beh, index, config.k_values
     )
 
     # Save results
@@ -257,6 +277,7 @@ def main():
         json.dump(results_dict, f, indent=2)
 
     per_user_df.to_parquet(config.out_dir / "per_user_recall.parquet")
+    per_user_preds_df.to_parquet(config.out_dir / "per_user_predictions.parquet")
 
     logger.info(f"Results saved to {config.out_dir}")
 

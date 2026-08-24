@@ -191,9 +191,11 @@ class OfflineMetrics:
             'mrr': self.compute_mrr(ranked_labels),
             'ndcg@5': self.compute_ndcg(ranked_labels, k=5),
             'ndcg@10': self.compute_ndcg(ranked_labels, k=10),
-            'recall@50': self.compute_recall(ranked_labels, k=50),
-            'recall@100': self.compute_recall(ranked_labels, k=100),
         }
+
+        # Recall@K for all configured k_values
+        for k in self.k_values:
+            metrics[f'recall@{k}'] = self.compute_recall(ranked_labels, k=k)
 
         # Diversity
         if article_categories is not None:

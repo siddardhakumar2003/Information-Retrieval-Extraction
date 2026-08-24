@@ -6,3 +6,8 @@ data/
 claude session.txt
 *.pkl
 *.parquet
+*.npy
+predictions.txt
+kaggle_bundle_mind/*
+kaggle_bundle_ebnerd/*
+codabench_files/*
