@@ -209,7 +209,7 @@ def _retrieve_and_evaluate(
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--k", type=int, nargs="+", default=[50, 100, 150], help="Retrieval cutoffs")
+    parser.add_argument("--k", type=int, nargs="+", default=[50, 100, 200], help="Retrieval cutoffs")
     parser.add_argument("--nlist", type=int, default=100, help="IVF clusters")
     parser.add_argument("--nprobe", type=int, default=10, help="Clusters to search")
     parser.add_argument("--model", type=str, default="BAAI/bge-base-en-v1.5", help="Embedding model")
