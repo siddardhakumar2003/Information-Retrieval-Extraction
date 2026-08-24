@@ -1,10 +1,10 @@
 """BM25 lexical retrieval baseline for EB-NeRD news recommendation.
 
-    python src/bm25_retrieval.py [--k 50 100 200] [--k1 1.5] [--b 0.75] [--out-dir outputs/lexical]
+    python src/bm25_retrieval.py [--k 50 100 150] [--k1 1.5] [--b 0.75] [--out-dir data/processed/bm25]
 
-Builds an inverted index from article titles+abstracts. User profiles are built from
-train+val combined click history. Evaluates recall@K against test split ground truth.
-Outputs: recall_results.json, per_user_recall.parquet, per_user_predictions.parquet (Q4 input).
+Builds an inverted index from article titles+abstracts, represents each user
+as a long profile query from their pre-train click history, retrieves top-K
+articles via BM25, and measures recall against ground-truth clicks.
 """
 from __future__ import annotations
 
@@ -50,9 +50,9 @@ class InvertedIndex:
         postings = defaultdict(lambda: defaultdict(int))
         doc_len = {}
 
-        # Use 'subtitle' for EB-NeRD (has title + subtitle), fallback to 'abstract' or 'body'
-        subtitle_col = "subtitle" if "subtitle" in articles_df.columns else "abstract"
-        text = articles_df["title"].fillna("") + " " + articles_df[subtitle_col].fillna("")
+        # Handle both demo schema (abstract) and official schema (subtitle)
+        abstract_col = "abstract" if "abstract" in articles_df.columns else "subtitle"
+        text = articles_df["title"].fillna("") + " " + articles_df[abstract_col].fillna("")
         for article_id, txt in zip(articles_df["article_id"], text):
             tokens = tokenize(txt)
             doc_len[article_id] = len(tokens)
@@ -141,72 +141,58 @@ def run_evaluation(args: argparse.Namespace) -> None:
     out_dir = Path(args.out_dir)
     data_dir = Path(args.data_dir)
 
-    print("[1/6] Loading feature store and splits (train+val for profiles, test for eval)")
+    print("[1/6] Loading feature store")
     articles = pd.read_parquet(data_dir / "processed" / "feature_store" / "articles.parquet")
-
-    # Load train+val behaviors for building user profiles
-    train_beh = pd.read_parquet(data_dir / "processed" / "splits" / "train" / "behaviors.parquet")
-    val_beh = pd.read_parquet(data_dir / "processed" / "splits" / "val" / "behaviors.parquet")
-
-    # Load test behaviors for evaluation
-    test_beh = pd.read_parquet(data_dir / "processed" / "splits" / "test" / "behaviors.parquet")
+    users = pd.read_parquet(data_dir / "processed" / "feature_store" / "users_train_region.parquet")
+    behaviors = pd.read_parquet(data_dir / "processed" / "splits" / "train" / "behaviors.parquet")
 
     print("[2/6] Building inverted index")
     index = InvertedIndex.build(articles)
     index.save(out_dir)
     print(f"  {len(index.postings)} unique terms, {len(articles)} documents")
 
-    print("[3/6] Building user profiles from train+val click history and test ground truth")
-    # Article lookup: article_id -> (title + " " + subtitle/abstract) [vectorized]
+    print("[3/6] Building user queries and ground truth")
+    # Article lookup: article_id -> (title + " " + abstract)
     article_lookup = {}
-    subtitle_col = "subtitle" if "subtitle" in articles.columns else "abstract"
-    for aid, title, subtitle in zip(articles["article_id"], articles["title"].fillna(""), articles[subtitle_col].fillna("")):
-        article_lookup[aid] = f"{title} {subtitle}"
+    for _, row in articles.iterrows():
+        article_lookup[row["article_id"]] = (
+            (row["title"] or "") + " " + (row["abstract"] or "")
+        )
 
-    # Build user profiles from train+val combined click history (vectorized via groupby)
-    user_history = defaultdict(set)
-    for uid, group in train_beh.groupby("user_id"):
-        for articles in group["article_ids_clicked"]:
-            if articles is not None and len(articles) > 0:
-                user_history[uid].update(articles)
-    for uid, group in val_beh.groupby("user_id"):
-        for articles in group["article_ids_clicked"]:
-            if articles is not None and len(articles) > 0:
-                user_history[uid].update(articles)
-
-    # Ground truth: per-user clicks in test split (vectorized via groupby)
+    # Ground truth: per-user union of all clicked articles in train window
     ground_truth = defaultdict(set)
-    for uid, group in test_beh.groupby("user_id"):
-        for articles in group["article_ids_clicked"]:
-            if articles is not None and len(articles) > 0:
-                ground_truth[uid].update(articles)
+    for _, row in behaviors.iterrows():
+        ground_truth[row["user_id"]].update(row["article_ids_clicked"])
 
-    print(f"  {len(user_history)} users with train+val click history")
-    print(f"  {len(ground_truth)} users with test-split clicks (evaluation targets)")
+    print(f"  {len(ground_truth)} users with train-window clicks")
 
-    # Evaluate only users present in both
-    common_users = set(user_history.keys()) & set(ground_truth.keys())
-    print(f"  {len(common_users)} users in both (will evaluate)")
-    excluded_users = set(ground_truth.keys()) - common_users
-    print(f"  {len(excluded_users)} users excluded (no train+val history)")
+    # Users from the feature store that have no train-window clicks.
+    excluded_users = set(users["user_id"]) - set(ground_truth.keys())
+    print(f"  {len(excluded_users)} users excluded (no train-window clicks)")
 
     print(f"[4/6] Scoring and ranking all users (k1={args.k1}, b={args.b})")
     per_user_results = []
-    per_user_predictions = []
     recall_by_k = defaultdict(list)
-    max_k = max(args.k)
 
-    evaluated_count = 0
-    for user_id in sorted(common_users):
-        if (evaluated_count + 1) % 100 == 0:
-            print(f"  [{evaluated_count+1}/{len(common_users)}] users scored", flush=True)
+    # Convert to lists for fast access (avoid iterrows overhead)
+    user_ids = users["user_id"].tolist()
+    click_histories = users["click_history"].tolist()
 
-        evaluated_count += 1
+    for idx in range(len(users)):
+        if (idx + 1) % 100 == 0:
+            print(f"  [{idx+1}/{len(users)}] users scored", flush=True)
 
-        # Build user query from train+val combined click history
-        history = list(user_history[user_id])
+        user_id = int(user_ids[idx])
+        click_history = click_histories[idx]
+
+        # Skip users with no ground truth.
+        if user_id not in ground_truth:
+            continue
+
+        # Build user query from their pre-train click history.
+        # Manually build query without using a Series
         query_text = ""
-        for article_id in history:
+        for article_id in click_history:
             article_id = int(article_id)
             if article_id in article_lookup:
                 query_text += " " + article_lookup[article_id]
@@ -217,7 +203,7 @@ def run_evaluation(args: argparse.Namespace) -> None:
         if not qtf:
             continue
 
-        # Score and rank all articles.
+        # Score and rank.
         scores = bm25_score(qtf, index, k1=args.k1, b=args.b)
         if not scores:
             continue
@@ -226,18 +212,13 @@ def run_evaluation(args: argparse.Namespace) -> None:
             scores.items(),
             key=lambda x: (-x[1], x[0]),  # descending score, tie-break by article_id
         )
-        ranked_ids = [aid for aid, _ in ranked]
-        ranked_scores = [score for _, score in ranked]
+        ranked_ids = [int(aid) for aid, _ in ranked]
 
-        # Top-max_k for Q4 predictions
-        top_k_ids = ranked_ids[:max_k]
-        top_k_scores = ranked_scores[:max_k]
-
-        # Ground truth for this user
+        # Compute recall@K for each K, tracking per-user results.
         truth = ground_truth[user_id]
-
-        # Compute recall@K for each K
-        user_recalls = {"user_id": user_id, "history_len": len(history), "truth_size": len(truth)}
+        history_len = int(len(click_history))
+        truth_size = len(truth)
+        user_recalls = {"user_id": user_id, "history_len": history_len, "truth_size": truth_size}
         recall_monotonic = True
         prev_recall = 0.0
 
@@ -245,7 +226,8 @@ def run_evaluation(args: argparse.Namespace) -> None:
             recall = recall_at_k(ranked_ids, truth, k)
             user_recalls[f"recall@{k}"] = float(recall)
 
-            if recall < prev_recall - 1e-9:
+            # Check monotonicity.
+            if recall < prev_recall - 1e-9:  # small epsilon for floating point
                 recall_monotonic = False
             prev_recall = recall
 
@@ -255,16 +237,6 @@ def run_evaluation(args: argparse.Namespace) -> None:
             logging.warning(f"non-monotonic recall for user {user_id}")
 
         per_user_results.append(user_recalls)
-
-        # Persist top-K predictions for Q4 (scores + binary hit vector)
-        hit_vector = [1 if aid in truth else 0 for aid in top_k_ids]
-        per_user_predictions.append({
-            "user_id": user_id,
-            "retrieved_ids": top_k_ids,
-            "retrieved_scores": top_k_scores,
-            "hits": hit_vector,
-            "history_len": len(history),
-        })
 
     print(f"[5/6] Writing outputs")
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -297,10 +269,6 @@ def run_evaluation(args: argparse.Namespace) -> None:
     results_df = pd.DataFrame(per_user_results)
     results_df.to_parquet(out_dir / "per_user_recall.parquet", index=False)
 
-    # Write per-user predictions (for Q4 input)
-    preds_df = pd.DataFrame(per_user_predictions)
-    preds_df.to_parquet(out_dir / "per_user_predictions.parquet", index=False)
-
     print(f"[6/6] Summary")
     print(f"\nRecall@K (macro-averaged over {len(per_user_results)} users):")
     for k in args.k:
@@ -311,7 +279,6 @@ def run_evaluation(args: argparse.Namespace) -> None:
     print(f"  {out_dir / 'inverted_index.pkl'}")
     print(f"  {out_dir / 'recall_results.json'}")
     print(f"  {out_dir / 'per_user_recall.parquet'}")
-    print(f"  {out_dir / 'per_user_predictions.parquet'} (Q4 input)")
 
 
 def parse_args() -> argparse.Namespace:
@@ -324,7 +291,7 @@ def parse_args() -> argparse.Namespace:
         "--k",
         type=int,
         nargs="+",
-        default=[50, 100, 200],
+        default=[50, 100, 150],
         help="K values for recall@k evaluation",
     )
     p.add_argument("--k1", type=float, default=1.5, help="BM25 k1 parameter")

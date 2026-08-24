@@ -1,0 +1,28 @@
+{
+  "id": "kspsvlnsiddardha/mind-large-rerank-data",
+  "title": "MIND Large Reranking Data (BM25 + Semantic)",
+  "subtitle": "MIND reranking: news + code + optional cached scores",
+  "description": "MIND_Large test set (news.tsv + behaviors.tsv) with BM25 index code and fusion utilities for reranking",
+  "resources": [
+    {
+      "path": "data",
+      "description": "MIND TSV (news.tsv, behaviors.tsv)"
+    },
+    {
+      "path": "code",
+      "description": "bm25_retrieval.py (InvertedIndex) and fusion.py (weighted_fusion)"
+    }
+  ],
+  "keywords": [
+    "news",
+    "recommendation",
+    "ranking",
+    "reranking",
+    "mind"
+  ],
+  "licenses": [
+    {
+      "name": "CC0-1.0"
+    }
+  ]
+}

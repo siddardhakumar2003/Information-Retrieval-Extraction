@@ -1,0 +1,28 @@
+{
+  "id": "kspsvlnsiddardha/ebnerd-large-rerank-data",
+  "title": "EBNeRD Large Reranking Data (BM25 + Semantic)",
+  "subtitle": "EBNERD reranking: news + code + optional cached scores",
+  "description": "EBNeRD test set (articles, behaviors, history parquets) with BM25 index code and fusion utilities for reranking",
+  "resources": [
+    {
+      "path": "data",
+      "description": "EBNERD parquet (articles, behaviors, history)"
+    },
+    {
+      "path": "code",
+      "description": "bm25_retrieval.py (InvertedIndex) and fusion.py (weighted_fusion)"
+    }
+  ],
+  "keywords": [
+    "news",
+    "recommendation",
+    "ranking",
+    "reranking",
+    "ebnerd"
+  ],
+  "licenses": [
+    {
+      "name": "CC0-1.0"
+    }
+  ]
+}
