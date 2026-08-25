@@ -98,19 +98,27 @@ def _create_user_profiles(
     articles: pd.DataFrame,
     train_beh: pd.DataFrame,
     embeddings: np.ndarray,
-) -> dict[str, np.ndarray]:
-    """Create user profiles as average embedding of training click history."""
+) -> tuple[dict[str, np.ndarray], dict[str, int]]:
+    """Create user profiles as average embedding of training click history. Returns profiles and history lengths."""
     logger.info("Creating user profiles from training click history...")
 
     article_id_to_idx = {aid: idx for idx, aid in enumerate(articles["article_id"].values)}
-    user_profiles = {}
 
+    # Aggregate click history from impressions data (user_id -> list of clicked article IDs)
+    user_clicked_ids = defaultdict(list)
     for _, row in train_beh.iterrows():
         user_id = str(row.get("user_id"))
-        history = row.get("click_history", None)
+        clicked_articles = row.get("article_ids_clicked", None)
+        if clicked_articles is not None and len(clicked_articles) > 0:
+            user_clicked_ids[user_id].extend(clicked_articles)
 
-        if history is None or len(history) == 0:
+    user_profiles = {}
+    user_history_lengths = {}
+
+    for user_id, history in user_clicked_ids.items():
+        if len(history) == 0:
             user_profiles[user_id] = np.zeros(embeddings.shape[1], dtype=np.float32)
+            user_history_lengths[user_id] = 0
             continue
 
         # Get embeddings of clicked articles
@@ -125,14 +133,18 @@ def _create_user_profiles(
         else:
             user_profiles[user_id] = np.zeros(embeddings.shape[1], dtype=np.float32)
 
+        # Store actual history length
+        user_history_lengths[user_id] = len(history)
+
     logger.info(f"Created profiles for {len(user_profiles)} users")
-    return user_profiles
+    return user_profiles, user_history_lengths
 
 
 def _retrieve_and_evaluate(
     articles: pd.DataFrame,
     test_beh: pd.DataFrame,
     user_profiles: dict[str, np.ndarray],
+    user_history_lengths: dict[str, int],
     index: faiss.IndexIVFFlat,
     k_values: list[int],
 ) -> tuple[dict, pd.DataFrame, pd.DataFrame]:
@@ -210,7 +222,7 @@ def _retrieve_and_evaluate(
             "retrieved_ids": retrieved_ids_list,
             "retrieved_scores": retrieved_scores.tolist() if hasattr(retrieved_scores, "tolist") else list(retrieved_scores),
             "hits": hit_vector,
-            "history_len": int(np.sum(profile_embedding != 0)),
+            "history_len": user_history_lengths.get(user_id, 0),
             "n_true_relevant": len(ground_truth),
         })
 
@@ -260,11 +272,11 @@ def main():
 
     # Create user profiles from train+val combined history
     combined_beh = pd.concat([train_beh, val_beh], ignore_index=True)
-    user_profiles = _create_user_profiles(articles, combined_beh, article_embeddings)
+    user_profiles, user_history_lengths = _create_user_profiles(articles, combined_beh, article_embeddings)
 
     # Retrieve and evaluate against test split
     recall_results, per_user_df, per_user_preds_df = _retrieve_and_evaluate(
-        articles, test_beh, user_profiles, faiss_index, config.k_values
+        articles, test_beh, user_profiles, user_history_lengths, faiss_index, config.k_values
     )
 
     # Save results
