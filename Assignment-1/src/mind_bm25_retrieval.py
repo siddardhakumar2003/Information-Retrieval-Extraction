@@ -253,6 +253,7 @@ def _retrieve_and_evaluate(
             "retrieved_scores": retrieved_scores,
             "hits": hit_vector,
             "history_len": len(history),
+            "history_ids": history,
             "n_true_relevant": len(user_all_clicks),
         })
 

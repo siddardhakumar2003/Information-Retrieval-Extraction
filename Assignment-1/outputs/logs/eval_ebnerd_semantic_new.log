@@ -1,0 +1,66 @@
+2026-08-26 09:28:50,225 - INFO - Evaluating EBNERD SEMANTIC
+2026-08-26 09:28:50,252 - INFO - Loaded predictions for 1217 users
+2026-08-26 09:28:50,782 - INFO - Evaluated 1217 users
+2026-08-26 09:28:51,219 - INFO - Computing coverage metrics...
+2026-08-26 09:28:53,375 - INFO - Computing head/tail article slicing...
+2026-08-26 09:28:53,410 - INFO - Cold-start: 280 users, Warm: 937 users
+2026-08-26 09:28:53,410 - INFO - Head articles: 14 metrics, Tail articles: 14 metrics
+2026-08-26 09:28:53,428 - INFO - Results saved to /media/ubuntu/Personal/IIIT Hyderabad/Semester 3/IRE/Assignment-1/outputs/ebnerd_semantic
+
+======================================================================
+EBNERD SEMANTIC - Offline Evaluation Results
+======================================================================
+auc                 : 0.4844 (95% CI: [0.4576, 0.5133])
+coverage@100        : 0.3996 (95% CI: [0.3178, 0.3554])
+coverage@50         : 0.2726 (95% CI: [0.2079, 0.2347])
+diversity@100       : 0.0893 (95% CI: [0.0882, 0.0904])
+diversity@50        : 0.1356 (95% CI: [0.1339, 0.1373])
+history_len         : 18.2818 (95% CI: [17.2891, 19.3282])
+mrr                 : 0.0096 (95% CI: [0.0077, 0.0116])
+ndcg@10             : 0.0094 (95% CI: [0.0063, 0.0133])
+ndcg@5              : 0.0056 (95% CI: [0.0030, 0.0086])
+novelty@100         : 0.9906 (95% CI: [0.9901, 0.9911])
+novelty@50          : 0.9872 (95% CI: [0.9863, 0.9880])
+recall@10           : 0.0013 (95% CI: [0.0007, 0.0019])
+recall@100          : 0.0116 (95% CI: [0.0092, 0.0146])
+recall@200          : 0.0237 (95% CI: [0.0201, 0.0277])
+recall@5            : 0.0007 (95% CI: [0.0003, 0.0011])
+recall@50           : 0.0056 (95% CI: [0.0041, 0.0073])
+
+======================================================================
+Cold-Start vs Warm Users
+======================================================================
+auc                 : 0.5619 (cold) | 0.4790 (warm) | +17.3%
+diversity@100       : 0.0820 (cold) | 0.0914 (warm) | -10.3%
+diversity@50        : 0.1227 (cold) | 0.1395 (warm) | -12.0%
+history_len         : 2.3893 (cold) | 23.0309 (warm) | -89.6%
+mrr                 : 0.0030 (cold) | 0.0116 (warm) | -73.8%
+ndcg@10             : 0.0038 (cold) | 0.0111 (warm) | -65.7%
+ndcg@5              : 0.0015 (cold) | 0.0068 (warm) | -77.5%
+novelty@100         : 0.9847 (cold) | 0.9924 (warm) | -0.8%
+novelty@50          : 0.9734 (cold) | 0.9913 (warm) | -1.8%
+recall@10           : 0.0013 (cold) | 0.0013 (warm) | -0.6%
+recall@100          : 0.0137 (cold) | 0.0110 (warm) | +24.4%
+recall@200          : 0.0191 (cold) | 0.0251 (warm) | -23.9%
+recall@5            : 0.0007 (cold) | 0.0006 (warm) | +12.6%
+recall@50           : 0.0059 (cold) | 0.0055 (warm) | +8.6%
+
+======================================================================
+Head vs Tail Articles
+======================================================================
+auc                 : 0.4502 (head) | 0.5239 (tail) | -14.1%
+diversity@100       : 0.0885 (head) | 0.0894 (tail) | -1.0%
+diversity@50        : 0.1357 (head) | 0.1356 (tail) | +0.1%
+history_len         : 28.8872 (head) | 16.2583 (tail) | +77.7%
+mrr                 : 0.0242 (head) | 0.0068 (tail) | +254.7%
+ndcg@10             : 0.0206 (head) | 0.0073 (tail) | +182.8%
+ndcg@5              : 0.0068 (head) | 0.0054 (tail) | +25.2%
+novelty@100         : 0.9910 (head) | 0.9905 (tail) | +0.0%
+novelty@50          : 0.9881 (head) | 0.9870 (tail) | +0.1%
+recall@10           : 0.0032 (head) | 0.0009 (tail) | +254.8%
+recall@100          : 0.0404 (head) | 0.0061 (tail) | +557.2%
+recall@200          : 0.0810 (head) | 0.0128 (tail) | +533.9%
+recall@5            : 0.0004 (head) | 0.0007 (tail) | -46.4%
+recall@50           : 0.0162 (head) | 0.0035 (tail) | +357.1%
+======================================================================
+

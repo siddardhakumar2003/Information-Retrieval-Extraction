@@ -37,10 +37,11 @@ Recall@50 & 0.0074 & 0.0059 \\
 Recall@100 & 0.0149 & 0.0107 \\
 Recall@200 & 0.0293 & 0.0179 \\
 Diversity@50 & 0.1452 & 0.1558 \\
-Novelty@50 & 1.0000 & 1.0000 \\
+Novelty@50 & 0.7514 & 0.7895 \\
+Coverage@50 & 0.5876 & 0.5240 \\
 \bottomrule
 \end{tabular}
-\caption{BM25 Lexical Retrieval: EB-NeRD slightly higher recall; both have perfect novelty}
+\caption{BM25 Lexical Retrieval: EB-NeRD slightly higher recall; real novelty reflects user history overlap (21-25\%)}
 \end{table}
 
 \section*{Q3: Semantic Retrieval (FAISS IVF)}
@@ -55,14 +56,15 @@ Novelty@50 & 1.0000 & 1.0000 \\
 \toprule
 \textbf{Metric} & \textbf{EB-NeRD} & \textbf{MIND} \\
 \midrule
-Recall@50 & 0.0033 & 0.0080 \\
-Recall@100 & 0.0069 & 0.0156 \\
-Recall@200 & 0.0146 & 0.0255 \\
-Diversity@50 & 0.2038 & 0.1424 \\
-Novelty@50 & 1.0000 & 1.0000 \\
+Recall@50 & 0.0056 & 0.0111 \\
+Recall@100 & 0.0116 & 0.0164 \\
+Recall@200 & 0.0237 & 0.0281 \\
+Diversity@50 & 0.1356 & 0.1326 \\
+Novelty@50 & 0.9872 & 0.9633 \\
+Coverage@50 & 0.2726 & 0.3930 \\
 \bottomrule
 \end{tabular}
-\caption{Semantic FAISS IVF: MIND outperforms EB-NeRD on recall; both have perfect novelty}
+\caption{Semantic FAISS IVF: MIND outperforms EB-NeRD (+57\% recall@200); real novelty (96-99\%) reflects sparse embedding matches}
 \end{table}
 
 \section*{Q3: BM25 vs Semantic Comparison}
@@ -73,14 +75,15 @@ Novelty@50 & 1.0000 & 1.0000 \\
 \toprule
 \textbf{Metric} & \textbf{EB-NeRD BM25} & \textbf{EB-NeRD Sem} & \textbf{MIND BM25} & \textbf{MIND Sem} \\
 \midrule
-Recall@50 & 0.0074 & 0.0033 (-55.4\%) & 0.0059 & 0.0080 (+35.6\%) \\
-Recall@100 & 0.0149 & 0.0069 (-53.7\%) & 0.0107 & 0.0156 (+45.8\%) \\
-Recall@200 & 0.0293 & 0.0146 (-50.2\%) & 0.0179 & 0.0255 (+42.5\%) \\
-Diversity@50 & 0.1452 & 0.2038 (+40.4\%) & 0.1558 & 0.1424 (-8.6\%) \\
-Novelty@50 & 1.0000 & 1.0000 & 1.0000 & 1.0000 \\
+Recall@50 & 0.0074 & 0.0056 (-24.3\%) & 0.0059 & 0.0111 (+88.1\%) \\
+Recall@100 & 0.0149 & 0.0116 (-22.1\%) & 0.0107 & 0.0164 (+53.3\%) \\
+Recall@200 & 0.0293 & 0.0237 (-19.1\%) & 0.0179 & 0.0281 (+57.0\%) \\
+Diversity@50 & 0.1452 & 0.1356 (-6.6\%) & 0.1558 & 0.1326 (-14.9\%) \\
+Novelty@50 & 0.7514 & 0.9872 (+31.4\%) & 0.7895 & 0.9633 (+22.0\%) \\
+Coverage@50 & 0.5876 & 0.2726 (-53.6\%) & 0.5240 & 0.3930 (-25.0\%) \\
 \bottomrule
 \end{tabular}
-\caption{Semantic trade-off: MIND benefits (+35-46\% recall), EB-NeRD lower recall but higher diversity (+40\%)}
+\caption{Semantic trade-off: MIND semantic wins (+57\% recall@200); EB-NeRD BM25 wins (+24\% recall). Semantic achieves higher novelty (96-99\%) but narrower coverage (27-39\% vs 52-59\%)}
 \end{table}
 
 \section*{Q4: Offline Evaluation Harness}
@@ -92,35 +95,37 @@ Novelty@50 & 1.0000 & 1.0000 & 1.0000 & 1.0000 \\
 \textbf{Slicing}: Cold-start ($<5$ clicks) vs Warm ($\geq 5$ clicks). Users: EB-NeRD 281 cold / 936 warm; MIND 0 cold / 5766 warm.
 
 \subsection*{EB-NeRD BM25 (1217 users)}
-AUC: 0.5150 [0.4887, 0.5403] | MRR: 0.0084 [0.0066, 0.0108] | nDCG@10: 0.0048 [0.0024, 0.0077] | Recall@200: 0.0293 [0.0249, 0.0341]
+AUC: 0.5150 [0.4887, 0.5403] | MRR: 0.0084 [0.0066, 0.0108] | nDCG@10: 0.0048 [0.0024, 0.0077] | Recall@200: 0.0293 [0.0249, 0.0341] | Novelty@50: 0.7514 | Coverage@50: 0.5876
 
 \subsection*{EB-NeRD Semantic (1217 users)}
-AUC: 0.5000 [0.5000, 0.5000] | MRR: 0.0078 [0.0053, 0.0107] | nDCG@10: 0.0069 [0.0037, 0.0105] | Recall@200: 0.0146 [0.0122, 0.0176]
+AUC: 0.4844 [0.4565, 0.5097] | MRR: 0.0096 [0.0077, 0.0116] | nDCG@10: 0.0094 [0.0061, 0.0127] | Recall@200: 0.0237 [0.0204, 0.0279] | Novelty@50: 0.9872 | Coverage@50: 0.2726
 
 \subsection*{MIND BM25 (5766 users)}
-AUC: 0.5489 [0.5078, 0.5886] | MRR: 0.0008 [0.0007, 0.0010] | nDCG@10: 0.0006 [0.0003, 0.0010] | Recall@200: 0.0179 [0.0150, 0.0210]
+AUC: 0.5489 [0.5110, 0.5849] | MRR: 0.0008 [0.0006, 0.0010] | nDCG@10: 0.0006 [0.0003, 0.0010] | Recall@200: 0.0179 [0.0152, 0.0210] | Novelty@50: 0.7895 | Coverage@50: 0.5240
 
 \subsection*{MIND Semantic (5943 users)}
-AUC: 0.5578 [0.5280, 0.5872] | MRR: 0.0033 [0.0023, 0.0045] | nDCG@10: 0.0034 [0.0022, 0.0046] | Recall@200: 0.0255 [0.0224, 0.0285]
+AUC: 0.5607 [0.5306, 0.5917] | MRR: 0.0038 [0.0027, 0.0052] | nDCG@10: 0.0039 [0.0026, 0.0052] | Recall@200: 0.0281 [0.0246, 0.0315] | Novelty@50: 0.9633 | Coverage@50: 0.3930
 
-\subsection*{EB-NeRD: Cold-Start vs Warm (BM25)}
+\subsection*{Cold-Start vs Warm User Analysis}
 
 \begin{table}[H]
 \centering\small
-\begin{tabular}{lrr}
+\begin{tabular}{lrrrr}
 \toprule
-\textbf{Metric} & \textbf{Cold-Start} & \textbf{Warm} \\
+\textbf{Metric} & \textbf{EB-NeRD BM25} & \textbf{EB-NeRD Sem} & \textbf{MIND BM25} & \textbf{MIND Sem} \\
 \midrule
-AUC & 0.0055 & 0.0065 (-15.6\% cold) \\
-MRR & 0.0033 & 0.0099 (-67.1\% cold) \\
-nDCG@10 & 0.0042 & 0.0050 (-15.8\% cold) \\
-Recall@50 & 0.0258 & 0.0967 (-73.3\% cold) \\
-Recall@200 & 0.0961 & 0.3643 (-73.6\% cold) \\
-Novelty@50 & 1.0000 & 1.0000 \\
+Cold-Start Count & 281 (23\%) & 280 (23\%) & 1627 (27\%) & 3011 (51\%) \\
+Cold AUC & 0.4428 & 0.5619 & 0.6352 & 0.6044 \\
+Warm AUC & 0.5208 & 0.4790 & 0.5423 & 0.5329 \\
+AUC Gap & -15.0\% & +17.3\% & +17.1\% & +13.4\% \\
+Cold history\_len & 2.39 & 2.39 & 2.24 & 2.24 \\
+Warm history\_len & 23.03 & 23.03 & 31.42 & 11.71 \\
 \bottomrule
 \end{tabular}
-\caption{Cold-start: uniform item distribution; warm: click-pattern refinement}
+\caption{Cold-start vs Warm: EB-NeRD semantic better for new users (+17.3\%), BM25 better overall}
 \end{table}
+
+\textbf{Key Insight}: Semantic outperforms BM25 for cold-start on EB-NeRD (56.2\% vs 44.3\% AUC), suggesting embeddings capture broader semantic signals useful when limited click history exists.
 
 \section*{Codabench: Two-Stage Pipeline}
 
@@ -172,7 +177,9 @@ Kaggle timeout ($\sim$9h). Precompute all scores ($\sim$4h) + apply alpha in 1--
 
     \item \textbf{Semantic Increases Diversity}: EB-NeRD diversity improves +40.4\% (0.1452→0.2038) with semantic, while MIND slightly decreases (-8.6\%). Suggests semantic embeddings capture broader content space in smaller catalogs.
 
-    \item \textbf{Universal Novelty Ceiling at 100\%}: All test articles unseen in training history (fresh news paradigm). Novelty=1.0 is structural, not indicative of retrieval quality. Diversity (0.14-0.20) emerges as the true exploration metric.
+    \item \textbf{Real Novelty Varies by Method}: BM25 achieves novelty=0.75-0.79 (user history covers 21-25\% of recommendations), while semantic methods achieve novelty=0.96-0.99 (sparse embedding matches). Not a structural ceiling but a genuine data pattern reflecting method behavior.
+
+    \item \textbf{Coverage Reveals Recommendation Concentration}: BM25 covers 52-59\% of the article catalog, while semantic methods cover only 27-39\%. Semantic retrieval concentrates recommendations on a high-quality subset, trading breadth for precision. This trade-off explains semantic's higher AUC but lower recall@k on tail articles.
 
     \item \textbf{Bootstrap CI Narrows with Scale}: MIND's 5.7K-5.9K users yield narrow 95\% CI (width $\sim$0.03-0.04 on AUC). EB-NeRD's 1.2K users show wider CI (width $\sim$0.05). Confirms statistical power scales with user population.
 \end{enumerate}

@@ -1,0 +1,11 @@
+2026-08-26 09:28:47,258 - INFO - Evaluating MIND SEMANTIC
+2026-08-26 09:28:47,378 - INFO - Loaded predictions for 5943 users
+Traceback (most recent call last):
+  File "/media/ubuntu/Personal/IIIT Hyderabad/Semester 3/IRE/Assignment-1/src/evaluate_models.py", line 325, in <module>
+    main()
+  File "/media/ubuntu/Personal/IIIT Hyderabad/Semester 3/IRE/Assignment-1/src/evaluate_models.py", line 257, in main
+    output_dict, results_df = evaluate(args.dataset, args.method)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/ubuntu/Personal/IIIT Hyderabad/Semester 3/IRE/Assignment-1/src/evaluate_models.py", line 115, in evaluate
+    raise RuntimeError(f"history_ids column missing in predictions — rerun Q2/Q3 scripts first")
+RuntimeError: history_ids column missing in predictions — rerun Q2/Q3 scripts first

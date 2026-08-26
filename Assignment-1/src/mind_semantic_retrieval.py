@@ -98,8 +98,8 @@ def _create_user_profiles(
     articles: pd.DataFrame,
     train_beh: pd.DataFrame,
     embeddings: np.ndarray,
-) -> tuple[dict[str, np.ndarray], dict[str, int]]:
-    """Create user profiles as average embedding of training click history. Returns profiles and history lengths."""
+) -> tuple[dict[str, np.ndarray], dict[str, list[str]]]:
+    """Create user profiles as average embedding of training click history. Returns profiles and actual clicked article IDs."""
     logger.info("Creating user profiles from training click history...")
 
     article_id_to_idx = {aid: idx for idx, aid in enumerate(articles["article_id"].values)}
@@ -113,12 +113,10 @@ def _create_user_profiles(
             user_clicked_ids[user_id].extend(clicked_articles)
 
     user_profiles = {}
-    user_history_lengths = {}
 
     for user_id, history in user_clicked_ids.items():
         if len(history) == 0:
             user_profiles[user_id] = np.zeros(embeddings.shape[1], dtype=np.float32)
-            user_history_lengths[user_id] = 0
             continue
 
         # Get embeddings of clicked articles
@@ -133,18 +131,15 @@ def _create_user_profiles(
         else:
             user_profiles[user_id] = np.zeros(embeddings.shape[1], dtype=np.float32)
 
-        # Store actual history length
-        user_history_lengths[user_id] = len(history)
-
     logger.info(f"Created profiles for {len(user_profiles)} users")
-    return user_profiles, user_history_lengths
+    return user_profiles, user_clicked_ids
 
 
 def _retrieve_and_evaluate(
     articles: pd.DataFrame,
     test_beh: pd.DataFrame,
     user_profiles: dict[str, np.ndarray],
-    user_history_lengths: dict[str, int],
+    user_clicked_ids: dict[str, list[str]],
     index: faiss.IndexIVFFlat,
     k_values: list[int],
 ) -> tuple[dict, pd.DataFrame, pd.DataFrame]:
@@ -217,12 +212,14 @@ def _retrieve_and_evaluate(
 
         # Persist top-K predictions for Q4 (scores + binary hit vector)
         hit_vector = [1 if aid in ground_truth else 0 for aid in retrieved_ids_list]
+        history_ids = user_clicked_ids.get(user_id, [])
         per_user_predictions.append({
             "user_id": user_id,
             "retrieved_ids": retrieved_ids_list,
             "retrieved_scores": retrieved_scores.tolist() if hasattr(retrieved_scores, "tolist") else list(retrieved_scores),
             "hits": hit_vector,
-            "history_len": user_history_lengths.get(user_id, 0),
+            "history_len": len(history_ids),
+            "history_ids": history_ids,
             "n_true_relevant": len(ground_truth),
         })
 
@@ -262,21 +259,36 @@ def main():
     # Load data (train+val for profiles, test for evaluation)
     articles, train_beh, val_beh, test_beh = _load_data(REPO_ROOT)
 
-    # Load embedding model
-    logger.info(f"Loading embedding model: {config.model_name}")
-    model = SentenceTransformer(config.model_name)
+    # Caching short-circuit: if article embeddings + FAISS index already exist, load them
+    emb_path = config.out_dir / "article_embeddings.npy"
+    idx_path = config.out_dir / "faiss_index.pkl"
 
-    # Embed articles and build FAISS index
-    article_embeddings = _embed_articles(articles, model)
-    faiss_index = _build_faiss_index(article_embeddings, config.nlist, config.nprobe)
+    if emb_path.exists() and idx_path.exists():
+        logger.info(f"Loading cached embeddings/index from {config.out_dir} (skip re-embedding)")
+        article_embeddings = np.load(emb_path)
+        with open(idx_path, "rb") as f:
+            faiss_index = pickle.load(f)
+        if article_embeddings.shape[0] != len(articles):
+            logger.warning("Cached embeddings size mismatch with current articles — recomputing")
+            logger.info(f"Loading embedding model: {config.model_name}")
+            model = SentenceTransformer(config.model_name)
+            article_embeddings = _embed_articles(articles, model)
+            faiss_index = _build_faiss_index(article_embeddings, config.nlist, config.nprobe)
+        else:
+            faiss_index.nprobe = config.nprobe  # reapply in case nprobe arg changed
+    else:
+        logger.info(f"Loading embedding model: {config.model_name}")
+        model = SentenceTransformer(config.model_name)
+        article_embeddings = _embed_articles(articles, model)
+        faiss_index = _build_faiss_index(article_embeddings, config.nlist, config.nprobe)
 
     # Create user profiles from train+val combined history
     combined_beh = pd.concat([train_beh, val_beh], ignore_index=True)
-    user_profiles, user_history_lengths = _create_user_profiles(articles, combined_beh, article_embeddings)
+    user_profiles, user_clicked_ids = _create_user_profiles(articles, combined_beh, article_embeddings)
 
     # Retrieve and evaluate against test split
     recall_results, per_user_df, per_user_preds_df = _retrieve_and_evaluate(
-        articles, test_beh, user_profiles, user_history_lengths, faiss_index, config.k_values
+        articles, test_beh, user_profiles, user_clicked_ids, faiss_index, config.k_values
     )
 
     # Save results
