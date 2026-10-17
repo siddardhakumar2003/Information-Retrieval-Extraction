@@ -1,0 +1,47 @@
+{
+  "note": "The scorer's own output for the EB-NeRD semantic submission (predictions.zip) on Codabench competition 2469, transcribed from the scores.json the leaderboard returned. This is a SUBSET: the full response also carries per-slice sentiment, category and topic distributions over the 200,000 beyond-accuracy rows -- several hundred keys of Danish topic labels -- which nothing in this repo cites. The headline metrics, the starred variants, the per-day breakdown and the overall coverage block are kept verbatim because they are the figures the design note and the manifest quote.",
+  "competition": "2469",
+  "dataset": "ebnerd_testset",
+  "artefact": "predictions.zip",
+  "artefact_sha256": "a45e339b428c9f7d7d71ba45b2595ae247415b874ec5a2838dad01baa4260f93",
+  "scored_date": "2026-08-24",
+  "overall": {
+    "auc": 0.5508311984020443,
+    "mrr": 0.3509996909555121,
+    "ndcg5": 0.39163823476966436,
+    "ndcg10": 0.4678837802553088,
+    "auc_std": 0.3226922512359909,
+    "mrr_std": 0.30063530213800155,
+    "ndcg5_std": 0.3458282639257903,
+    "ndcg10_std": 0.2816691471454243
+  },
+  "starred_variant": {
+    "note": "The scorer reports a second set of the same four metrics under starred keys (auc*, mrr*, ...). What distinguishes them from the unstarred set is NOT documented by the organisers and we did not determine it; they are recorded because they exist and differ in the fourth decimal place, not because we can interpret them. Nothing in the design note cites them.",
+    "auc": 0.5510663124875248,
+    "mrr": 0.35121115889686666,
+    "ndcg5": 0.391879892744456,
+    "ndcg10": 0.4681096406762411
+  },
+  "auc_by_impression_day": {
+    "2023-06-01": 0.5399100133112835,
+    "2023-06-02": 0.5416087109682359,
+    "2023-06-03": 0.5732439965199482,
+    "2023-06-04": 0.5651951491618123,
+    "2023-06-05": 0.5512317683592942,
+    "2023-06-06": 0.5478919701316594,
+    "2023-06-07": 0.5448785427898276,
+    "2023-06-08": 0.529126206317167
+  },
+  "beyond_accuracy_coverage": {
+    "note": "Computed by the organisers over the 200,000 beyond-accuracy rows against a 250-item reference set -- a different denominator from our own coverage metric, which is distinct articles over the whole corpus. The two are NOT comparable and the design note does not compare them.",
+    "top5": {"coverage_items": 158, "coverage_fraction": 0.632, "count": 250},
+    "top10": {"coverage_items": 181, "coverage_fraction": 0.724, "count": 250}
+  },
+  "beyond_accuracy_sentiment_top5": {
+    "note": "Sentiment mix of the top-5 recommendations over the 200,000 beyond-accuracy rows, as labelled by the organisers' own article sentiment field.",
+    "Negative": 0.6454039999977216,
+    "Neutral": 0.3092439999986442,
+    "Positive": 0.0453520000000247,
+    "count": 200000
+  }
+}

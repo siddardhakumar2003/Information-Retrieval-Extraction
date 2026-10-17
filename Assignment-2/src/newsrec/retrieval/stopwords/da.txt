@@ -1,0 +1,131 @@
+# Danish stopword list — Q2.9 tokenisation ablation (q2_plan.md D4, OQ-8).
+#
+# PROVENANCE. The Snowball project's Danish stopword list, retrieved 2026-08-21
+# from:
+#
+#     https://snowballstem.org/algorithms/danish/stop.txt
+#
+# Fetched from the source rather than recited. A stopword list is 94 specific
+# words; writing one from memory produces something that resembles the Snowball
+# list without being it, which would make this ablation's provenance a fiction.
+# The upstream file annotates each word with a gloss after a '|' character;
+# those glosses are stripped here and the words are kept in upstream order.
+#
+# VERIFIED 2026-08-21 by re-fetching the URL above and comparing word sets:
+#
+#     upstream stop.txt   sha256 ef3ac6c540db45e8e292e526d6da3a11383f90435ba26000f9202dcecf68b8fd
+#     words after stripping glosses ......... 94
+#     words in this file .................... 94
+#     set difference ........................ none
+#
+# The checksum is of the UPSTREAM file, not of this one -- this file has the
+# glosses stripped and a header added, so its own hash says nothing about where
+# the words came from. Re-verify by fetching stop.txt, stripping at '|', and
+# comparing sorted word sets; the hash is there so a changed upstream is
+# detectable rather than silently absorbed on the next check.
+#
+# WHY SNOWBALL specifically. The Danish ablation also uses the Snowball Danish
+# stemmer (via the snowballstemmer package), so taking the stopword list from the
+# same project makes the ablation ONE coherent change rather than two unrelated
+# ones from two different sources.
+#
+# Note the deliberate asymmetry with en.txt: the Danish BASELINE removes no
+# stopwords at all (D4). This file is used only by the `da_stem` variant, whose
+# whole purpose is to be measured against that naive baseline (Q2.9).
+#
+# Format: one term per line, already lowercased. Blank lines and lines beginning
+# with '#' are ignored. 94 terms.
+og
+i
+jeg
+det
+at
+en
+den
+til
+er
+som
+på
+de
+med
+han
+af
+for
+ikke
+der
+var
+mig
+sig
+men
+et
+har
+om
+vi
+min
+havde
+ham
+hun
+nu
+over
+da
+fra
+du
+ud
+sin
+dem
+os
+op
+man
+hans
+hvor
+eller
+hvad
+skal
+selv
+her
+alle
+vil
+blev
+kunne
+ind
+når
+være
+dog
+noget
+ville
+jo
+deres
+efter
+ned
+skulle
+denne
+end
+dette
+mit
+også
+under
+have
+dig
+anden
+hende
+mine
+alt
+meget
+sit
+sine
+vor
+mod
+disse
+hvis
+din
+nogle
+hos
+blive
+mange
+ad
+bliver
+hendes
+været
+thi
+jer
+sådan

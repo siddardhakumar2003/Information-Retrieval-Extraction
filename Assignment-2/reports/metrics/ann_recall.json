@@ -1,0 +1,123 @@
+{
+  "all_datasets_meet_floor": true,
+  "datasets": {
+    "ebnerd_demo": {
+      "dataset": "ebnerd_demo",
+      "dim": 384,
+      "ef_construction": 200,
+      "ef_search": 256,
+      "embedding_fingerprint": "intfloat/multilingual-e5-small@614241f622f53c4eeff9890bdc4f31cfecc418b3|dim=384|seq=128|q=query: |p=passage: ",
+      "floor": 0.95,
+      "k": 200,
+      "m": 32,
+      "meets_floor": true,
+      "n_articles": 11777,
+      "queries": 2000,
+      "query_source": "article_vectors",
+      "recall_vs_exact": 0.9945,
+      "sweep": {
+        "128": {
+          "ef_search": 128,
+          "meets_floor": true,
+          "recall_vs_exact": 0.9708
+        },
+        "256": {
+          "ef_search": 256,
+          "meets_floor": true,
+          "recall_vs_exact": 0.9945
+        },
+        "512": {
+          "ef_search": 512,
+          "meets_floor": true,
+          "recall_vs_exact": 0.9992
+        },
+        "64": {
+          "ef_search": 64,
+          "meets_floor": false,
+          "recall_vs_exact": 0.8932
+        }
+      }
+    },
+    "ebnerd_small": {
+      "dataset": "ebnerd_small",
+      "dim": 384,
+      "ef_construction": 200,
+      "ef_search": 256,
+      "embedding_fingerprint": "intfloat/multilingual-e5-small@614241f622f53c4eeff9890bdc4f31cfecc418b3|dim=384|seq=128|q=query: |p=passage: ",
+      "floor": 0.95,
+      "k": 200,
+      "m": 32,
+      "meets_floor": true,
+      "n_articles": 20738,
+      "queries": 2000,
+      "query_source": "article_vectors",
+      "recall_vs_exact": 0.9893,
+      "sweep": {
+        "128": {
+          "ef_search": 128,
+          "meets_floor": true,
+          "recall_vs_exact": 0.9555
+        },
+        "256": {
+          "ef_search": 256,
+          "meets_floor": true,
+          "recall_vs_exact": 0.9893
+        },
+        "512": {
+          "ef_search": 512,
+          "meets_floor": true,
+          "recall_vs_exact": 0.998
+        },
+        "64": {
+          "ef_search": 64,
+          "meets_floor": false,
+          "recall_vs_exact": 0.8672
+        }
+      }
+    },
+    "mind_small": {
+      "dataset": "mind_small",
+      "dim": 384,
+      "ef_construction": 200,
+      "ef_search": 256,
+      "embedding_fingerprint": "intfloat/multilingual-e5-small@614241f622f53c4eeff9890bdc4f31cfecc418b3|dim=384|seq=128|q=query: |p=passage: ",
+      "floor": 0.95,
+      "k": 200,
+      "m": 32,
+      "meets_floor": true,
+      "n_articles": 65238,
+      "queries": 2000,
+      "query_source": "article_vectors",
+      "recall_vs_exact": 0.9829,
+      "sweep": {
+        "128": {
+          "ef_search": 128,
+          "meets_floor": false,
+          "recall_vs_exact": 0.948
+        },
+        "256": {
+          "ef_search": 256,
+          "meets_floor": true,
+          "recall_vs_exact": 0.9829
+        },
+        "512": {
+          "ef_search": 512,
+          "meets_floor": true,
+          "recall_vs_exact": 0.9954
+        },
+        "64": {
+          "ef_search": 64,
+          "meets_floor": false,
+          "recall_vs_exact": 0.8646
+        }
+      }
+    }
+  },
+  "ef_construction": 200,
+  "ef_search": 256,
+  "floor": 0.95,
+  "index": "hnsw_flat_ip",
+  "m": 32,
+  "metric": "ann_recall_vs_exact",
+  "requirement": "Q3.3"
+}

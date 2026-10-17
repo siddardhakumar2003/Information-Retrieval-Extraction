@@ -1,0 +1,323 @@
+{
+  "answer": "See delta_vs_headline on each ablation variant. Every headline number in the design note is the serving-available one; these are its labelled pairs and are never quoted alone.",
+  "bootstrap": {
+    "ci": 0.95,
+    "n_resamples": 1000,
+    "paired": true,
+    "paired_against": "headline_semantic"
+  },
+  "datasets": {
+    "ebnerd_demo": {
+      "ablation_possible": true,
+      "dataset": "ebnerd_demo",
+      "impression_set_fingerprint": "85b159e16c16406f",
+      "impressions_evaluated": 2000,
+      "language": "da",
+      "leak_feature": {
+        "articles_total": 11777,
+        "articles_with_value": 7506,
+        "available": true,
+        "column": "total_pageviews",
+        "null_share": 0.3627
+      },
+      "variants": {
+        "ablation_leak_only": {
+          "auc": {
+            "ci_high": 0.60731,
+            "ci_low": 0.580084,
+            "delta_vs_headline": {
+              "ci_high": 0.055903,
+              "ci_low": 0.017243,
+              "established": true,
+              "mean": 0.035589
+            },
+            "mean": 0.593542,
+            "n": 2000
+          },
+          "mrr": {
+            "ci_high": 0.393091,
+            "ci_low": 0.366136,
+            "delta_vs_headline": {
+              "ci_high": 0.042955,
+              "ci_low": 0.009934,
+              "established": true,
+              "mean": 0.025526
+            },
+            "mean": 0.37931,
+            "n": 2000
+          },
+          "ndcg@10": {
+            "ci_high": 0.50925,
+            "ci_low": 0.484291,
+            "delta_vs_headline": {
+              "ci_high": 0.042267,
+              "ci_low": 0.013699,
+              "established": true,
+              "mean": 0.027006
+            },
+            "mean": 0.496456,
+            "n": 2000
+          },
+          "ndcg@5": {
+            "ci_high": 0.436377,
+            "ci_low": 0.406185,
+            "delta_vs_headline": {
+              "ci_high": 0.04836,
+              "ci_low": 0.012454,
+              "established": true,
+              "mean": 0.029281
+            },
+            "mean": 0.421376,
+            "n": 2000
+          }
+        },
+        "ablation_semantic_plus_leak": {
+          "auc": {
+            "ci_high": 0.605849,
+            "ci_low": 0.57737,
+            "delta_vs_headline": {
+              "ci_high": 0.045457,
+              "ci_low": 0.022786,
+              "established": true,
+              "mean": 0.034044
+            },
+            "mean": 0.591997,
+            "n": 2000
+          },
+          "mrr": {
+            "ci_high": 0.396043,
+            "ci_low": 0.367312,
+            "delta_vs_headline": {
+              "ci_high": 0.041936,
+              "ci_low": 0.015205,
+              "established": true,
+              "mean": 0.027736
+            },
+            "mean": 0.38152,
+            "n": 2000
+          },
+          "ndcg@10": {
+            "ci_high": 0.510735,
+            "ci_low": 0.486094,
+            "delta_vs_headline": {
+              "ci_high": 0.040051,
+              "ci_low": 0.018583,
+              "established": true,
+              "mean": 0.028768
+            },
+            "mean": 0.498218,
+            "n": 2000
+          },
+          "ndcg@5": {
+            "ci_high": 0.440761,
+            "ci_low": 0.410228,
+            "delta_vs_headline": {
+              "ci_high": 0.047853,
+              "ci_low": 0.020319,
+              "established": true,
+              "mean": 0.033686
+            },
+            "mean": 0.42578,
+            "n": 2000
+          }
+        },
+        "headline_semantic": {
+          "auc": {
+            "ci_high": 0.57243,
+            "ci_low": 0.544032,
+            "mean": 0.557952,
+            "n": 2000
+          },
+          "mrr": {
+            "ci_high": 0.367308,
+            "ci_low": 0.339982,
+            "mean": 0.353784,
+            "n": 2000
+          },
+          "ndcg@10": {
+            "ci_high": 0.482081,
+            "ci_low": 0.456935,
+            "mean": 0.46945,
+            "n": 2000
+          },
+          "ndcg@5": {
+            "ci_high": 0.407009,
+            "ci_low": 0.377017,
+            "mean": 0.392094,
+            "n": 2000
+          }
+        }
+      }
+    },
+    "ebnerd_small": {
+      "ablation_possible": true,
+      "dataset": "ebnerd_small",
+      "impression_set_fingerprint": "fd21438470e38846",
+      "impressions_evaluated": 2000,
+      "language": "da",
+      "leak_feature": {
+        "articles_total": 20738,
+        "articles_with_value": 9856,
+        "available": true,
+        "column": "total_pageviews",
+        "null_share": 0.5247
+      },
+      "variants": {
+        "ablation_leak_only": {
+          "auc": {
+            "ci_high": 0.615964,
+            "ci_low": 0.589347,
+            "delta_vs_headline": {
+              "ci_high": 0.07203,
+              "ci_low": 0.033496,
+              "established": true,
+              "mean": 0.052581
+            },
+            "mean": 0.603093,
+            "n": 2000
+          },
+          "mrr": {
+            "ci_high": 0.398816,
+            "ci_low": 0.371262,
+            "delta_vs_headline": {
+              "ci_high": 0.054141,
+              "ci_low": 0.020114,
+              "established": true,
+              "mean": 0.037256
+            },
+            "mean": 0.384754,
+            "n": 2000
+          },
+          "ndcg@10": {
+            "ci_high": 0.515668,
+            "ci_low": 0.490398,
+            "delta_vs_headline": {
+              "ci_high": 0.049718,
+              "ci_low": 0.020062,
+              "established": true,
+              "mean": 0.035523
+            },
+            "mean": 0.503154,
+            "n": 2000
+          },
+          "ndcg@5": {
+            "ci_high": 0.447787,
+            "ci_low": 0.416947,
+            "delta_vs_headline": {
+              "ci_high": 0.064558,
+              "ci_low": 0.025965,
+              "established": true,
+              "mean": 0.046204
+            },
+            "mean": 0.4329,
+            "n": 2000
+          }
+        },
+        "ablation_semantic_plus_leak": {
+          "auc": {
+            "ci_high": 0.607273,
+            "ci_low": 0.579692,
+            "delta_vs_headline": {
+              "ci_high": 0.055098,
+              "ci_low": 0.031544,
+              "established": true,
+              "mean": 0.043305
+            },
+            "mean": 0.593817,
+            "n": 2000
+          },
+          "mrr": {
+            "ci_high": 0.392079,
+            "ci_low": 0.36462,
+            "delta_vs_headline": {
+              "ci_high": 0.043711,
+              "ci_low": 0.018595,
+              "established": true,
+              "mean": 0.031309
+            },
+            "mean": 0.378807,
+            "n": 2000
+          },
+          "ndcg@10": {
+            "ci_high": 0.511101,
+            "ci_low": 0.486464,
+            "delta_vs_headline": {
+              "ci_high": 0.041529,
+              "ci_low": 0.020458,
+              "established": true,
+              "mean": 0.03148
+            },
+            "mean": 0.499111,
+            "n": 2000
+          },
+          "ndcg@5": {
+            "ci_high": 0.440037,
+            "ci_low": 0.407827,
+            "delta_vs_headline": {
+              "ci_high": 0.051111,
+              "ci_low": 0.023628,
+              "established": true,
+              "mean": 0.037654
+            },
+            "mean": 0.42435,
+            "n": 2000
+          }
+        },
+        "headline_semantic": {
+          "auc": {
+            "ci_high": 0.564597,
+            "ci_low": 0.535714,
+            "mean": 0.550512,
+            "n": 2000
+          },
+          "mrr": {
+            "ci_high": 0.360398,
+            "ci_low": 0.334404,
+            "mean": 0.347499,
+            "n": 2000
+          },
+          "ndcg@10": {
+            "ci_high": 0.479953,
+            "ci_low": 0.455447,
+            "mean": 0.467631,
+            "n": 2000
+          },
+          "ndcg@5": {
+            "ci_high": 0.400873,
+            "ci_low": 0.371488,
+            "mean": 0.386696,
+            "n": 2000
+          }
+        }
+      }
+    },
+    "mind_small": {
+      "ablation_possible": false,
+      "dataset": "mind_small",
+      "leak_feature": {
+        "available": false,
+        "reason": "total_pageviews not present"
+      },
+      "note": "mind_small ships none of config.SERVING_UNAVAILABLE_FEATURES, so there is nothing to ablate. Reported rather than omitted: an absent dataset reads as an oversight, an explicit 'not applicable' does not."
+    }
+  },
+  "datasets_without_the_features": [
+    "mind_small"
+  ],
+  "leak_alpha": 0.5,
+  "leak_column": "total_pageviews",
+  "null_handling": "An article with no value for the leaked column scores 0 and ranks last among scored candidates. Not dropped: dropping would change the candidate count and make the variants score different lists, which is the one thing a paired comparison cannot survive.",
+  "question": "How much would the serving-unavailable features be worth if we used them? Not an attempt to score better -- a measurement of what the discipline costs.",
+  "report": "ablations",
+  "requirement": "Q9.1",
+  "serving_unavailable_features": [
+    "next_read_time",
+    "next_scroll_percentage",
+    "read_time",
+    "scroll_percentage",
+    "total_inviews",
+    "total_pageviews",
+    "total_read_time"
+  ],
+  "why_this_column": "One of the three dataset-wide aggregates, which are the dangerous group: they are computed over the whole corpus window, so every row carries popularity from its own future, and they sit in articles_extra.parquet next to title and category where a pipeline picks them up by accident. One column rather than three, so the result measures what the leak is worth rather than how well three features combine."
+}

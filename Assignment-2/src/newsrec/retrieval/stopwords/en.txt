@@ -1,0 +1,378 @@
+# English stopword list — Q2 tokenisation baseline (q2_plan.md D4).
+#
+# PROVENANCE. Vendored, not loaded at runtime. Generated once from
+# scikit-learn 1.9.0:
+#
+#     from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
+#     sorted(ENGLISH_STOP_WORDS)
+#
+# Vendored rather than imported for three reasons: the list becomes an auditable
+# part of this repository instead of a value that could change under a dependency
+# upgrade; the English and Danish resources stay symmetric (there is no
+# scikit-learn Danish list, so Danish must be vendored regardless, and D4 wants
+# one code path with the language as a parameter); and a grader can read exactly
+# which words were discarded without installing anything.
+#
+# CAVEAT, stated rather than hidden. scikit-learn's own documentation warns that
+# this list has known issues (it is aggressive, and includes words such as
+# "system" and "computer" that carry meaning in a news corpus). It is used here
+# as a *declared baseline* to be measured against, not as a claim about the best
+# possible stopword set. Q2.9's ablation is exactly the mechanism for showing
+# what it costs or buys.
+#
+# Format: one term per line, already lowercased. Blank lines and lines beginning
+# with '#' are ignored. 318 terms.
+a
+about
+above
+across
+after
+afterwards
+again
+against
+all
+almost
+alone
+along
+already
+also
+although
+always
+am
+among
+amongst
+amoungst
+amount
+an
+and
+another
+any
+anyhow
+anyone
+anything
+anyway
+anywhere
+are
+around
+as
+at
+back
+be
+became
+because
+become
+becomes
+becoming
+been
+before
+beforehand
+behind
+being
+below
+beside
+besides
+between
+beyond
+bill
+both
+bottom
+but
+by
+call
+can
+cannot
+cant
+co
+con
+could
+couldnt
+cry
+de
+describe
+detail
+do
+done
+down
+due
+during
+each
+eg
+eight
+either
+eleven
+else
+elsewhere
+empty
+enough
+etc
+even
+ever
+every
+everyone
+everything
+everywhere
+except
+few
+fifteen
+fifty
+fill
+find
+fire
+first
+five
+for
+former
+formerly
+forty
+found
+four
+from
+front
+full
+further
+get
+give
+go
+had
+has
+hasnt
+have
+he
+hence
+her
+here
+hereafter
+hereby
+herein
+hereupon
+hers
+herself
+him
+himself
+his
+how
+however
+hundred
+i
+ie
+if
+in
+inc
+indeed
+interest
+into
+is
+it
+its
+itself
+keep
+last
+latter
+latterly
+least
+less
+ltd
+made
+many
+may
+me
+meanwhile
+might
+mill
+mine
+more
+moreover
+most
+mostly
+move
+much
+must
+my
+myself
+name
+namely
+neither
+never
+nevertheless
+next
+nine
+no
+nobody
+none
+noone
+nor
+not
+nothing
+now
+nowhere
+of
+off
+often
+on
+once
+one
+only
+onto
+or
+other
+others
+otherwise
+our
+ours
+ourselves
+out
+over
+own
+part
+per
+perhaps
+please
+put
+rather
+re
+same
+see
+seem
+seemed
+seeming
+seems
+serious
+several
+she
+should
+show
+side
+since
+sincere
+six
+sixty
+so
+some
+somehow
+someone
+something
+sometime
+sometimes
+somewhere
+still
+such
+system
+take
+ten
+than
+that
+the
+their
+them
+themselves
+then
+thence
+there
+thereafter
+thereby
+therefore
+therein
+thereupon
+these
+they
+thick
+thin
+third
+this
+those
+though
+three
+through
+throughout
+thru
+thus
+to
+together
+too
+top
+toward
+towards
+twelve
+twenty
+two
+un
+under
+until
+up
+upon
+us
+very
+via
+was
+we
+well
+were
+what
+whatever
+when
+whence
+whenever
+where
+whereafter
+whereas
+whereby
+wherein
+whereupon
+wherever
+whether
+which
+while
+whither
+who
+whoever
+whole
+whom
+whose
+why
+will
+with
+within
+without
+would
+yet
+you
+your
+yours
+yourself
+yourselves
+
+# -----------------------------------------------------------------------------
+# ADDITIONS beyond the scikit-learn list. Kept in a separate, labelled block so
+# the vendored provenance above stays exactly what it claims to be, and so a
+# reader can see at a glance which terms are ours rather than upstream's.
+#
+# 's' and 't' — apostrophe fragments.
+#
+# WORD_RE splits on non-word characters, and an apostrophe is one. So "Trump's"
+# becomes ["trump", "s"] and "don't" becomes ["don", "t"]. The fragments are not
+# words; they are the debris of a splitting rule.
+#
+# MEASURED on mind_small (65,238 articles), 2026-08-21:
+#   's' appears in 28,339 documents (43.4%)
+#   't' appears in  6,300 documents  (9.7%)
+#   together they are 51,326 of 1,889,091 English tokens (2.7%)
+#
+# 's' was the single most frequent term in the entire English corpus, ahead of
+# "new" and "said". Two reasons that matters beyond untidiness. It inflates
+# document length, which is precisely the quantity BM25's length normalisation
+# reacts to, so documents were being penalised in proportion to how many
+# possessives their headlines contained. And at 43.4% it sits just under the 50%
+# point where Okapi's inverse document frequency turns negative -- close enough
+# that the corpus-dependent idf edge case could be triggered by a term carrying
+# no meaning at all.
+#
+# Only 's' and 't' are added, not "every single letter": Danish and English both
+# have meaningful one-character tokens in other positions, and D4 explicitly
+# rejected a minimum term length because an English-tuned threshold silently
+# damages Danish. These two are named because they are artefacts of OUR
+# tokenisation rule, not short words that happen to exist.
+#
+# See design_rationale.md for the alternatives considered.
+# -----------------------------------------------------------------------------
+s
+t

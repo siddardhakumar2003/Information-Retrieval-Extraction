@@ -1,0 +1,133 @@
+{
+  "added_columns": [
+    "total_inviews",
+    "total_pageviews",
+    "total_read_time"
+  ],
+  "bootstrap": {
+    "ci": 0.95,
+    "n_resamples": 1000,
+    "paired": true,
+    "paired_against": "two_stage_headline"
+  },
+  "datasets": {
+    "ebnerd_small": {
+      "ablation_possible": true,
+      "added_columns": [
+        "total_inviews",
+        "total_pageviews",
+        "total_read_time"
+      ],
+      "dataset": "ebnerd_small",
+      "language": "da",
+      "test_impressions": 2000,
+      "variants": {
+        "two_stage_headline": {
+          "auc": {
+            "ci_high": 0.55008,
+            "ci_low": 0.523209,
+            "mean": 0.536934,
+            "n": 2000
+          },
+          "mrr": {
+            "ci_high": 0.3396,
+            "ci_low": 0.316131,
+            "mean": 0.327749,
+            "n": 2000
+          },
+          "ndcg@10": {
+            "ci_high": 0.464401,
+            "ci_low": 0.44261,
+            "mean": 0.453293,
+            "n": 2000
+          },
+          "ndcg@5": {
+            "ci_high": 0.381629,
+            "ci_low": 0.353045,
+            "mean": 0.367488,
+            "n": 2000
+          }
+        },
+        "two_stage_with_unavailable_features": {
+          "auc": {
+            "ci_high": 0.605689,
+            "ci_low": 0.577577,
+            "delta_vs_headline": {
+              "ci_high": 0.068523,
+              "ci_low": 0.041654,
+              "established": true,
+              "mean": 0.054835
+            },
+            "mean": 0.591768,
+            "n": 2000
+          },
+          "mrr": {
+            "ci_high": 0.381011,
+            "ci_low": 0.354438,
+            "delta_vs_headline": {
+              "ci_high": 0.053316,
+              "ci_low": 0.027546,
+              "established": true,
+              "mean": 0.040199
+            },
+            "mean": 0.367947,
+            "n": 2000
+          },
+          "ndcg@10": {
+            "ci_high": 0.501456,
+            "ci_low": 0.477308,
+            "delta_vs_headline": {
+              "ci_high": 0.04686,
+              "ci_low": 0.025568,
+              "established": true,
+              "mean": 0.036371
+            },
+            "mean": 0.489664,
+            "n": 2000
+          },
+          "ndcg@5": {
+            "ci_high": 0.430171,
+            "ci_low": 0.399157,
+            "delta_vs_headline": {
+              "ci_high": 0.061562,
+              "ci_low": 0.032835,
+              "established": true,
+              "mean": 0.047182
+            },
+            "mean": 0.41467,
+            "n": 2000
+          }
+        }
+      }
+    },
+    "mind_small": {
+      "ablation_possible": false,
+      "dataset": "mind_small",
+      "language": "en",
+      "note": "mind_small ships none of ['total_inviews', 'total_pageviews', 'total_read_time'], so there is nothing to add and nothing to remove. Reported explicitly rather than omitted: an absent dataset reads as an oversight, an explicit not-applicable does not."
+    }
+  },
+  "excluded_because_constant_within_an_impression": {
+    "columns": [
+      "read_time",
+      "scroll_percentage",
+      "next_read_time",
+      "next_scroll_percentage"
+    ],
+    "why": "These are recorded per IMPRESSION, not per candidate, so adding them to a candidate-level table gives every candidate in an impression the identical value. A feature constant across the things being ordered cannot reorder them, and AUC/MRR/nDCG are all computed within an impression. They are structurally incapable of inflating these metrics, which is a stronger statement than 'we chose not to test them' \u2014 and it is why the three article-level aggregates are the whole risk."
+  },
+  "model": "the MLP, because it consumes features.FEATURE_COLUMNS and adding three columns to that list is the entire change. NRMS consumes embeddings and a category label and has no scalar feature vector to extend.",
+  "null_handling": "A candidate with no value for an added column scores 0. An article absent from the aggregate table is not evidence of low popularity, but 0 is the only value that does not invent one.",
+  "question": "How much would the serving-unavailable features be worth to the RE-RANKER if we were willing to use them? A1's ablations.json answers the same question for the retrieval stage.",
+  "report": "two_stage_ablation",
+  "requirement": "A2.Q9.1",
+  "serving_unavailable_features": [
+    "next_read_time",
+    "next_scroll_percentage",
+    "read_time",
+    "scroll_percentage",
+    "total_inviews",
+    "total_pageviews",
+    "total_read_time"
+  ]
+}

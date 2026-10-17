@@ -1,0 +1,16 @@
+# Development dependencies — loose bounds, hand-edited.
+# Pinned into requirements-dev.txt by `make lock`.
+
+pytest>=8.0
+ruff>=0.6
+pre-commit>=3.7
+
+# Test oracles. These exist so correctness is PROVEN rather than assumed; they
+# are never imported by src/newsrec/.
+#   rank-bm25 — D7: our own BM25 scorer is the graded artefact (Q2.1 says
+#   "build an inverted index"). rank_bm25 appears only in
+#   tests/test_bm25_scoring.py, asserting our scores match it on a fixture.
+rank-bm25>=0.2.2
+
+# Design-note page count is asserted by a script (Q6.1), not eyeballed.
+pypdf>=4.0

@@ -1,0 +1,430 @@
+{
+  "_comment": [
+    "EB-NeRD fixture, committed as JSON rather than Parquet on purpose.",
+    "`*.parquet` is in config.FORBIDDEN_PATH_PATTERNS (Q8), and a binary fixture",
+    "is unreviewable in a diff besides. tests/fixtures/build_fixtures.py turns",
+    "this into the Parquet layout ebnerd.py actually reads, with the REAL dtypes.",
+    "",
+    "Timestamps deliberately straddle the real configured boundaries",
+    "(val_start 2023-05-24 07:00 UTC, test_start 2023-05-25 07:00 UTC), so the",
+    "fixture exercises the same split the real data does. An earlier version sat",
+    "entirely in early May and could not be split at all -- a fixture that cannot",
+    "reach the code path it is meant to test.",
+    "",
+    "Shaped for the awkward cases, not the happy path:",
+    "  - list columns (article_ids_inview, article_id_fixed)",
+    "  - the four post-click fields and three future-leaking aggregates (Q9.2)",
+    "  - TIMESTAMPED history, unlike MIND, so the strict click_time <",
+    "    impression_time check has something to bite on (Q9.4)",
+    "  - history in both files, overlapping, so the union+dedupe path is real",
+    "  - a cold-start user with no history at all",
+    "  - an article with a null body"
+  ],
+  "articles": [
+    {
+      "article_id": 101,
+      "title": "Regeringen praesenterer ny finanslov",
+      "subtitle": "Forhandlingerne fortsaetter i naeste uge.",
+      "body": "Finansministeren fremlagde i dag regeringens udspil.",
+      "category": 1,
+      "category_str": "nyheder",
+      "subcategory": [
+        11
+      ],
+      "article_type": "article_default",
+      "published_time": "2023-05-01T06:00:00",
+      "last_modified_time": "2023-05-01T06:30:00",
+      "premium": false,
+      "url": "https://example.dk/101",
+      "ner_clusters": [
+        "Finansministeren"
+      ],
+      "entity_groups": [
+        "PER"
+      ],
+      "topics": [
+        "politik"
+      ],
+      "sentiment_label": "Neutral",
+      "sentiment_score": 0.51,
+      "total_inviews": 12000,
+      "total_pageviews": 3400,
+      "total_read_time": 51000.0
+    },
+    {
+      "article_id": 102,
+      "title": "Superligaen: dramatisk sejr i sidste minut",
+      "subtitle": "Maalet faldt i overtiden.",
+      "body": "Det blev en dramatisk afslutning paa kampen.",
+      "category": 2,
+      "category_str": "sport",
+      "subcategory": [
+        21
+      ],
+      "article_type": "article_default",
+      "published_time": "2023-05-01T09:15:00",
+      "last_modified_time": "2023-05-01T09:20:00",
+      "premium": false,
+      "url": "https://example.dk/102",
+      "ner_clusters": [],
+      "entity_groups": [],
+      "topics": [
+        "fodbold"
+      ],
+      "sentiment_label": "Positive",
+      "sentiment_score": 0.82,
+      "total_inviews": 45000,
+      "total_pageviews": 15000,
+      "total_read_time": 210000.0
+    },
+    {
+      "article_id": 103,
+      "title": "Vejret bliver varmere i weekenden",
+      "subtitle": "Op til 24 grader flere steder.",
+      "body": null,
+      "category": 3,
+      "category_str": "vejr",
+      "subcategory": [
+        31
+      ],
+      "article_type": "article_default",
+      "published_time": "2023-05-01T11:00:00",
+      "last_modified_time": "2023-05-01T11:00:00",
+      "premium": false,
+      "url": "https://example.dk/103",
+      "ner_clusters": [],
+      "entity_groups": [],
+      "topics": [
+        "vejr"
+      ],
+      "sentiment_label": "Positive",
+      "sentiment_score": 0.66,
+      "total_inviews": 8000,
+      "total_pageviews": 2100,
+      "total_read_time": 19000.0
+    },
+    {
+      "article_id": 104,
+      "title": "Ny rapport om klimaet",
+      "subtitle": "Forskere advarer om konsekvenserne.",
+      "body": "Rapporten blev offentliggjort mandag morgen.",
+      "category": 1,
+      "category_str": "nyheder",
+      "subcategory": [
+        12
+      ],
+      "article_type": "article_default",
+      "published_time": "2023-05-02T07:30:00",
+      "last_modified_time": "2023-05-02T08:00:00",
+      "premium": true,
+      "url": "https://example.dk/104",
+      "ner_clusters": [],
+      "entity_groups": [],
+      "topics": [
+        "klima"
+      ],
+      "sentiment_label": "Negative",
+      "sentiment_score": 0.28,
+      "total_inviews": 22000,
+      "total_pageviews": 6100,
+      "total_read_time": 88000.0
+    },
+    {
+      "article_id": 105,
+      "title": "Anmeldelse: den nye restaurant i centrum",
+      "subtitle": "Fem retter der overraskede.",
+      "body": "Koekkenet leverer et gennemfoert maaltid.",
+      "category": 4,
+      "category_str": "livsstil",
+      "subcategory": [
+        41
+      ],
+      "article_type": "article_default",
+      "published_time": "2023-05-02T16:45:00",
+      "last_modified_time": "2023-05-02T16:45:00",
+      "premium": false,
+      "url": "https://example.dk/105",
+      "ner_clusters": [],
+      "entity_groups": [],
+      "topics": [
+        "mad"
+      ],
+      "sentiment_label": "Positive",
+      "sentiment_score": 0.74,
+      "total_inviews": 5000,
+      "total_pageviews": 1400,
+      "total_read_time": 12000.0
+    },
+    {
+      "article_id": 106,
+      "title": "Trafikken staar stille paa motorvejen",
+      "subtitle": "Uheld ved afkoerslen.",
+      "body": "Politiet er til stede paa stedet.",
+      "category": 1,
+      "category_str": "nyheder",
+      "subcategory": [
+        13
+      ],
+      "article_type": "article_default",
+      "published_time": "2023-05-03T07:05:00",
+      "last_modified_time": "2023-05-03T07:10:00",
+      "premium": false,
+      "url": "https://example.dk/106",
+      "ner_clusters": [],
+      "entity_groups": [],
+      "topics": [
+        "trafik"
+      ],
+      "sentiment_label": "Negative",
+      "sentiment_score": 0.31,
+      "total_inviews": 15000,
+      "total_pageviews": 4200,
+      "total_read_time": 33000.0
+    }
+  ],
+  "train": {
+    "behaviors": [
+      {
+        "impression_id": 1001,
+        "user_id": 501,
+        "article_id": null,
+        "article_ids_inview": [
+          101,
+          102,
+          103
+        ],
+        "article_ids_clicked": [
+          102
+        ],
+        "impression_time": "2023-05-19T10:00:00",
+        "read_time": 34.5,
+        "scroll_percentage": 62.0,
+        "next_read_time": 12.0,
+        "next_scroll_percentage": 30.0,
+        "device_type": 1,
+        "session_id": 9001,
+        "is_sso_user": false,
+        "is_subscriber": false,
+        "gender": null,
+        "age": null,
+        "postcode": null
+      },
+      {
+        "impression_id": 1002,
+        "user_id": 502,
+        "article_id": null,
+        "article_ids_inview": [
+          102,
+          104,
+          105
+        ],
+        "article_ids_clicked": [
+          104
+        ],
+        "impression_time": "2023-05-20T18:20:00",
+        "read_time": 88.0,
+        "scroll_percentage": 95.0,
+        "next_read_time": 4.0,
+        "next_scroll_percentage": 10.0,
+        "device_type": 2,
+        "session_id": 9002,
+        "is_sso_user": true,
+        "is_subscriber": true,
+        "gender": 1,
+        "age": 40,
+        "postcode": 2
+      },
+      {
+        "impression_id": 1003,
+        "user_id": 503,
+        "article_id": null,
+        "article_ids_inview": [
+          101,
+          105,
+          106
+        ],
+        "article_ids_clicked": [
+          106
+        ],
+        "impression_time": "2023-05-22T09:00:00",
+        "read_time": 21.0,
+        "scroll_percentage": 45.0,
+        "next_read_time": null,
+        "next_scroll_percentage": null,
+        "device_type": 1,
+        "session_id": 9003,
+        "is_sso_user": false,
+        "is_subscriber": false,
+        "gender": null,
+        "age": null,
+        "postcode": null
+      },
+      {
+        "impression_id": 1004,
+        "user_id": 501,
+        "article_id": null,
+        "article_ids_inview": [
+          103,
+          104,
+          106
+        ],
+        "article_ids_clicked": [
+          103
+        ],
+        "impression_time": "2023-05-24T08:30:00",
+        "read_time": 15.0,
+        "scroll_percentage": 28.0,
+        "next_read_time": 60.0,
+        "next_scroll_percentage": 80.0,
+        "device_type": 3,
+        "session_id": 9004,
+        "is_sso_user": false,
+        "is_subscriber": false,
+        "gender": null,
+        "age": null,
+        "postcode": null
+      }
+    ],
+    "history": [
+      {
+        "user_id": 501,
+        "article_id_fixed": [
+          101,
+          102
+        ],
+        "impression_time_fixed": [
+          "2023-05-10T08:00:00",
+          "2023-05-12T20:15:00"
+        ],
+        "read_time_fixed": [
+          45.0,
+          30.0
+        ],
+        "scroll_percentage_fixed": [
+          80.0,
+          55.0
+        ]
+      },
+      {
+        "user_id": 502,
+        "article_id_fixed": [
+          104
+        ],
+        "impression_time_fixed": [
+          "2023-05-09T12:00:00"
+        ],
+        "read_time_fixed": [
+          12.0
+        ],
+        "scroll_percentage_fixed": [
+          22.0
+        ]
+      },
+      {
+        "user_id": 503,
+        "article_id_fixed": [],
+        "impression_time_fixed": [],
+        "read_time_fixed": [],
+        "scroll_percentage_fixed": []
+      }
+    ]
+  },
+  "validation": {
+    "behaviors": [
+      {
+        "impression_id": 2001,
+        "user_id": 501,
+        "article_id": null,
+        "article_ids_inview": [
+          101,
+          104,
+          106
+        ],
+        "article_ids_clicked": [
+          101
+        ],
+        "impression_time": "2023-05-26T09:10:00",
+        "read_time": 40.0,
+        "scroll_percentage": 70.0,
+        "next_read_time": 8.0,
+        "next_scroll_percentage": 15.0,
+        "device_type": 1,
+        "session_id": 9101,
+        "is_sso_user": false,
+        "is_subscriber": false,
+        "gender": null,
+        "age": null,
+        "postcode": null
+      },
+      {
+        "impression_id": 2002,
+        "user_id": 502,
+        "article_id": null,
+        "article_ids_inview": [
+          102,
+          103,
+          105
+        ],
+        "article_ids_clicked": [
+          105
+        ],
+        "impression_time": "2023-05-27T19:40:00",
+        "read_time": 65.0,
+        "scroll_percentage": 88.0,
+        "next_read_time": null,
+        "next_scroll_percentage": null,
+        "device_type": 2,
+        "session_id": 9102,
+        "is_sso_user": true,
+        "is_subscriber": true,
+        "gender": 1,
+        "age": 40,
+        "postcode": 2
+      }
+    ],
+    "history": [
+      {
+        "user_id": 501,
+        "article_id_fixed": [
+          101,
+          102,
+          103
+        ],
+        "impression_time_fixed": [
+          "2023-05-10T08:00:00",
+          "2023-05-12T20:15:00",
+          "2023-05-22T09:05:00"
+        ],
+        "read_time_fixed": [
+          45.0,
+          30.0,
+          15.0
+        ],
+        "scroll_percentage_fixed": [
+          80.0,
+          55.0,
+          28.0
+        ]
+      },
+      {
+        "user_id": 502,
+        "article_id_fixed": [
+          104,
+          102
+        ],
+        "impression_time_fixed": [
+          "2023-05-09T12:00:00",
+          "2023-05-20T18:25:00"
+        ],
+        "read_time_fixed": [
+          12.0,
+          88.0
+        ],
+        "scroll_percentage_fixed": [
+          22.0,
+          95.0
+        ]
+      }
+    ]
+  }
+}

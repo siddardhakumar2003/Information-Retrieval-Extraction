@@ -1,0 +1,109 @@
+{
+  "note": "The scorer's own output for the MIND NRMS submission (mind_nrms_submission.zip) on Codabench competition 13967, transcribed verbatim from predictions/Codabench_results/MIND/scoring_result/{metadata,scores.json}. MIND's scorer returns only the four headline ranking metrics plus a metadata block -- no per-day, sentiment or coverage breakdown exists here the way it does for EB-NeRD's scorer, so this file is shorter than leaderboard_ebnerd_2469.json by construction, not by omission.",
+  "competition": "13967",
+  "dataset": "MINDlarge_test",
+  "artefact": "mind_nrms_submission.zip",
+  "artefact_sha256": "27da0639320826d8c0329ce673760c2fdfc041a117a030d8192a0eba264b8752",
+  "scored_date": "2026-09-17",
+  "scorer_metadata": {
+    "note": "elapsedTime is the scoring program's run time (about 11.2 minutes). exitCode 0 is the scorer completing successfully. ingestionElapsedTime and ingestionExitCode are null in the returned file; MIND's scorer reports no ingestion step for this submission.",
+    "elapsedTime": 669.8709871768951,
+    "exitCode": 0,
+    "ingestionElapsedTime": null,
+    "ingestionExitCode": null
+  },
+  "overall": {
+    "auc": 0.6290077323317461,
+    "mrr": 0.29050108731915825,
+    "ndcg5": 0.3121514727308686,
+    "ndcg10": 0.37000673199774126
+  },
+  "offline_comparison": {
+    "note": "The offline harness predicted this submission's four ranking metrics on mind_small's test split (n=2,000, reports/metrics/rerank_eval.json, nrms_category_aware) before it was scored. TWO of four land inside the offline 95% bootstrap interval, two do not -- unlike A1's EB-NeRD semantic submission, where all four landed inside. Reported honestly rather than only citing the two that agree: nDCG@5 and nDCG@10 (which score only the top of the ranking) fall inside their intervals; AUC and MRR (which are sensitive to where the clicked article sits among ALL candidates, not just the top few) fall outside -- AUC above the upper bound, MRR below the lower bound. A plausible reason, not verified: MINDlarge_test's candidate-list-length distribution may differ from mind_small's, which would move AUC/MRR (rank-sensitive across the whole list) more than nDCG@5/@10 (which only look at the top of it). A 2,000-impression sample of a 73,152-impression corpus predicting a 2,370,727-impression, differently-sized corpus disagreeing on two of four metrics is not a surprising outcome to extrapolate across that gap -- it is the kind of disagreement the offline interval exists to make visible rather than to rule out.",
+    "auc": {
+      "offline_mean": 0.614494,
+      "offline_ci": [
+        0.602321,
+        0.627064
+      ],
+      "leaderboard": 0.629008,
+      "inside_ci": false
+    },
+    "mrr": {
+      "offline_mean": 0.323958,
+      "offline_ci": [
+        0.3103,
+        0.337947
+      ],
+      "leaderboard": 0.290501,
+      "inside_ci": false
+    },
+    "ndcg5": {
+      "offline_mean": 0.29962,
+      "offline_ci": [
+        0.284481,
+        0.313886
+      ],
+      "leaderboard": 0.312151,
+      "inside_ci": true
+    },
+    "ndcg10": {
+      "offline_mean": 0.367516,
+      "offline_ci": [
+        0.354032,
+        0.381554
+      ],
+      "leaderboard": 0.370007,
+      "inside_ci": true
+    }
+  },
+  "comparison_to_a1_submissions": {
+    "note": "NRMS minus each earlier MIND submission, per metric. NRMS is ahead of the A1 hybrid on AUC ONLY; the hybrid is slightly ahead on MRR, nDCG@5 and nDCG@10. Reported per metric so the AUC gain is not read as a uniform improvement.",
+    "vs_a1_hybrid_submission": {
+      "AUC": {
+        "hybrid": 0.6114372458405216,
+        "nrms": 0.6290077323317461,
+        "nrms_minus_hybrid": 0.01757
+      },
+      "MRR": {
+        "hybrid": 0.29691718261800376,
+        "nrms": 0.29050108731915825,
+        "nrms_minus_hybrid": -0.006416
+      },
+      "nDCG@5": {
+        "hybrid": 0.31794403430986584,
+        "nrms": 0.3121514727308686,
+        "nrms_minus_hybrid": -0.005793
+      },
+      "nDCG@10": {
+        "hybrid": 0.373226990546979,
+        "nrms": 0.37000673199774126,
+        "nrms_minus_hybrid": -0.00322
+      }
+    },
+    "vs_a1_baseline_article_id": {
+      "AUC": {
+        "baseline": 0.5187383980439046,
+        "nrms": 0.6290077323317461,
+        "nrms_minus_baseline": 0.110269
+      },
+      "MRR": {
+        "baseline": 0.2320657927037541,
+        "nrms": 0.29050108731915825,
+        "nrms_minus_baseline": 0.058435
+      },
+      "nDCG@5": {
+        "baseline": 0.2388323945226149,
+        "nrms": 0.3121514727308686,
+        "nrms_minus_baseline": 0.073319
+      },
+      "nDCG@10": {
+        "baseline": 0.29372447981860306,
+        "nrms": 0.37000673199774126,
+        "nrms_minus_baseline": 0.076282
+      }
+    }
+  },
+  "codabench_submission_id": 928091,
+  "scored_date_note": "Taken from the Codabench 'My submissions' screenshot (submission 928091, 2026-09-17 01:06, Finished, 0.6290), not from the scoring files' modification time, which was in a different timezone."
+}

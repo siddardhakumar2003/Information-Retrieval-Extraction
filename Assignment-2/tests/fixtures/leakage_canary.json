@@ -1,0 +1,75 @@
+{
+  "_comment": [
+    "Q9.6 CANARY. This fixture is DELIBERATELY CORRUPT and must never be used as",
+    "a normal input.",
+    "",
+    "Why it exists: a leakage test that never actually exercises its assertion",
+    "passes forever and proves nothing. Q9.2 asks for a test that asserts the",
+    "behaviour-window boundary, so the test suite must also demonstrate that the",
+    "test is CAPABLE of failing. tests/test_leakage.py feeds this fixture to the",
+    "leakage checker and asserts it RAISES; if the checker ever accepts this,",
+    "the checker is broken no matter how green the other leakage tests look.",
+    "",
+    "Three distinct violations, one per case, so a checker that catches only the",
+    "obvious one is still caught out:",
+    "",
+    "  future_click     history entry AFTER the impression it feeds.",
+    "  boundary_equal   history entry EXACTLY AT the impression time. The rule is",
+    "                   strict (<), not <=: a click recorded at the same instant",
+    "                   is indistinguishable from one CAUSED by the impression,",
+    "                   and admitting it leaks the label into the features. This",
+    "                   is the case an off-by-one lets through.",
+    "  cross_split      a user's feature row for a TEST impression built from a",
+    "                   click that happens after the test split began — legal by",
+    "                   per-row timestamp, illegal by split boundary."
+  ],
+
+  "impression_time": "2023-05-10T12:00:00",
+  "split_start": "2023-05-10T00:00:00",
+
+  "cases": {
+    "future_click": {
+      "why": "click_time is 1 hour AFTER impression_time",
+      "user_id": "U900",
+      "impression_time": "2023-05-10T12:00:00",
+      "history": [
+        {"article_id": "A1", "click_time": "2023-05-10T09:00:00", "legal": true},
+        {"article_id": "A2", "click_time": "2023-05-10T13:00:00", "legal": false}
+      ]
+    },
+
+    "boundary_equal": {
+      "why": "click_time EQUALS impression_time; the rule is strict <, not <=",
+      "user_id": "U901",
+      "impression_time": "2023-05-10T12:00:00",
+      "history": [
+        {"article_id": "A3", "click_time": "2023-05-10T11:59:59", "legal": true},
+        {"article_id": "A4", "click_time": "2023-05-10T12:00:00", "legal": false}
+      ]
+    },
+
+    "cross_split": {
+      "why": "feature for a test-split impression derives from a click inside the test period",
+      "user_id": "U902",
+      "impression_time": "2023-05-10T18:00:00",
+      "split": "test",
+      "split_start": "2023-05-10T00:00:00",
+      "history": [
+        {"article_id": "A5", "click_time": "2023-05-09T22:00:00", "legal": true},
+        {"article_id": "A6", "click_time": "2023-05-10T06:00:00", "legal": false}
+      ]
+    }
+  },
+
+  "clean_control": {
+    "why": "identical shape, no violation. The checker must ACCEPT this — otherwise the canary tests would pass on a checker that simply rejects everything.",
+    "user_id": "U903",
+    "impression_time": "2023-05-10T12:00:00",
+    "split": "test",
+    "split_start": "2023-05-09T00:00:00",
+    "history": [
+      {"article_id": "A7", "click_time": "2023-05-08T10:00:00", "legal": true},
+      {"article_id": "A8", "click_time": "2023-05-08T22:30:00", "legal": true}
+    ]
+  }
+}

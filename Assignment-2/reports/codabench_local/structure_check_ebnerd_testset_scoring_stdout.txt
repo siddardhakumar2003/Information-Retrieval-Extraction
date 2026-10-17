@@ -1,0 +1,17 @@
+truth: /app/input/ref/truth.txt 164709082 bytes
+pred : /app/input/res/predictions.txt 703062222 bytes
+checked 1000000 rows, 0 bad, 8s
+checked 2000000 rows, 0 bad, 15s
+checked 3000000 rows, 0 bad, 23s
+checked 4000000 rows, 0 bad, 31s
+checked 5000000 rows, 0 bad, 38s
+checked 6000000 rows, 0 bad, 46s
+checked 7000000 rows, 0 bad, 54s
+checked 8000000 rows, 0 bad, 62s
+checked 9000000 rows, 0 bad, 69s
+checked 10000000 rows, 0 bad, 77s
+checked 11000000 rows, 0 bad, 85s
+checked 12000000 rows, 0 bad, 92s
+checked 13000000 rows, 0 bad, 100s
+rows checked: 13536710  valid: 13536710  bad: 0
+elapsed 122.2s

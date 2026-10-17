@@ -1,0 +1,575 @@
+{
+  "alphas": [
+    0.0,
+    0.15,
+    0.3,
+    0.5,
+    0.7,
+    0.85,
+    1.0
+  ],
+  "answer": "Selecting alpha on TEST, hybrid beats semantic on 1 of 3 corpora: ['mind_small']. Selecting alpha on VAL and reporting on test -- the honest procedure -- it beats semantic on 1: ['mind_small']. Both Danish corpora independently select alpha=0 on val, i.e. no lexical component at all.",
+  "blend": "alpha * minmax(bm25) + (1 - alpha) * minmax(cosine), normalised per impression",
+  "bootstrap": {
+    "ci": 0.95,
+    "n_resamples": 1000,
+    "paired": true,
+    "paired_against": "alpha=0.0 (semantic only)"
+  },
+  "datasets": {
+    "ebnerd_demo": {
+      "alpha": {
+        "0.0": {
+          "auc": 0.557952,
+          "ci_high": 0.57243,
+          "ci_low": 0.544032,
+          "n": 2000
+        },
+        "0.15": {
+          "auc": 0.555638,
+          "ci_high": 0.569955,
+          "ci_low": 0.542247,
+          "delta_vs_semantic": {
+            "ci_high": 0.001786,
+            "ci_low": -0.006623,
+            "direction": "hybrid_worse",
+            "established": false,
+            "mean": -0.002314
+          },
+          "n": 2000
+        },
+        "0.3": {
+          "auc": 0.550793,
+          "ci_high": 0.5657,
+          "ci_low": 0.536724,
+          "delta_vs_semantic": {
+            "ci_high": 4e-06,
+            "ci_low": -0.01443,
+            "direction": "hybrid_worse",
+            "established": false,
+            "mean": -0.007159
+          },
+          "n": 2000
+        },
+        "0.5": {
+          "auc": 0.537006,
+          "ci_high": 0.551974,
+          "ci_low": 0.521938,
+          "delta_vs_semantic": {
+            "ci_high": -0.008059,
+            "ci_low": -0.033325,
+            "direction": "hybrid_worse",
+            "established": true,
+            "mean": -0.020947
+          },
+          "n": 2000
+        },
+        "0.7": {
+          "auc": 0.518407,
+          "ci_high": 0.532992,
+          "ci_low": 0.504975,
+          "delta_vs_semantic": {
+            "ci_high": -0.022968,
+            "ci_low": -0.055796,
+            "direction": "hybrid_worse",
+            "established": true,
+            "mean": -0.039545
+          },
+          "n": 2000
+        },
+        "0.85": {
+          "auc": 0.507005,
+          "ci_high": 0.521331,
+          "ci_low": 0.493188,
+          "delta_vs_semantic": {
+            "ci_high": -0.032142,
+            "ci_low": -0.069261,
+            "direction": "hybrid_worse",
+            "established": true,
+            "mean": -0.050947
+          },
+          "n": 2000
+        },
+        "1.0": {
+          "auc": 0.495649,
+          "ci_high": 0.510489,
+          "ci_low": 0.482219,
+          "delta_vs_semantic": {
+            "ci_high": -0.041993,
+            "ci_low": -0.081841,
+            "direction": "hybrid_worse",
+            "established": true,
+            "mean": -0.062304
+          },
+          "n": 2000
+        }
+      },
+      "best_interior_alpha": 0.15,
+      "bm25_score_spread": {
+        "tied_share": 0.0038,
+        "top1_is_a_click": 0.13,
+        "top_vs_rest_gap": 0.4877,
+        "within_impression_cv": 0.4966,
+        "zero_score_share": 0.0134
+      },
+      "dataset": "ebnerd_demo",
+      "hybrid_beats_semantic": false,
+      "impression_set_fingerprint": "85b159e16c16406f",
+      "impressions_evaluated": 2000,
+      "language": "da",
+      "slices": {
+        "article_head": {
+          "delta_hybrid_minus_semantic": -0.00216,
+          "established": false,
+          "hybrid": 0.553866,
+          "lexical": 0.504155,
+          "n": 974,
+          "semantic": 0.556027
+        },
+        "article_head_train": {
+          "delta_hybrid_minus_semantic": 0.069965,
+          "established": false,
+          "hybrid": 0.750627,
+          "lexical": 0.528567,
+          "n": 8,
+          "semantic": 0.680662
+        },
+        "article_tail": {
+          "delta_hybrid_minus_semantic": -0.002461,
+          "established": false,
+          "hybrid": 0.55732,
+          "lexical": 0.487574,
+          "n": 1026,
+          "semantic": 0.559781
+        },
+        "article_tail_train": {
+          "delta_hybrid_minus_semantic": -0.002605,
+          "established": false,
+          "hybrid": 0.554855,
+          "lexical": 0.495517,
+          "n": 1992,
+          "semantic": 0.55746
+        },
+        "history_long": {
+          "delta_hybrid_minus_semantic": -0.004671,
+          "established": false,
+          "hybrid": 0.529261,
+          "lexical": 0.479442,
+          "n": 502,
+          "semantic": 0.533932
+        },
+        "history_short": {
+          "delta_hybrid_minus_semantic": 0.002306,
+          "established": false,
+          "hybrid": 0.561376,
+          "lexical": 0.513431,
+          "n": 501,
+          "semantic": 0.55907
+        },
+        "warm": {
+          "delta_hybrid_minus_semantic": -0.002314,
+          "established": false,
+          "hybrid": 0.555638,
+          "lexical": 0.495649,
+          "n": 2000,
+          "semantic": 0.557952
+        }
+      },
+      "split": "test",
+      "val_selected": {
+        "selected_alpha": 0.0,
+        "selected_on": "val",
+        "test_auc": 0.557952,
+        "test_delta_vs_semantic": null,
+        "test_semantic_auc": 0.557952,
+        "val_alpha_curve": {
+          "0.0": 0.52968,
+          "0.15": 0.524912,
+          "0.3": 0.512493,
+          "0.5": 0.501519,
+          "0.7": 0.487372,
+          "0.85": 0.474766
+        },
+        "val_n": 2000,
+        "verdict": "no blend selected on val; semantic-only"
+      }
+    },
+    "ebnerd_small": {
+      "alpha": {
+        "0.0": {
+          "auc": 0.550512,
+          "ci_high": 0.564597,
+          "ci_low": 0.535714,
+          "n": 2000
+        },
+        "0.15": {
+          "auc": 0.552554,
+          "ci_high": 0.566467,
+          "ci_low": 0.536963,
+          "delta_vs_semantic": {
+            "ci_high": 0.006382,
+            "ci_low": -0.002039,
+            "direction": "hybrid_better",
+            "established": false,
+            "mean": 0.002042
+          },
+          "n": 2000
+        },
+        "0.3": {
+          "auc": 0.55168,
+          "ci_high": 0.565047,
+          "ci_low": 0.536209,
+          "delta_vs_semantic": {
+            "ci_high": 0.008327,
+            "ci_low": -0.006434,
+            "direction": "hybrid_better",
+            "established": false,
+            "mean": 0.001168
+          },
+          "n": 2000
+        },
+        "0.5": {
+          "auc": 0.543092,
+          "ci_high": 0.557334,
+          "ci_low": 0.528068,
+          "delta_vs_semantic": {
+            "ci_high": 0.004674,
+            "ci_low": -0.019873,
+            "direction": "hybrid_worse",
+            "established": false,
+            "mean": -0.00742
+          },
+          "n": 2000
+        },
+        "0.7": {
+          "auc": 0.530144,
+          "ci_high": 0.543974,
+          "ci_low": 0.514316,
+          "delta_vs_semantic": {
+            "ci_high": -0.004031,
+            "ci_low": -0.037223,
+            "direction": "hybrid_worse",
+            "established": true,
+            "mean": -0.020368
+          },
+          "n": 2000
+        },
+        "0.85": {
+          "auc": 0.518816,
+          "ci_high": 0.532673,
+          "ci_low": 0.503063,
+          "delta_vs_semantic": {
+            "ci_high": -0.013397,
+            "ci_low": -0.050365,
+            "direction": "hybrid_worse",
+            "established": true,
+            "mean": -0.031695
+          },
+          "n": 2000
+        },
+        "1.0": {
+          "auc": 0.512422,
+          "ci_high": 0.527074,
+          "ci_low": 0.497382,
+          "delta_vs_semantic": {
+            "ci_high": -0.017397,
+            "ci_low": -0.058403,
+            "direction": "hybrid_worse",
+            "established": true,
+            "mean": -0.038089
+          },
+          "n": 2000
+        }
+      },
+      "best_interior_alpha": 0.15,
+      "bm25_score_spread": {
+        "tied_share": 0.0043,
+        "top1_is_a_click": 0.117,
+        "top_vs_rest_gap": 0.4805,
+        "within_impression_cv": 0.4947,
+        "zero_score_share": 0.0137
+      },
+      "dataset": "ebnerd_small",
+      "hybrid_beats_semantic": false,
+      "impression_set_fingerprint": "fd21438470e38846",
+      "impressions_evaluated": 2000,
+      "language": "da",
+      "slices": {
+        "article_head": {
+          "delta_hybrid_minus_semantic": 0.004758,
+          "established": false,
+          "hybrid": 0.554908,
+          "lexical": 0.530373,
+          "n": 1019,
+          "semantic": 0.55015
+        },
+        "article_head_train": {
+          "delta_hybrid_minus_semantic": -0.005607,
+          "established": false,
+          "hybrid": 0.541396,
+          "lexical": 0.524301,
+          "n": 9,
+          "semantic": 0.547004
+        },
+        "article_tail": {
+          "delta_hybrid_minus_semantic": -0.000779,
+          "established": false,
+          "hybrid": 0.550108,
+          "lexical": 0.493777,
+          "n": 981,
+          "semantic": 0.550887
+        },
+        "article_tail_train": {
+          "delta_hybrid_minus_semantic": 0.002077,
+          "established": false,
+          "hybrid": 0.552604,
+          "lexical": 0.512369,
+          "n": 1991,
+          "semantic": 0.550528
+        },
+        "history_long": {
+          "delta_hybrid_minus_semantic": -0.005597,
+          "established": false,
+          "hybrid": 0.550249,
+          "lexical": 0.497565,
+          "n": 501,
+          "semantic": 0.555846
+        },
+        "history_short": {
+          "delta_hybrid_minus_semantic": 0.000827,
+          "established": false,
+          "hybrid": 0.579636,
+          "lexical": 0.499881,
+          "n": 508,
+          "semantic": 0.578809
+        },
+        "warm": {
+          "delta_hybrid_minus_semantic": 0.002042,
+          "established": false,
+          "hybrid": 0.552554,
+          "lexical": 0.512422,
+          "n": 2000,
+          "semantic": 0.550512
+        }
+      },
+      "split": "test",
+      "val_selected": {
+        "selected_alpha": 0.0,
+        "selected_on": "val",
+        "test_auc": 0.550512,
+        "test_delta_vs_semantic": null,
+        "test_semantic_auc": 0.550512,
+        "val_alpha_curve": {
+          "0.0": 0.532282,
+          "0.15": 0.529702,
+          "0.3": 0.518102,
+          "0.5": 0.503016,
+          "0.7": 0.485624,
+          "0.85": 0.472943
+        },
+        "val_n": 2000,
+        "verdict": "no blend selected on val; semantic-only"
+      }
+    },
+    "mind_small": {
+      "alpha": {
+        "0.0": {
+          "auc": 0.598547,
+          "ci_high": 0.611291,
+          "ci_low": 0.584893,
+          "n": 2000
+        },
+        "0.15": {
+          "auc": 0.603821,
+          "ci_high": 0.616481,
+          "ci_low": 0.590393,
+          "delta_vs_semantic": {
+            "ci_high": 0.008514,
+            "ci_low": 0.002314,
+            "direction": "hybrid_better",
+            "established": true,
+            "mean": 0.005273
+          },
+          "n": 2000
+        },
+        "0.3": {
+          "auc": 0.606835,
+          "ci_high": 0.619215,
+          "ci_low": 0.593844,
+          "delta_vs_semantic": {
+            "ci_high": 0.013635,
+            "ci_low": 0.002784,
+            "direction": "hybrid_better",
+            "established": true,
+            "mean": 0.008288
+          },
+          "n": 2000
+        },
+        "0.5": {
+          "auc": 0.602828,
+          "ci_high": 0.615709,
+          "ci_low": 0.589683,
+          "delta_vs_semantic": {
+            "ci_high": 0.013651,
+            "ci_low": -0.004765,
+            "direction": "hybrid_better",
+            "established": false,
+            "mean": 0.004281
+          },
+          "n": 2000
+        },
+        "0.7": {
+          "auc": 0.589329,
+          "ci_high": 0.601788,
+          "ci_low": 0.576768,
+          "delta_vs_semantic": {
+            "ci_high": 0.003214,
+            "ci_low": -0.021096,
+            "direction": "hybrid_worse",
+            "established": false,
+            "mean": -0.009218
+          },
+          "n": 2000
+        },
+        "0.85": {
+          "auc": 0.580381,
+          "ci_high": 0.592827,
+          "ci_low": 0.567269,
+          "delta_vs_semantic": {
+            "ci_high": -0.005003,
+            "ci_low": -0.031454,
+            "direction": "hybrid_worse",
+            "established": true,
+            "mean": -0.018166
+          },
+          "n": 2000
+        },
+        "1.0": {
+          "auc": 0.55552,
+          "ci_high": 0.568233,
+          "ci_low": 0.542408,
+          "delta_vs_semantic": {
+            "ci_high": -0.026601,
+            "ci_low": -0.060504,
+            "direction": "hybrid_worse",
+            "established": true,
+            "mean": -0.043027
+          },
+          "n": 2000
+        }
+      },
+      "best_interior_alpha": 0.3,
+      "bm25_score_spread": {
+        "tied_share": 0.5122,
+        "top1_is_a_click": 0.169,
+        "top_vs_rest_gap": 0.8907,
+        "within_impression_cv": 1.4503,
+        "zero_score_share": 0.5231
+      },
+      "dataset": "mind_small",
+      "hybrid_beats_semantic": true,
+      "impression_set_fingerprint": "bf8eb9407bd482dc",
+      "impressions_evaluated": 2000,
+      "language": "en",
+      "slices": {
+        "article_head": {
+          "delta_hybrid_minus_semantic": 0.007319,
+          "established": false,
+          "hybrid": 0.612069,
+          "lexical": 0.548706,
+          "n": 1194,
+          "semantic": 0.60475
+        },
+        "article_head_train": {
+          "delta_hybrid_minus_semantic": 0.000988,
+          "established": false,
+          "hybrid": 0.787553,
+          "lexical": 0.854088,
+          "n": 8,
+          "semantic": 0.786565
+        },
+        "article_tail": {
+          "delta_hybrid_minus_semantic": 0.009723,
+          "established": true,
+          "hybrid": 0.599082,
+          "lexical": 0.565615,
+          "n": 806,
+          "semantic": 0.589359
+        },
+        "article_tail_train": {
+          "delta_hybrid_minus_semantic": 0.008317,
+          "established": true,
+          "hybrid": 0.60611,
+          "lexical": 0.554321,
+          "n": 1992,
+          "semantic": 0.597792
+        },
+        "cold_start": {
+          "delta_hybrid_minus_semantic": 0.0,
+          "established": false,
+          "hybrid": 0.478577,
+          "lexical": 0.478577,
+          "n": 62,
+          "semantic": 0.478577
+        },
+        "history_long": {
+          "delta_hybrid_minus_semantic": 0.009775,
+          "established": false,
+          "hybrid": 0.621692,
+          "lexical": 0.572516,
+          "n": 500,
+          "semantic": 0.611917
+        },
+        "history_short": {
+          "delta_hybrid_minus_semantic": 0.004109,
+          "established": false,
+          "hybrid": 0.5664,
+          "lexical": 0.522606,
+          "n": 511,
+          "semantic": 0.562292
+        },
+        "warm": {
+          "delta_hybrid_minus_semantic": 0.008553,
+          "established": true,
+          "hybrid": 0.610939,
+          "lexical": 0.557982,
+          "n": 1938,
+          "semantic": 0.602385
+        }
+      },
+      "split": "test",
+      "val_selected": {
+        "selected_alpha": 0.3,
+        "selected_on": "val",
+        "test_auc": 0.606835,
+        "test_delta_vs_semantic": {
+          "ci_high": 0.013635,
+          "ci_low": 0.002784,
+          "direction": "hybrid_better",
+          "established": true,
+          "mean": 0.008288
+        },
+        "test_semantic_auc": 0.598547,
+        "val_alpha_curve": {
+          "0.0": 0.593112,
+          "0.15": 0.603581,
+          "0.3": 0.609319,
+          "0.5": 0.606188,
+          "0.7": 0.600718,
+          "0.85": 0.594554
+        },
+        "val_n": 2000,
+        "verdict": "val-selected blend beats semantic on test"
+      }
+    }
+  },
+  "endpoint_check": {
+    "checked": true,
+    "tolerance": 1e-06
+  },
+  "endpoint_note": "alpha=1.0 must equal eval.json's bm25 AUC and alpha=0.0 its semantic AUC. Asserted, not eyeballed: a blend reading the wrong scores would still produce a smooth, plausible curve.",
+  "mechanism_note": "bm25_score_spread explains the split. BM25's value tracks how sharply it separates candidates WITHIN an impression, and the two languages fail in opposite ways: English is silent much of the time but decisive when it speaks; Danish almost always speaks and barely discriminates. A Danish score of 'some overlap with everything' is as uninformative as no score, but unlike a zero it does not fall through to the popularity tie-break.",
+  "question": "does blending the lexical score into the semantic one beat semantic alone?",
+  "report": "hybrid_ablation",
+  "selection_note": "The test-split sweep picks its best alpha by looking at the number it then reports, so part of any gain there is having peeked. `val_selected` repeats the choice on the validation split -- untouched since Q1 for exactly this purpose -- and applies it to test. A gain that survives that is evidence; one that does not was an artefact of selection."
+}

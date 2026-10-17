@@ -1,0 +1,309 @@
+{
+  "datasets": {
+    "ebnerd_small": {
+      "cost": {
+        "assumptions": {
+          "batch_size": 1,
+          "candidate_k": 200,
+          "cores": 4,
+          "device": "cpu",
+          "price_source": "",
+          "price_usd_per_hour": null,
+          "sla_p99_ms": 100.0
+        },
+        "core_seconds_per_1000_queries": 4.256,
+        "qps_at_assumed_cores": 939.89,
+        "qps_per_core": 234.97,
+        "sla": {
+          "measured_p99_ms": 6.1472,
+          "met": true,
+          "target_p99_ms": 100.0
+        },
+        "usd_per_1000_queries": null,
+        "why_no_currency_figure": "config.SERVING_COST_USD_PER_HOUR / SERVING_COST_SOURCE are unset (OQ-13): we have no dated, citable instance price, and an invented one would be a design-note number traceable to nothing. core_seconds_per_1000_queries is the measured answer; multiplying it by a current price is arithmetic."
+      },
+      "dataset": "ebnerd_small",
+      "language": "da",
+      "latency": {
+        "batch_size": 1,
+        "candidate_k": 200,
+        "device": "cpu",
+        "measured_requests": 1000,
+        "slowest_stage_at_p99": "ann_search",
+        "stage_mean_sum_ms": 4.2312,
+        "stages": {
+          "ann_search": {
+            "max_ms": 3.3073,
+            "mean_ms": 1.9378,
+            "p50_ms": 1.8819,
+            "p95_ms": 2.3817,
+            "p99_ms": 2.6391
+          },
+          "bm25_candidates": {
+            "max_ms": 0.9395,
+            "mean_ms": 0.4991,
+            "p50_ms": 0.4873,
+            "p95_ms": 0.6429,
+            "p99_ms": 0.7413
+          },
+          "feature_build": {
+            "max_ms": 1.8563,
+            "mean_ms": 0.9594,
+            "p50_ms": 0.9121,
+            "p95_ms": 1.2289,
+            "p99_ms": 1.4076
+          },
+          "model_score": {
+            "max_ms": 0.1421,
+            "mean_ms": 0.0273,
+            "p50_ms": 0.0248,
+            "p95_ms": 0.0401,
+            "p99_ms": 0.0614
+          },
+          "order": {
+            "max_ms": 0.5508,
+            "mean_ms": 0.2937,
+            "p50_ms": 0.2836,
+            "p95_ms": 0.3655,
+            "p99_ms": 0.4295
+          },
+          "user_pooling": {
+            "max_ms": 7.4167,
+            "mean_ms": 0.5139,
+            "p50_ms": 0.395,
+            "p95_ms": 1.2107,
+            "p99_ms": 1.4571
+          }
+        },
+        "total": {
+          "max_ms": 10.8149,
+          "mean_ms": 4.2558,
+          "p50_ms": 4.1255,
+          "p95_ms": 5.3631,
+          "p99_ms": 6.1472
+        },
+        "unaccounted_share": 0.0058,
+        "warmup_requests": 50
+      },
+      "memory": {
+        "articles": 20738,
+        "embedding_dim": 384,
+        "on_disk_bytes": {
+          "ann_index": 37496823,
+          "bm25_index": 5101214,
+          "embeddings": 32061509,
+          "feature_store": 111824506
+        },
+        "on_disk_total_bytes": 186484052,
+        "resident_bytes": {
+          "ann_index_rss_delta": 0,
+          "embedding_matrix_exact": 31853568,
+          "embedding_matrix_rss_delta": 31854592,
+          "feature_store_in_memory": {
+            "article_features.parquet": 57262634,
+            "session_features.parquet": 18809780,
+            "user_click_history_features.parquet": 583160468,
+            "user_features.parquet": 65365396
+          },
+          "feature_store_in_memory_total": 724598278
+        },
+        "rss_note": "An RSS delta is a noisy lower bound: the allocator does not return freed pages immediately and a shared library's pages are counted once. The exact embedding figure is the arithmetic; the delta beside it is the sanity check on it."
+      },
+      "scaling_10x": {
+        "binding_constraint_order": [
+          {
+            "from_key": "memory.on_disk_bytes.bm25_index",
+            "rank": 1,
+            "what": "the in-RAM inverted index",
+            "why": "postings are held entirely in memory with no on-disk block structure, so a 10x corpus is a 10x resident index. Nothing here is prepared for that \u2014 scale_analysis.md said so for A1 and A2 did not change it."
+          },
+          {
+            "from_key": "latency.stages.feature_build.p99_ms",
+            "rank": 2,
+            "what": "the serving-time feature build",
+            "why": "new in A2 and the stage most likely to surprise: it is per-candidate Python dictionary work, so it scales with SERVING_CANDIDATE_K and not with the corpus. It does not get worse at 10x articles, but it does at 10x K."
+          },
+          {
+            "from_key": "memory.resident_bytes.embedding_matrix_exact",
+            "rank": 3,
+            "what": "the embedding matrix against VRAM",
+            "why": "10x the current corpus exceeds a 4096 MiB budget once the encoder is also resident. The fix is batched scoring against a memory-mapped matrix, which the flat-array layout allows."
+          },
+          {
+            "from_key": "latency.stages.ann_search.p99_ms",
+            "rank": 4,
+            "what": "ANN search \u2014 and it should NOT be optimised",
+            "why": "it grows slower than the corpus and A1 measured it already faster than exact search on the largest corpus. design_rationale.md \u00a71.19 records benchmarking it against the wrong baseline making it look four times better than it was."
+          }
+        ],
+        "cores_needed_for_10x_qps_at_current_latency": 10.0,
+        "embedding_matrix_at_10x_bytes": 318535680,
+        "embedding_matrix_at_10x_fits_in_4gb_vram": true,
+        "from_keys": [
+          "memory.resident_bytes.embedding_matrix_exact",
+          "latency.total.mean_ms",
+          "latency.total.p99_ms",
+          "latency.stages.*.p99_ms"
+        ]
+      }
+    },
+    "mind_small": {
+      "cost": {
+        "assumptions": {
+          "batch_size": 1,
+          "candidate_k": 200,
+          "cores": 4,
+          "device": "cpu",
+          "price_source": "",
+          "price_usd_per_hour": null,
+          "sla_p99_ms": 100.0
+        },
+        "core_seconds_per_1000_queries": 5.53,
+        "qps_at_assumed_cores": 723.37,
+        "qps_per_core": 180.84,
+        "sla": {
+          "measured_p99_ms": 6.6759,
+          "met": true,
+          "target_p99_ms": 100.0
+        },
+        "usd_per_1000_queries": null,
+        "why_no_currency_figure": "config.SERVING_COST_USD_PER_HOUR / SERVING_COST_SOURCE are unset (OQ-13): we have no dated, citable instance price, and an invented one would be a design-note number traceable to nothing. core_seconds_per_1000_queries is the measured answer; multiplying it by a current price is arithmetic."
+      },
+      "dataset": "mind_small",
+      "language": "en",
+      "latency": {
+        "batch_size": 1,
+        "candidate_k": 200,
+        "device": "cpu",
+        "measured_requests": 1000,
+        "slowest_stage_at_p99": "ann_search",
+        "stage_mean_sum_ms": 5.5025,
+        "stages": {
+          "ann_search": {
+            "max_ms": 4.3845,
+            "mean_ms": 3.1021,
+            "p50_ms": 3.1597,
+            "p95_ms": 3.6171,
+            "p99_ms": 3.8741
+          },
+          "bm25_candidates": {
+            "max_ms": 1.1058,
+            "mean_ms": 0.5899,
+            "p50_ms": 0.6217,
+            "p95_ms": 0.7589,
+            "p99_ms": 0.8432
+          },
+          "feature_build": {
+            "max_ms": 2.025,
+            "mean_ms": 1.2503,
+            "p50_ms": 1.2386,
+            "p95_ms": 1.375,
+            "p99_ms": 1.4962
+          },
+          "model_score": {
+            "max_ms": 0.0997,
+            "mean_ms": 0.035,
+            "p50_ms": 0.0321,
+            "p95_ms": 0.0589,
+            "p99_ms": 0.0734
+          },
+          "order": {
+            "max_ms": 0.6958,
+            "mean_ms": 0.3624,
+            "p50_ms": 0.3593,
+            "p95_ms": 0.4191,
+            "p99_ms": 0.4543
+          },
+          "user_pooling": {
+            "max_ms": 0.7834,
+            "mean_ms": 0.1629,
+            "p50_ms": 0.1411,
+            "p95_ms": 0.3346,
+            "p99_ms": 0.4765
+          }
+        },
+        "total": {
+          "max_ms": 7.2006,
+          "mean_ms": 5.5297,
+          "p50_ms": 5.6105,
+          "p95_ms": 6.2583,
+          "p99_ms": 6.6759
+        },
+        "unaccounted_share": 0.0049,
+        "warmup_requests": 50
+      },
+      "memory": {
+        "articles": 65238,
+        "embedding_dim": 384,
+        "on_disk_bytes": {
+          "ann_index": 117962215,
+          "bm25_index": 14363421,
+          "embeddings": 100782165,
+          "feature_store": 95098941
+        },
+        "on_disk_total_bytes": 328206742,
+        "resident_bytes": {
+          "ann_index_rss_delta": -53583872,
+          "embedding_matrix_exact": 100205568,
+          "embedding_matrix_rss_delta": 100208640,
+          "feature_store_in_memory": {
+            "article_features.parquet": 39347493,
+            "user_click_history_features.parquet": 276808402,
+            "user_features.parquet": 50670178
+          },
+          "feature_store_in_memory_total": 366826073
+        },
+        "rss_note": "An RSS delta is a noisy lower bound: the allocator does not return freed pages immediately and a shared library's pages are counted once. The exact embedding figure is the arithmetic; the delta beside it is the sanity check on it."
+      },
+      "scaling_10x": {
+        "binding_constraint_order": [
+          {
+            "from_key": "memory.on_disk_bytes.bm25_index",
+            "rank": 1,
+            "what": "the in-RAM inverted index",
+            "why": "postings are held entirely in memory with no on-disk block structure, so a 10x corpus is a 10x resident index. Nothing here is prepared for that \u2014 scale_analysis.md said so for A1 and A2 did not change it."
+          },
+          {
+            "from_key": "latency.stages.feature_build.p99_ms",
+            "rank": 2,
+            "what": "the serving-time feature build",
+            "why": "new in A2 and the stage most likely to surprise: it is per-candidate Python dictionary work, so it scales with SERVING_CANDIDATE_K and not with the corpus. It does not get worse at 10x articles, but it does at 10x K."
+          },
+          {
+            "from_key": "memory.resident_bytes.embedding_matrix_exact",
+            "rank": 3,
+            "what": "the embedding matrix against VRAM",
+            "why": "10x the current corpus exceeds a 4096 MiB budget once the encoder is also resident. The fix is batched scoring against a memory-mapped matrix, which the flat-array layout allows."
+          },
+          {
+            "from_key": "latency.stages.ann_search.p99_ms",
+            "rank": 4,
+            "what": "ANN search \u2014 and it should NOT be optimised",
+            "why": "it grows slower than the corpus and A1 measured it already faster than exact search on the largest corpus. design_rationale.md \u00a71.19 records benchmarking it against the wrong baseline making it look four times better than it was."
+          }
+        ],
+        "cores_needed_for_10x_qps_at_current_latency": 10.0,
+        "embedding_matrix_at_10x_bytes": 1002055680,
+        "embedding_matrix_at_10x_fits_in_4gb_vram": true,
+        "from_keys": [
+          "memory.resident_bytes.embedding_matrix_exact",
+          "latency.total.mean_ms",
+          "latency.total.p99_ms",
+          "latency.stages.*.p99_ms"
+        ]
+      }
+    }
+  },
+  "device_note": "Inference is timed on CPU. rerank/mlp.py and rerank/nrms.py require CUDA and raise, but that rule governs TRAINING; serving one request is a latency question on the hardware it lands on, and CPU is both the realistic target and what a CPU-only grader can reproduce.",
+  "report": "serving",
+  "requirement": "A2.Q4",
+  "stages": [
+    "user_pooling",
+    "ann_search",
+    "bm25_candidates",
+    "feature_build",
+    "model_score",
+    "order"
+  ],
+  "what_one_request_is": "user vector -> ANN top-K over the corpus (stage 1) -> BM25 over those K candidates -> serving-time feature row -> re-ranker score (stage 2) -> score/popularity/id tie-break. Batch size 1, because A2 Q4.2 asks about a single user request and a batched number bounds no SLA."
+}

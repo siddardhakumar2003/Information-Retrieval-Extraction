@@ -1,0 +1,67 @@
+{
+  "datasets": {
+    "ebnerd_demo": {
+      "article_popularity": {
+        "articles": 11777,
+        "has_published_time_share": 1.0,
+        "popularity_train_mean": 1.822,
+        "popularity_train_nonzero_share": 0.0824
+      },
+      "click_history": {
+        "history_is_timestamped": true,
+        "n_clicks_max": 1459,
+        "n_clicks_mean": 356.216,
+        "recency_weighted_mean": 9.863
+      },
+      "dataset": "ebnerd_demo",
+      "impressions": 50080,
+      "session_features": {
+        "impressions_with_session": 50080,
+        "position_in_session_mean": 2.08,
+        "session_click_count_mean": 1.083
+      }
+    },
+    "ebnerd_small": {
+      "article_popularity": {
+        "articles": 20738,
+        "has_published_time_share": 1.0,
+        "popularity_train_mean": 9.718,
+        "popularity_train_nonzero_share": 0.0807
+      },
+      "click_history": {
+        "history_is_timestamped": true,
+        "n_clicks_max": 1896,
+        "n_clicks_mean": 360.841,
+        "recency_weighted_mean": 9.851
+      },
+      "dataset": "ebnerd_small",
+      "impressions": 477534,
+      "session_features": {
+        "impressions_with_session": 477534,
+        "position_in_session_mean": 2.164,
+        "session_click_count_mean": 1.166
+      }
+    },
+    "mind_small": {
+      "article_popularity": {
+        "articles": 65238,
+        "has_published_time_share": 0.0,
+        "popularity_train_mean": 2.905,
+        "popularity_train_nonzero_share": 0.0981
+      },
+      "click_history": {
+        "history_is_timestamped": false,
+        "n_clicks_max": 546,
+        "n_clicks_mean": 31.975,
+        "recency_weighted_mean": 7.465
+      },
+      "dataset": "mind_small",
+      "impressions": 230117,
+      "session_features": {
+        "note": "no session_id in this dataset \u2014 MIND ships no session concept (a2_q1_plan.md)"
+      }
+    }
+  },
+  "report": "behavioural_features",
+  "requirement": "A2.Q1"
+}

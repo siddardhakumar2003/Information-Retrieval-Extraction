@@ -1,0 +1,66 @@
+{
+  "datasets": {
+    "ebnerd_demo": {
+      "dim": 384,
+      "margin": 0.0959,
+      "n_articles": 11777,
+      "nearest_neighbour_similarity": {
+        "mean": 0.9103,
+        "p05": 0.8694,
+        "p50": 0.905,
+        "p95": 0.9868
+      },
+      "random_pair_similarity": {
+        "mean": 0.8144,
+        "p05": 0.7759,
+        "p50": 0.8141,
+        "p95": 0.8534
+      },
+      "self_nn_rank1": 0.9745,
+      "separation": 0.016
+    },
+    "ebnerd_small": {
+      "dim": 384,
+      "margin": 0.0988,
+      "n_articles": 20738,
+      "nearest_neighbour_similarity": {
+        "mean": 0.9139,
+        "p05": 0.8728,
+        "p50": 0.9079,
+        "p95": 0.9885
+      },
+      "random_pair_similarity": {
+        "mean": 0.8151,
+        "p05": 0.7763,
+        "p50": 0.8144,
+        "p95": 0.8566
+      },
+      "self_nn_rank1": 0.974,
+      "separation": 0.0162
+    },
+    "mind_small": {
+      "dim": 384,
+      "margin": 0.1458,
+      "n_articles": 65238,
+      "nearest_neighbour_similarity": {
+        "mean": 0.9024,
+        "p05": 0.8495,
+        "p50": 0.8989,
+        "p95": 0.9717
+      },
+      "random_pair_similarity": {
+        "mean": 0.7566,
+        "p05": 0.7177,
+        "p50": 0.7558,
+        "p95": 0.7985
+      },
+      "self_nn_rank1": 0.988,
+      "separation": 0.051
+    }
+  },
+  "diagnostic": "embedding_space_geometry",
+  "encoder_fingerprint": "intfloat/multilingual-e5-small@614241f622f53c4eeff9890bdc4f31cfecc418b3|dim=384|seq=128|q=query: |p=passage: ",
+  "purpose": "Q3 D1/D4 interpretation aid \u2014 not a graded metric",
+  "queries": 2000,
+  "seed": 20260827
+}

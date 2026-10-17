@@ -1,0 +1,3488 @@
+{
+  "bootstrap": {
+    "ci": 0.95,
+    "n_resamples": 1000,
+    "paired": true,
+    "resampled_over": "impressions"
+  },
+  "datasets": {
+    "ebnerd_small": {
+      "baseline_score_column": "semantic_score",
+      "catalogue_articles": 20738,
+      "dataset": "ebnerd_small",
+      "impression_set_fingerprint": "fd21438470e38846",
+      "impressions_evaluated": 2000,
+      "language": "da",
+      "variants": {
+        "nrms_category_aware": {
+          "degenerate_impressions": {},
+          "overall": {
+            "auc": {
+              "ci_high": 0.601274,
+              "ci_low": 0.575117,
+              "delta_vs_baseline": {
+                "ci_high": 0.057309,
+                "ci_low": 0.021002,
+                "established": true,
+                "mean": 0.038995
+              },
+              "mean": 0.589507,
+              "n": 2000,
+              "n_excluded": 0,
+              "verdict": "better_than_random"
+            },
+            "coverage": {
+              "ci_high": 0.067509,
+              "ci_low": 0.064423,
+              "distinct_articles": 1545,
+              "mean": 0.074501,
+              "n": 2000
+            },
+            "diversity": {
+              "ci_high": 0.178738,
+              "ci_low": 0.177726,
+              "mean": 0.178227,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "mrr": {
+              "ci_high": 0.385543,
+              "ci_low": 0.360101,
+              "delta_vs_baseline": {
+                "ci_high": 0.041757,
+                "ci_low": 0.008234,
+                "established": true,
+                "mean": 0.025289
+              },
+              "mean": 0.372788,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "ndcg@10": {
+              "ci_high": 0.501562,
+              "ci_low": 0.477622,
+              "delta_vs_baseline": {
+                "ci_high": 0.036185,
+                "ci_low": 0.00814,
+                "established": true,
+                "mean": 0.022116
+              },
+              "mean": 0.489747,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "ndcg@5": {
+              "ci_high": 0.433148,
+              "ci_low": 0.40405,
+              "delta_vs_baseline": {
+                "ci_high": 0.050418,
+                "ci_low": 0.015111,
+                "established": true,
+                "mean": 0.032631
+              },
+              "mean": 0.419327,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "novelty": {
+              "ci_high": 17.354644,
+              "ci_low": 17.288225,
+              "mean": 17.322364,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "novelty_unseen_fraction": {
+              "ci_high": 0.906326,
+              "ci_low": 0.893603,
+              "mean": 0.900203,
+              "n": 2000,
+              "n_excluded": 0
+            }
+          },
+          "slices": {
+            "article_head": {
+              "auc": {
+                "ci_high": 0.607051,
+                "ci_low": 0.570462,
+                "mean": 0.588673,
+                "n": 1019,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.05343,
+                "ci_low": 0.050873,
+                "distinct_articles": 1228,
+                "mean": 0.059215,
+                "n": 1019
+              },
+              "diversity": {
+                "ci_high": 0.179066,
+                "ci_low": 0.177672,
+                "mean": 0.178369,
+                "n": 1019,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.380108,
+                "ci_low": 0.341909,
+                "mean": 0.361603,
+                "n": 1019,
+                "n_excluded": 0
+              },
+              "n": 1019,
+              "ndcg@10": {
+                "ci_high": 0.495111,
+                "ci_low": 0.458869,
+                "mean": 0.476808,
+                "n": 1019,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.420945,
+                "ci_low": 0.378419,
+                "mean": 0.400304,
+                "n": 1019,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.372741,
+                "ci_low": 17.27858,
+                "mean": 17.32825,
+                "n": 1019,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.910685,
+                "ci_low": 0.892372,
+                "mean": 0.901604,
+                "n": 1019,
+                "n_excluded": 0
+              },
+              "share": 0.5095
+            },
+            "article_head_train": {
+              "auc": {
+                "ci_high": 0.79022,
+                "ci_low": 0.431758,
+                "mean": 0.629035,
+                "n": 9,
+                "n_excluded": 0,
+                "verdict": "indistinguishable_from_random"
+              },
+              "ci_warning": "n=9 is below MIN_TRUSTWORTHY_N=500; the bootstrap interval here is narrower than its nominal 95%",
+              "coverage": {
+                "ci_high": 0.003136,
+                "ci_low": 0.001543,
+                "distinct_articles": 74,
+                "mean": 0.003568,
+                "n": 9
+              },
+              "degenerate_slice": "this slice holds 0.4% of the sample; its complement holds 99.6%. A comparison between the two is not a comparison.",
+              "diversity": {
+                "ci_high": 0.179627,
+                "ci_low": 0.163318,
+                "mean": 0.171504,
+                "n": 9,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.525033,
+                "ci_low": 0.151329,
+                "mean": 0.305757,
+                "n": 9,
+                "n_excluded": 0
+              },
+              "n": 9,
+              "ndcg@10": {
+                "ci_high": 0.621307,
+                "ci_low": 0.275918,
+                "mean": 0.43776,
+                "n": 9,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.594861,
+                "ci_low": 0.165687,
+                "mean": 0.37059,
+                "n": 9,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 16.458565,
+                "ci_low": 14.953791,
+                "mean": 15.737922,
+                "n": 9,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.825617,
+                "ci_low": 0.635618,
+                "mean": 0.736023,
+                "n": 9,
+                "n_excluded": 0
+              },
+              "share": 0.0045
+            },
+            "article_tail": {
+              "auc": {
+                "ci_high": 0.609953,
+                "ci_low": 0.570752,
+                "mean": 0.590374,
+                "n": 981,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.05772,
+                "ci_low": 0.054729,
+                "distinct_articles": 1320,
+                "mean": 0.063651,
+                "n": 981
+              },
+              "diversity": {
+                "ci_high": 0.178839,
+                "ci_low": 0.177321,
+                "mean": 0.178079,
+                "n": 981,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.402559,
+                "ci_low": 0.366165,
+                "mean": 0.384405,
+                "n": 981,
+                "n_excluded": 0
+              },
+              "n": 981,
+              "ndcg@10": {
+                "ci_high": 0.520197,
+                "ci_low": 0.486339,
+                "mean": 0.503186,
+                "n": 981,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.459827,
+                "ci_low": 0.418624,
+                "mean": 0.439087,
+                "n": 981,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.369692,
+                "ci_low": 17.262986,
+                "mean": 17.316249,
+                "n": 981,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.908073,
+                "ci_low": 0.888716,
+                "mean": 0.898748,
+                "n": 981,
+                "n_excluded": 0
+              },
+              "share": 0.4905
+            },
+            "article_tail_train": {
+              "auc": {
+                "ci_high": 0.602407,
+                "ci_low": 0.575046,
+                "mean": 0.589328,
+                "n": 1991,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.067123,
+                "ci_low": 0.064037,
+                "distinct_articles": 1536,
+                "mean": 0.074067,
+                "n": 1991
+              },
+              "degenerate_slice": "this slice holds 99.6% of the sample; its complement holds 0.4%. A comparison between the two is not a comparison.",
+              "diversity": {
+                "ci_high": 0.178758,
+                "ci_low": 0.177775,
+                "mean": 0.178257,
+                "n": 1991,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.386766,
+                "ci_low": 0.360061,
+                "mean": 0.373091,
+                "n": 1991,
+                "n_excluded": 0
+              },
+              "n": 1991,
+              "ndcg@10": {
+                "ci_high": 0.502498,
+                "ci_low": 0.477507,
+                "mean": 0.489982,
+                "n": 1991,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.433797,
+                "ci_low": 0.404373,
+                "mean": 0.419547,
+                "n": 1991,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.362157,
+                "ci_low": 17.295898,
+                "mean": 17.329526,
+                "n": 1991,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.906939,
+                "ci_low": 0.894137,
+                "mean": 0.900945,
+                "n": 1991,
+                "n_excluded": 0
+              },
+              "share": 0.9955
+            },
+            "cold_start": {
+              "auc": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0,
+                "verdict": "undefined"
+              },
+              "coverage": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "distinct_articles": 0,
+                "mean": NaN,
+                "n": 0
+              },
+              "diversity": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0
+              },
+              "empty_slice": "no impressions fall in this slice on this dataset",
+              "mrr": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0
+              },
+              "n": 0,
+              "ndcg@10": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0
+              },
+              "share": 0.0
+            },
+            "history_long": {
+              "auc": {
+                "ci_high": 0.610214,
+                "ci_low": 0.553759,
+                "mean": 0.582043,
+                "n": 501,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.047883,
+                "ci_low": 0.044797,
+                "distinct_articles": 1115,
+                "mean": 0.053766,
+                "n": 501
+              },
+              "diversity": {
+                "ci_high": 0.179502,
+                "ci_low": 0.177446,
+                "mean": 0.178448,
+                "n": 501,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.400473,
+                "ci_low": 0.346688,
+                "mean": 0.373022,
+                "n": 501,
+                "n_excluded": 0
+              },
+              "n": 501,
+              "ndcg@10": {
+                "ci_high": 0.516431,
+                "ci_low": 0.467644,
+                "mean": 0.491315,
+                "n": 501,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.447924,
+                "ci_low": 0.388033,
+                "mean": 0.417084,
+                "n": 501,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.334037,
+                "ci_low": 17.176758,
+                "mean": 17.259244,
+                "n": 501,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.899813,
+                "ci_low": 0.87095,
+                "mean": 0.885871,
+                "n": 501,
+                "n_excluded": 0
+              },
+              "share": 0.2505
+            },
+            "history_short": {
+              "auc": {
+                "ci_high": 0.628096,
+                "ci_low": 0.573883,
+                "mean": 0.600598,
+                "n": 508,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.046389,
+                "ci_low": 0.04335,
+                "distinct_articles": 1080,
+                "mean": 0.052078,
+                "n": 508
+              },
+              "diversity": {
+                "ci_high": 0.178573,
+                "ci_low": 0.176529,
+                "mean": 0.177491,
+                "n": 508,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.413067,
+                "ci_low": 0.357386,
+                "mean": 0.384073,
+                "n": 508,
+                "n_excluded": 0
+              },
+              "n": 508,
+              "ndcg@10": {
+                "ci_high": 0.518347,
+                "ci_low": 0.465898,
+                "mean": 0.492256,
+                "n": 508,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.459352,
+                "ci_low": 0.39684,
+                "mean": 0.426217,
+                "n": 508,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.427616,
+                "ci_low": 17.311672,
+                "mean": 17.372594,
+                "n": 508,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.919307,
+                "ci_low": 0.895649,
+                "mean": 0.907832,
+                "n": 508,
+                "n_excluded": 0
+              },
+              "share": 0.254
+            },
+            "warm": {
+              "auc": {
+                "ci_high": 0.601274,
+                "ci_low": 0.575117,
+                "mean": 0.589507,
+                "n": 2000,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.067509,
+                "ci_low": 0.064423,
+                "distinct_articles": 1545,
+                "mean": 0.074501,
+                "n": 2000
+              },
+              "diversity": {
+                "ci_high": 0.178738,
+                "ci_low": 0.177726,
+                "mean": 0.178227,
+                "n": 2000,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.385543,
+                "ci_low": 0.360101,
+                "mean": 0.372788,
+                "n": 2000,
+                "n_excluded": 0
+              },
+              "n": 2000,
+              "ndcg@10": {
+                "ci_high": 0.501562,
+                "ci_low": 0.477622,
+                "mean": 0.489747,
+                "n": 2000,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.433148,
+                "ci_low": 0.40405,
+                "mean": 0.419327,
+                "n": 2000,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.354644,
+                "ci_low": 17.288225,
+                "mean": 17.322364,
+                "n": 2000,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.906326,
+                "ci_low": 0.893603,
+                "mean": 0.900203,
+                "n": 2000,
+                "n_excluded": 0
+              },
+              "share": 1.0
+            }
+          }
+        },
+        "nrms_reproduction": {
+          "degenerate_impressions": {},
+          "overall": {
+            "auc": {
+              "ci_high": 0.577151,
+              "ci_low": 0.54864,
+              "delta_vs_baseline": {
+                "ci_high": 0.032425,
+                "ci_low": -0.004842,
+                "established": false,
+                "mean": 0.01261
+              },
+              "mean": 0.563121,
+              "n": 2000,
+              "n_excluded": 0,
+              "verdict": "better_than_random"
+            },
+            "coverage": {
+              "ci_high": 0.067558,
+              "ci_low": 0.064519,
+              "distinct_articles": 1546,
+              "mean": 0.074549,
+              "n": 2000
+            },
+            "diversity": {
+              "ci_high": 0.179371,
+              "ci_low": 0.178357,
+              "mean": 0.17885,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "mrr": {
+              "ci_high": 0.36768,
+              "ci_low": 0.342746,
+              "delta_vs_baseline": {
+                "ci_high": 0.024655,
+                "ci_low": -0.007091,
+                "established": false,
+                "mean": 0.008136
+              },
+              "mean": 0.355634,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "ndcg@10": {
+              "ci_high": 0.485485,
+              "ci_low": 0.461015,
+              "delta_vs_baseline": {
+                "ci_high": 0.020541,
+                "ci_low": -0.00704,
+                "established": false,
+                "mean": 0.005994
+              },
+              "mean": 0.473625,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "ndcg@5": {
+              "ci_high": 0.41101,
+              "ci_low": 0.38294,
+              "delta_vs_baseline": {
+                "ci_high": 0.02909,
+                "ci_low": -0.007326,
+                "established": false,
+                "mean": 0.010143
+              },
+              "mean": 0.396839,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "novelty": {
+              "ci_high": 17.342492,
+              "ci_low": 17.272398,
+              "mean": 17.308356,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "novelty_unseen_fraction": {
+              "ci_high": 0.904026,
+              "ci_low": 0.891211,
+              "mean": 0.897953,
+              "n": 2000,
+              "n_excluded": 0
+            }
+          },
+          "slices": {
+            "article_head": {
+              "auc": {
+                "ci_high": 0.579322,
+                "ci_low": 0.541095,
+                "mean": 0.560209,
+                "n": 1019,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.053428,
+                "ci_low": 0.050776,
+                "distinct_articles": 1229,
+                "mean": 0.059263,
+                "n": 1019
+              },
+              "diversity": {
+                "ci_high": 0.179835,
+                "ci_low": 0.17842,
+                "mean": 0.179127,
+                "n": 1019,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.362123,
+                "ci_low": 0.324449,
+                "mean": 0.343242,
+                "n": 1019,
+                "n_excluded": 0
+              },
+              "n": 1019,
+              "ndcg@10": {
+                "ci_high": 0.47401,
+                "ci_low": 0.438791,
+                "mean": 0.456581,
+                "n": 1019,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.400096,
+                "ci_low": 0.357916,
+                "mean": 0.379657,
+                "n": 1019,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.362583,
+                "ci_low": 17.26783,
+                "mean": 17.318201,
+                "n": 1019,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.908552,
+                "ci_low": 0.890894,
+                "mean": 0.899935,
+                "n": 1019,
+                "n_excluded": 0
+              },
+              "share": 0.5095
+            },
+            "article_head_train": {
+              "auc": {
+                "ci_high": 0.815607,
+                "ci_low": 0.453645,
+                "mean": 0.643419,
+                "n": 9,
+                "n_excluded": 0,
+                "verdict": "indistinguishable_from_random"
+              },
+              "ci_warning": "n=9 is below MIN_TRUSTWORTHY_N=500; the bootstrap interval here is narrower than its nominal 95%",
+              "coverage": {
+                "ci_high": 0.00299,
+                "ci_low": 0.001543,
+                "distinct_articles": 70,
+                "mean": 0.003375,
+                "n": 9
+              },
+              "degenerate_slice": "this slice holds 0.4% of the sample; its complement holds 99.6%. A comparison between the two is not a comparison.",
+              "diversity": {
+                "ci_high": 0.179874,
+                "ci_low": 0.164701,
+                "mean": 0.172292,
+                "n": 9,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.39899,
+                "ci_low": 0.205324,
+                "mean": 0.302189,
+                "n": 9,
+                "n_excluded": 0
+              },
+              "n": 9,
+              "ndcg@10": {
+                "ci_high": 0.550488,
+                "ci_low": 0.251125,
+                "mean": 0.410282,
+                "n": 9,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.550488,
+                "ci_low": 0.251125,
+                "mean": 0.410282,
+                "n": 9,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 16.679305,
+                "ci_low": 14.951541,
+                "mean": 15.806415,
+                "n": 9,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.84784,
+                "ci_low": 0.611615,
+                "mean": 0.724912,
+                "n": 9,
+                "n_excluded": 0
+              },
+              "share": 0.0045
+            },
+            "article_tail": {
+              "auc": {
+                "ci_high": 0.58541,
+                "ci_low": 0.544981,
+                "mean": 0.566147,
+                "n": 981,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.057527,
+                "ci_low": 0.054634,
+                "distinct_articles": 1316,
+                "mean": 0.063458,
+                "n": 981
+              },
+              "diversity": {
+                "ci_high": 0.179335,
+                "ci_low": 0.177793,
+                "mean": 0.178561,
+                "n": 981,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.386615,
+                "ci_low": 0.349275,
+                "mean": 0.368507,
+                "n": 981,
+                "n_excluded": 0
+              },
+              "n": 981,
+              "ndcg@10": {
+                "ci_high": 0.506978,
+                "ci_low": 0.474021,
+                "mean": 0.49133,
+                "n": 981,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.435032,
+                "ci_low": 0.393717,
+                "mean": 0.414686,
+                "n": 981,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.353358,
+                "ci_low": 17.24281,
+                "mean": 17.29813,
+                "n": 981,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.905516,
+                "ci_low": 0.885477,
+                "mean": 0.895893,
+                "n": 981,
+                "n_excluded": 0
+              },
+              "share": 0.4905
+            },
+            "article_tail_train": {
+              "auc": {
+                "ci_high": 0.576857,
+                "ci_low": 0.54891,
+                "mean": 0.562759,
+                "n": 1991,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.067268,
+                "ci_low": 0.064182,
+                "distinct_articles": 1539,
+                "mean": 0.074212,
+                "n": 1991
+              },
+              "degenerate_slice": "this slice holds 99.6% of the sample; its complement holds 0.4%. A comparison between the two is not a comparison.",
+              "diversity": {
+                "ci_high": 0.179367,
+                "ci_low": 0.178397,
+                "mean": 0.178879,
+                "n": 1991,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.369746,
+                "ci_low": 0.342097,
+                "mean": 0.355876,
+                "n": 1991,
+                "n_excluded": 0
+              },
+              "n": 1991,
+              "ndcg@10": {
+                "ci_high": 0.485759,
+                "ci_low": 0.461086,
+                "mean": 0.473912,
+                "n": 1991,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.411513,
+                "ci_low": 0.380143,
+                "mean": 0.396778,
+                "n": 1991,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.349939,
+                "ci_low": 17.280166,
+                "mean": 17.315145,
+                "n": 1991,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.904554,
+                "ci_low": 0.892039,
+                "mean": 0.898735,
+                "n": 1991,
+                "n_excluded": 0
+              },
+              "share": 0.9955
+            },
+            "cold_start": {
+              "auc": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0,
+                "verdict": "undefined"
+              },
+              "coverage": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "distinct_articles": 0,
+                "mean": NaN,
+                "n": 0
+              },
+              "diversity": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0
+              },
+              "empty_slice": "no impressions fall in this slice on this dataset",
+              "mrr": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0
+              },
+              "n": 0,
+              "ndcg@10": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0
+              },
+              "share": 0.0
+            },
+            "history_long": {
+              "auc": {
+                "ci_high": 0.59219,
+                "ci_low": 0.536091,
+                "mean": 0.564831,
+                "n": 501,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.047497,
+                "ci_low": 0.044555,
+                "distinct_articles": 1110,
+                "mean": 0.053525,
+                "n": 501
+              },
+              "diversity": {
+                "ci_high": 0.179997,
+                "ci_low": 0.177924,
+                "mean": 0.178967,
+                "n": 501,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.386701,
+                "ci_low": 0.335467,
+                "mean": 0.360042,
+                "n": 501,
+                "n_excluded": 0
+              },
+              "n": 501,
+              "ndcg@10": {
+                "ci_high": 0.50576,
+                "ci_low": 0.457006,
+                "mean": 0.480708,
+                "n": 501,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.4294,
+                "ci_low": 0.36975,
+                "mean": 0.400247,
+                "n": 501,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.334972,
+                "ci_low": 17.176796,
+                "mean": 17.257186,
+                "n": 501,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.899216,
+                "ci_low": 0.871046,
+                "mean": 0.885472,
+                "n": 501,
+                "n_excluded": 0
+              },
+              "share": 0.2505
+            },
+            "history_short": {
+              "auc": {
+                "ci_high": 0.604044,
+                "ci_low": 0.54882,
+                "mean": 0.576396,
+                "n": 508,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.046533,
+                "ci_low": 0.043638,
+                "distinct_articles": 1086,
+                "mean": 0.052368,
+                "n": 508
+              },
+              "diversity": {
+                "ci_high": 0.179284,
+                "ci_low": 0.17729,
+                "mean": 0.178256,
+                "n": 508,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.386881,
+                "ci_low": 0.33268,
+                "mean": 0.360291,
+                "n": 508,
+                "n_excluded": 0
+              },
+              "n": 508,
+              "ndcg@10": {
+                "ci_high": 0.501958,
+                "ci_low": 0.4531,
+                "mean": 0.477774,
+                "n": 508,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.430495,
+                "ci_low": 0.369633,
+                "mean": 0.40112,
+                "n": 508,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.408701,
+                "ci_low": 17.288622,
+                "mean": 17.350144,
+                "n": 508,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.916788,
+                "ci_low": 0.892894,
+                "mean": 0.905076,
+                "n": 508,
+                "n_excluded": 0
+              },
+              "share": 0.254
+            },
+            "warm": {
+              "auc": {
+                "ci_high": 0.577151,
+                "ci_low": 0.54864,
+                "mean": 0.563121,
+                "n": 2000,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.067558,
+                "ci_low": 0.064519,
+                "distinct_articles": 1546,
+                "mean": 0.074549,
+                "n": 2000
+              },
+              "diversity": {
+                "ci_high": 0.179371,
+                "ci_low": 0.178357,
+                "mean": 0.17885,
+                "n": 2000,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.36768,
+                "ci_low": 0.342746,
+                "mean": 0.355634,
+                "n": 2000,
+                "n_excluded": 0
+              },
+              "n": 2000,
+              "ndcg@10": {
+                "ci_high": 0.485485,
+                "ci_low": 0.461015,
+                "mean": 0.473625,
+                "n": 2000,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.41101,
+                "ci_low": 0.38294,
+                "mean": 0.396839,
+                "n": 2000,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.342492,
+                "ci_low": 17.272398,
+                "mean": 17.308356,
+                "n": 2000,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.904026,
+                "ci_low": 0.891211,
+                "mean": 0.897953,
+                "n": 2000,
+                "n_excluded": 0
+              },
+              "share": 1.0
+            }
+          }
+        },
+        "retrieval_only_baseline": {
+          "degenerate_impressions": {},
+          "overall": {
+            "auc": {
+              "ci_high": 0.564597,
+              "ci_low": 0.535714,
+              "mean": 0.550512,
+              "n": 2000,
+              "n_excluded": 0,
+              "verdict": "better_than_random"
+            },
+            "coverage": {
+              "ci_high": 0.068039,
+              "ci_low": 0.065001,
+              "distinct_articles": 1554,
+              "mean": 0.074935,
+              "n": 2000
+            },
+            "diversity": {
+              "ci_high": 0.174503,
+              "ci_low": 0.173303,
+              "mean": 0.173906,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "mrr": {
+              "ci_high": 0.360398,
+              "ci_low": 0.334404,
+              "mean": 0.347499,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "ndcg@10": {
+              "ci_high": 0.479953,
+              "ci_low": 0.455447,
+              "mean": 0.467631,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "ndcg@5": {
+              "ci_high": 0.400873,
+              "ci_low": 0.371488,
+              "mean": 0.386696,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "novelty": {
+              "ci_high": 17.316702,
+              "ci_low": 17.250268,
+              "mean": 17.283967,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "novelty_unseen_fraction": {
+              "ci_high": 0.895817,
+              "ci_low": 0.882601,
+              "mean": 0.889503,
+              "n": 2000,
+              "n_excluded": 0
+            }
+          },
+          "slices": {
+            "article_head": {
+              "auc": {
+                "ci_high": 0.570142,
+                "ci_low": 0.531086,
+                "mean": 0.55015,
+                "n": 1019,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.053573,
+                "ci_low": 0.051017,
+                "distinct_articles": 1234,
+                "mean": 0.059504,
+                "n": 1019
+              },
+              "diversity": {
+                "ci_high": 0.174471,
+                "ci_low": 0.172733,
+                "mean": 0.173593,
+                "n": 1019,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.351269,
+                "ci_low": 0.315924,
+                "mean": 0.333929,
+                "n": 1019,
+                "n_excluded": 0
+              },
+              "n": 1019,
+              "ndcg@10": {
+                "ci_high": 0.469303,
+                "ci_low": 0.435955,
+                "mean": 0.452514,
+                "n": 1019,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.390942,
+                "ci_low": 0.349566,
+                "mean": 0.369716,
+                "n": 1019,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.330011,
+                "ci_low": 17.237802,
+                "mean": 17.286059,
+                "n": 1019,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.89881,
+                "ci_low": 0.881199,
+                "mean": 0.89022,
+                "n": 1019,
+                "n_excluded": 0
+              },
+              "share": 0.5095
+            },
+            "article_head_train": {
+              "auc": {
+                "ci_high": 0.730165,
+                "ci_low": 0.374026,
+                "mean": 0.547004,
+                "n": 9,
+                "n_excluded": 0,
+                "verdict": "indistinguishable_from_random"
+              },
+              "ci_warning": "n=9 is below MIN_TRUSTWORTHY_N=500; the bootstrap interval here is narrower than its nominal 95%",
+              "coverage": {
+                "ci_high": 0.003183,
+                "ci_low": 0.001591,
+                "distinct_articles": 75,
+                "mean": 0.003617,
+                "n": 9
+              },
+              "degenerate_slice": "this slice holds 0.4% of the sample; its complement holds 99.6%. A comparison between the two is not a comparison.",
+              "diversity": {
+                "ci_high": 0.174812,
+                "ci_low": 0.15727,
+                "mean": 0.165659,
+                "n": 9,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.611111,
+                "ci_low": 0.117569,
+                "mean": 0.321296,
+                "n": 9,
+                "n_excluded": 0
+              },
+              "n": 9,
+              "ndcg@10": {
+                "ci_high": 0.666904,
+                "ci_low": 0.250142,
+                "mean": 0.440246,
+                "n": 9,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.555556,
+                "ci_low": 0.0,
+                "mean": 0.222222,
+                "n": 9,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 16.072258,
+                "ci_low": 14.811379,
+                "mean": 15.424877,
+                "n": 9,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.758341,
+                "ci_low": 0.546729,
+                "mean": 0.658245,
+                "n": 9,
+                "n_excluded": 0
+              },
+              "share": 0.0045
+            },
+            "article_tail": {
+              "auc": {
+                "ci_high": 0.570154,
+                "ci_low": 0.530096,
+                "mean": 0.550887,
+                "n": 981,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.058059,
+                "ci_low": 0.055163,
+                "distinct_articles": 1331,
+                "mean": 0.064182,
+                "n": 981
+              },
+              "diversity": {
+                "ci_high": 0.175051,
+                "ci_low": 0.173372,
+                "mean": 0.17423,
+                "n": 981,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.378854,
+                "ci_low": 0.341634,
+                "mean": 0.361593,
+                "n": 981,
+                "n_excluded": 0
+              },
+              "n": 981,
+              "ndcg@10": {
+                "ci_high": 0.499048,
+                "ci_low": 0.465766,
+                "mean": 0.483334,
+                "n": 981,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.423655,
+                "ci_low": 0.382987,
+                "mean": 0.404334,
+                "n": 981,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.335065,
+                "ci_low": 17.226897,
+                "mean": 17.281795,
+                "n": 981,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.898272,
+                "ci_low": 0.878731,
+                "mean": 0.888758,
+                "n": 981,
+                "n_excluded": 0
+              },
+              "share": 0.4905
+            },
+            "article_tail_train": {
+              "auc": {
+                "ci_high": 0.56344,
+                "ci_low": 0.535638,
+                "mean": 0.550528,
+                "n": 1991,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.067654,
+                "ci_low": 0.064614,
+                "distinct_articles": 1547,
+                "mean": 0.074597,
+                "n": 1991
+              },
+              "degenerate_slice": "this slice holds 99.6% of the sample; its complement holds 0.4%. A comparison between the two is not a comparison.",
+              "diversity": {
+                "ci_high": 0.174574,
+                "ci_low": 0.173348,
+                "mean": 0.173943,
+                "n": 1991,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.35946,
+                "ci_low": 0.33441,
+                "mean": 0.347617,
+                "n": 1991,
+                "n_excluded": 0
+              },
+              "n": 1991,
+              "ndcg@10": {
+                "ci_high": 0.478512,
+                "ci_low": 0.455059,
+                "mean": 0.467755,
+                "n": 1991,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.401284,
+                "ci_low": 0.37209,
+                "mean": 0.387439,
+                "n": 1991,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.324988,
+                "ci_low": 17.256268,
+                "mean": 17.292371,
+                "n": 1991,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.896644,
+                "ci_low": 0.883833,
+                "mean": 0.890548,
+                "n": 1991,
+                "n_excluded": 0
+              },
+              "share": 0.9955
+            },
+            "cold_start": {
+              "auc": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0,
+                "verdict": "undefined"
+              },
+              "coverage": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "distinct_articles": 0,
+                "mean": NaN,
+                "n": 0
+              },
+              "diversity": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0
+              },
+              "empty_slice": "no impressions fall in this slice on this dataset",
+              "mrr": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0
+              },
+              "n": 0,
+              "ndcg@10": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": NaN,
+                "ci_low": NaN,
+                "mean": NaN,
+                "n": 0,
+                "n_excluded": 0
+              },
+              "share": 0.0
+            },
+            "history_long": {
+              "auc": {
+                "ci_high": 0.582559,
+                "ci_low": 0.527718,
+                "mean": 0.555846,
+                "n": 501,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.047449,
+                "ci_low": 0.044556,
+                "distinct_articles": 1111,
+                "mean": 0.053573,
+                "n": 501
+              },
+              "diversity": {
+                "ci_high": 0.175917,
+                "ci_low": 0.173412,
+                "mean": 0.174626,
+                "n": 501,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.382989,
+                "ci_low": 0.329243,
+                "mean": 0.356454,
+                "n": 501,
+                "n_excluded": 0
+              },
+              "n": 501,
+              "ndcg@10": {
+                "ci_high": 0.500186,
+                "ci_low": 0.450459,
+                "mean": 0.475931,
+                "n": 501,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.42728,
+                "ci_low": 0.364926,
+                "mean": 0.396867,
+                "n": 501,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.316283,
+                "ci_low": 17.162646,
+                "mean": 17.24043,
+                "n": 501,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.892356,
+                "ci_low": 0.864155,
+                "mean": 0.878486,
+                "n": 501,
+                "n_excluded": 0
+              },
+              "share": 0.2505
+            },
+            "history_short": {
+              "auc": {
+                "ci_high": 0.606295,
+                "ci_low": 0.55203,
+                "mean": 0.578809,
+                "n": 508,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.046485,
+                "ci_low": 0.043591,
+                "distinct_articles": 1083,
+                "mean": 0.052223,
+                "n": 508
+              },
+              "diversity": {
+                "ci_high": 0.174087,
+                "ci_low": 0.171663,
+                "mean": 0.172911,
+                "n": 508,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.398556,
+                "ci_low": 0.345732,
+                "mean": 0.371227,
+                "n": 508,
+                "n_excluded": 0
+              },
+              "n": 508,
+              "ndcg@10": {
+                "ci_high": 0.508257,
+                "ci_low": 0.459512,
+                "mean": 0.483642,
+                "n": 508,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.444549,
+                "ci_low": 0.385763,
+                "mean": 0.41442,
+                "n": 508,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.373871,
+                "ci_low": 17.254749,
+                "mean": 17.316235,
+                "n": 508,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.905464,
+                "ci_low": 0.881027,
+                "mean": 0.893855,
+                "n": 508,
+                "n_excluded": 0
+              },
+              "share": 0.254
+            },
+            "warm": {
+              "auc": {
+                "ci_high": 0.564597,
+                "ci_low": 0.535714,
+                "mean": 0.550512,
+                "n": 2000,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.068039,
+                "ci_low": 0.065001,
+                "distinct_articles": 1554,
+                "mean": 0.074935,
+                "n": 2000
+              },
+              "diversity": {
+                "ci_high": 0.174503,
+                "ci_low": 0.173303,
+                "mean": 0.173906,
+                "n": 2000,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.360398,
+                "ci_low": 0.334404,
+                "mean": 0.347499,
+                "n": 2000,
+                "n_excluded": 0
+              },
+              "n": 2000,
+              "ndcg@10": {
+                "ci_high": 0.479953,
+                "ci_low": 0.455447,
+                "mean": 0.467631,
+                "n": 2000,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.400873,
+                "ci_low": 0.371488,
+                "mean": 0.386696,
+                "n": 2000,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.316702,
+                "ci_low": 17.250268,
+                "mean": 17.283967,
+                "n": 2000,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.895817,
+                "ci_low": 0.882601,
+                "mean": 0.889503,
+                "n": 2000,
+                "n_excluded": 0
+              },
+              "share": 1.0
+            }
+          }
+        }
+      }
+    },
+    "mind_small": {
+      "baseline_score_column": "semantic_score",
+      "catalogue_articles": 65238,
+      "dataset": "mind_small",
+      "impression_set_fingerprint": "bf8eb9407bd482dc",
+      "impressions_evaluated": 2000,
+      "language": "en",
+      "variants": {
+        "nrms_category_aware": {
+          "degenerate_impressions": {},
+          "overall": {
+            "auc": {
+              "ci_high": 0.627064,
+              "ci_low": 0.602321,
+              "delta_vs_baseline": {
+                "ci_high": 0.033376,
+                "ci_low": -0.000551,
+                "established": false,
+                "mean": 0.015947
+              },
+              "mean": 0.614494,
+              "n": 2000,
+              "n_excluded": 0,
+              "verdict": "better_than_random"
+            },
+            "coverage": {
+              "ci_high": 0.012493,
+              "ci_low": 0.011558,
+              "distinct_articles": 951,
+              "mean": 0.014577,
+              "n": 2000
+            },
+            "diversity": {
+              "ci_high": 0.238066,
+              "ci_low": 0.23713,
+              "mean": 0.237591,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "mrr": {
+              "ci_high": 0.337947,
+              "ci_low": 0.3103,
+              "delta_vs_baseline": {
+                "ci_high": 0.020074,
+                "ci_low": -0.010638,
+                "established": false,
+                "mean": 0.005265
+              },
+              "mean": 0.323958,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "ndcg@10": {
+              "ci_high": 0.381554,
+              "ci_low": 0.354032,
+              "delta_vs_baseline": {
+                "ci_high": 0.02062,
+                "ci_low": -0.006134,
+                "established": false,
+                "mean": 0.007777
+              },
+              "mean": 0.367516,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "ndcg@5": {
+              "ci_high": 0.313886,
+              "ci_low": 0.284481,
+              "delta_vs_baseline": {
+                "ci_high": 0.010523,
+                "ci_low": -0.02023,
+                "established": false,
+                "mean": -0.004257
+              },
+              "mean": 0.29962,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "novelty": {
+              "ci_high": 17.633876,
+              "ci_low": 17.589951,
+              "mean": 17.612605,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "novelty_unseen_fraction": {
+              "ci_high": 0.924628,
+              "ci_low": 0.915038,
+              "mean": 0.919925,
+              "n": 2000,
+              "n_excluded": 0
+            }
+          },
+          "slices": {
+            "article_head": {
+              "auc": {
+                "ci_high": 0.648744,
+                "ci_low": 0.61563,
+                "mean": 0.632318,
+                "n": 1194,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.007511,
+                "ci_low": 0.006775,
+                "distinct_articles": 575,
+                "mean": 0.008814,
+                "n": 1194
+              },
+              "diversity": {
+                "ci_high": 0.239996,
+                "ci_low": 0.238968,
+                "mean": 0.239482,
+                "n": 1194,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.422586,
+                "ci_low": 0.38431,
+                "mean": 0.403617,
+                "n": 1194,
+                "n_excluded": 0
+              },
+              "n": 1194,
+              "ndcg@10": {
+                "ci_high": 0.470853,
+                "ci_low": 0.435486,
+                "mean": 0.453717,
+                "n": 1194,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.405294,
+                "ci_low": 0.365169,
+                "mean": 0.385336,
+                "n": 1194,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.639476,
+                "ci_low": 17.582128,
+                "mean": 17.612722,
+                "n": 1194,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.923195,
+                "ci_low": 0.910082,
+                "mean": 0.916919,
+                "n": 1194,
+                "n_excluded": 0
+              },
+              "share": 0.597
+            },
+            "article_head_train": {
+              "auc": {
+                "ci_high": 0.866111,
+                "ci_low": 0.572571,
+                "mean": 0.726126,
+                "n": 8,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "ci_warning": "n=8 is below MIN_TRUSTWORTHY_N=500; the bootstrap interval here is narrower than its nominal 95%",
+              "coverage": {
+                "ci_high": 0.000858,
+                "ci_low": 0.000445,
+                "distinct_articles": 61,
+                "mean": 0.000935,
+                "n": 8
+              },
+              "degenerate_slice": "this slice holds 0.4% of the sample; its complement holds 99.6%. A comparison between the two is not a comparison.",
+              "diversity": {
+                "ci_high": 0.236386,
+                "ci_low": 0.213505,
+                "mean": 0.226198,
+                "n": 8,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.437895,
+                "ci_low": 0.080492,
+                "mean": 0.212121,
+                "n": 8,
+                "n_excluded": 0
+              },
+              "n": 8,
+              "ndcg@10": {
+                "ci_high": 0.46717,
+                "ci_low": 0.112886,
+                "mean": 0.274662,
+                "n": 8,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.328956,
+                "ci_low": 0.0,
+                "mean": 0.109652,
+                "n": 8,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.345682,
+                "ci_low": 16.628094,
+                "mean": 16.964657,
+                "n": 8,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.9125,
+                "ci_low": 0.7375,
+                "mean": 0.8375,
+                "n": 8,
+                "n_excluded": 0
+              },
+              "share": 0.004
+            },
+            "article_tail": {
+              "auc": {
+                "ci_high": 0.606657,
+                "ci_low": 0.56916,
+                "mean": 0.58809,
+                "n": 806,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.010607,
+                "ci_low": 0.009703,
+                "distinct_articles": 814,
+                "mean": 0.012477,
+                "n": 806
+              },
+              "diversity": {
+                "ci_high": 0.235601,
+                "ci_low": 0.234068,
+                "mean": 0.234788,
+                "n": 806,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.223977,
+                "ci_low": 0.187561,
+                "mean": 0.205953,
+                "n": 806,
+                "n_excluded": 0
+              },
+              "n": 806,
+              "ndcg@10": {
+                "ci_high": 0.260143,
+                "ci_low": 0.219597,
+                "mean": 0.239819,
+                "n": 806,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.193286,
+                "ci_low": 0.151967,
+                "mean": 0.172641,
+                "n": 806,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.645475,
+                "ci_low": 17.579063,
+                "mean": 17.612433,
+                "n": 806,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.931318,
+                "ci_low": 0.917056,
+                "mean": 0.924378,
+                "n": 806,
+                "n_excluded": 0
+              },
+              "share": 0.403
+            },
+            "article_tail_train": {
+              "auc": {
+                "ci_high": 0.62747,
+                "ci_low": 0.601313,
+                "mean": 0.614046,
+                "n": 1992,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.012462,
+                "ci_low": 0.011588,
+                "distinct_articles": 946,
+                "mean": 0.014501,
+                "n": 1992
+              },
+              "degenerate_slice": "this slice holds 99.6% of the sample; its complement holds 0.4%. A comparison between the two is not a comparison.",
+              "diversity": {
+                "ci_high": 0.238088,
+                "ci_low": 0.237164,
+                "mean": 0.237636,
+                "n": 1992,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.338936,
+                "ci_low": 0.310465,
+                "mean": 0.324408,
+                "n": 1992,
+                "n_excluded": 0
+              },
+              "n": 1992,
+              "ndcg@10": {
+                "ci_high": 0.383018,
+                "ci_low": 0.354229,
+                "mean": 0.367889,
+                "n": 1992,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.31654,
+                "ci_low": 0.285381,
+                "mean": 0.300383,
+                "n": 1992,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.637771,
+                "ci_low": 17.592035,
+                "mean": 17.615208,
+                "n": 1992,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.925322,
+                "ci_low": 0.91522,
+                "mean": 0.920256,
+                "n": 1992,
+                "n_excluded": 0
+              },
+              "share": 0.996
+            },
+            "cold_start": {
+              "auc": {
+                "ci_high": 0.608863,
+                "ci_low": 0.464491,
+                "mean": 0.534867,
+                "n": 62,
+                "n_excluded": 0,
+                "verdict": "indistinguishable_from_random"
+              },
+              "ci_warning": "n=62 is below MIN_TRUSTWORTHY_N=500; the bootstrap interval here is narrower than its nominal 95%",
+              "coverage": {
+                "ci_high": 0.001794,
+                "ci_low": 0.001349,
+                "distinct_articles": 128,
+                "mean": 0.001962,
+                "n": 62
+              },
+              "degenerate_slice": "this slice holds 3.1% of the sample; its complement holds 96.9%. A comparison between the two is not a comparison.",
+              "diversity": {
+                "ci_high": 0.244246,
+                "ci_low": 0.239495,
+                "mean": 0.241589,
+                "n": 62,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.427437,
+                "ci_low": 0.267119,
+                "mean": 0.346307,
+                "n": 62,
+                "n_excluded": 0
+              },
+              "n": 62,
+              "ndcg@10": {
+                "ci_high": 0.472045,
+                "ci_low": 0.318254,
+                "mean": 0.390784,
+                "n": 62,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.416094,
+                "ci_low": 0.239573,
+                "mean": 0.325506,
+                "n": 62,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.723253,
+                "ci_low": 17.475565,
+                "mean": 17.605052,
+                "n": 62,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.937673,
+                "ci_low": 0.874859,
+                "mean": 0.909217,
+                "n": 62,
+                "n_excluded": 0
+              },
+              "share": 0.031
+            },
+            "history_long": {
+              "auc": {
+                "ci_high": 0.636086,
+                "ci_low": 0.589032,
+                "mean": 0.612684,
+                "n": 500,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.006882,
+                "ci_low": 0.006101,
+                "distinct_articles": 517,
+                "mean": 0.007925,
+                "n": 500
+              },
+              "diversity": {
+                "ci_high": 0.237458,
+                "ci_low": 0.235617,
+                "mean": 0.236493,
+                "n": 500,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.352485,
+                "ci_low": 0.296661,
+                "mean": 0.32399,
+                "n": 500,
+                "n_excluded": 0
+              },
+              "n": 500,
+              "ndcg@10": {
+                "ci_high": 0.374692,
+                "ci_low": 0.32277,
+                "mean": 0.347599,
+                "n": 500,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.299187,
+                "ci_low": 0.244432,
+                "mean": 0.271327,
+                "n": 500,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.686524,
+                "ci_low": 17.601451,
+                "mean": 17.645334,
+                "n": 500,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.938501,
+                "ci_low": 0.920437,
+                "mean": 0.929871,
+                "n": 500,
+                "n_excluded": 0
+              },
+              "share": 0.25
+            },
+            "history_short": {
+              "auc": {
+                "ci_high": 0.630781,
+                "ci_low": 0.577616,
+                "mean": 0.604788,
+                "n": 511,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.006392,
+                "ci_low": 0.005549,
+                "distinct_articles": 483,
+                "mean": 0.007404,
+                "n": 511
+              },
+              "diversity": {
+                "ci_high": 0.239378,
+                "ci_low": 0.237503,
+                "mean": 0.238442,
+                "n": 511,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.358199,
+                "ci_low": 0.30055,
+                "mean": 0.331288,
+                "n": 511,
+                "n_excluded": 0
+              },
+              "n": 511,
+              "ndcg@10": {
+                "ci_high": 0.417185,
+                "ci_low": 0.360177,
+                "mean": 0.390392,
+                "n": 511,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.350942,
+                "ci_low": 0.288591,
+                "mean": 0.320901,
+                "n": 511,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.649169,
+                "ci_low": 17.564158,
+                "mean": 17.604018,
+                "n": 511,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.924686,
+                "ci_low": 0.905175,
+                "mean": 0.914282,
+                "n": 511,
+                "n_excluded": 0
+              },
+              "share": 0.2555
+            },
+            "warm": {
+              "auc": {
+                "ci_high": 0.629329,
+                "ci_low": 0.605059,
+                "mean": 0.617041,
+                "n": 1938,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.012493,
+                "ci_low": 0.011604,
+                "distinct_articles": 951,
+                "mean": 0.014577,
+                "n": 1938
+              },
+              "degenerate_slice": "this slice holds 96.9% of the sample; its complement holds 3.1%. A comparison between the two is not a comparison.",
+              "diversity": {
+                "ci_high": 0.237917,
+                "ci_low": 0.236968,
+                "mean": 0.237463,
+                "n": 1938,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.338224,
+                "ci_low": 0.308471,
+                "mean": 0.323243,
+                "n": 1938,
+                "n_excluded": 0
+              },
+              "n": 1938,
+              "ndcg@10": {
+                "ci_high": 0.381405,
+                "ci_low": 0.353199,
+                "mean": 0.366771,
+                "n": 1938,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.314099,
+                "ci_low": 0.2835,
+                "mean": 0.298792,
+                "n": 1938,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.63471,
+                "ci_low": 17.588756,
+                "mean": 17.612847,
+                "n": 1938,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.925085,
+                "ci_low": 0.914812,
+                "mean": 0.920267,
+                "n": 1938,
+                "n_excluded": 0
+              },
+              "share": 0.969
+            }
+          }
+        },
+        "nrms_reproduction": {
+          "degenerate_impressions": {},
+          "overall": {
+            "auc": {
+              "ci_high": 0.613504,
+              "ci_low": 0.588658,
+              "delta_vs_baseline": {
+                "ci_high": 0.019247,
+                "ci_low": -0.014836,
+                "established": false,
+                "mean": 0.002214
+              },
+              "mean": 0.600761,
+              "n": 2000,
+              "n_excluded": 0,
+              "verdict": "better_than_random"
+            },
+            "coverage": {
+              "ci_high": 0.011282,
+              "ci_low": 0.010377,
+              "distinct_articles": 862,
+              "mean": 0.013213,
+              "n": 2000
+            },
+            "diversity": {
+              "ci_high": 0.238517,
+              "ci_low": 0.237687,
+              "mean": 0.238103,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "mrr": {
+              "ci_high": 0.332921,
+              "ci_low": 0.306305,
+              "delta_vs_baseline": {
+                "ci_high": 0.017356,
+                "ci_low": -0.014483,
+                "established": false,
+                "mean": 0.001309
+              },
+              "mean": 0.320003,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "ndcg@10": {
+              "ci_high": 0.377362,
+              "ci_low": 0.351164,
+              "delta_vs_baseline": {
+                "ci_high": 0.018718,
+                "ci_low": -0.009267,
+                "established": false,
+                "mean": 0.004801
+              },
+              "mean": 0.36454,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "ndcg@5": {
+              "ci_high": 0.316746,
+              "ci_low": 0.28819,
+              "delta_vs_baseline": {
+                "ci_high": 0.014321,
+                "ci_low": -0.016772,
+                "established": false,
+                "mean": -0.00113
+              },
+              "mean": 0.302747,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "novelty": {
+              "ci_high": 17.716277,
+              "ci_low": 17.677979,
+              "mean": 17.698162,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "novelty_unseen_fraction": {
+              "ci_high": 0.941762,
+              "ci_low": 0.932634,
+              "mean": 0.937325,
+              "n": 2000,
+              "n_excluded": 0
+            }
+          },
+          "slices": {
+            "article_head": {
+              "auc": {
+                "ci_high": 0.633395,
+                "ci_low": 0.597534,
+                "mean": 0.615464,
+                "n": 1194,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.006591,
+                "ci_low": 0.005871,
+                "distinct_articles": 507,
+                "mean": 0.007772,
+                "n": 1194
+              },
+              "diversity": {
+                "ci_high": 0.240044,
+                "ci_low": 0.239029,
+                "mean": 0.239526,
+                "n": 1194,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.415404,
+                "ci_low": 0.380881,
+                "mean": 0.399241,
+                "n": 1194,
+                "n_excluded": 0
+              },
+              "n": 1194,
+              "ndcg@10": {
+                "ci_high": 0.46861,
+                "ci_low": 0.435868,
+                "mean": 0.452766,
+                "n": 1194,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.410802,
+                "ci_low": 0.374373,
+                "mean": 0.393017,
+                "n": 1194,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.709005,
+                "ci_low": 17.657182,
+                "mean": 17.684609,
+                "n": 1194,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.936731,
+                "ci_low": 0.923604,
+                "mean": 0.93057,
+                "n": 1194,
+                "n_excluded": 0
+              },
+              "share": 0.597
+            },
+            "article_head_train": {
+              "auc": {
+                "ci_high": 0.843178,
+                "ci_low": 0.606177,
+                "mean": 0.724063,
+                "n": 8,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "ci_warning": "n=8 is below MIN_TRUSTWORTHY_N=500; the bootstrap interval here is narrower than its nominal 95%",
+              "coverage": {
+                "ci_high": 0.000812,
+                "ci_low": 0.000429,
+                "distinct_articles": 57,
+                "mean": 0.000874,
+                "n": 8
+              },
+              "degenerate_slice": "this slice holds 0.4% of the sample; its complement holds 99.6%. A comparison between the two is not a comparison.",
+              "diversity": {
+                "ci_high": 0.239483,
+                "ci_low": 0.230509,
+                "mean": 0.235349,
+                "n": 8,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.261713,
+                "ci_low": 0.088613,
+                "mean": 0.16085,
+                "n": 8,
+                "n_excluded": 0
+              },
+              "n": 8,
+              "ndcg@10": {
+                "ci_high": 0.366817,
+                "ci_low": 0.096713,
+                "mean": 0.225735,
+                "n": 8,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.193426,
+                "ci_low": 0.0,
+                "mean": 0.096713,
+                "n": 8,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.469367,
+                "ci_low": 16.670794,
+                "mean": 17.075743,
+                "n": 8,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.9375,
+                "ci_low": 0.7875,
+                "mean": 0.875,
+                "n": 8,
+                "n_excluded": 0
+              },
+              "share": 0.004
+            },
+            "article_tail": {
+              "auc": {
+                "ci_high": 0.596576,
+                "ci_low": 0.559757,
+                "mean": 0.57898,
+                "n": 806,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.009596,
+                "ci_low": 0.008783,
+                "distinct_articles": 734,
+                "mean": 0.011251,
+                "n": 806
+              },
+              "diversity": {
+                "ci_high": 0.236693,
+                "ci_low": 0.23533,
+                "mean": 0.235993,
+                "n": 806,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.2209,
+                "ci_low": 0.18313,
+                "mean": 0.202621,
+                "n": 806,
+                "n_excluded": 0
+              },
+              "n": 806,
+              "ndcg@10": {
+                "ci_high": 0.252863,
+                "ci_low": 0.213489,
+                "mean": 0.233843,
+                "n": 806,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.190337,
+                "ci_low": 0.148561,
+                "mean": 0.169022,
+                "n": 806,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.746701,
+                "ci_low": 17.689575,
+                "mean": 17.718239,
+                "n": 806,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.953116,
+                "ci_low": 0.941771,
+                "mean": 0.947331,
+                "n": 806,
+                "n_excluded": 0
+              },
+              "share": 0.403
+            },
+            "article_tail_train": {
+              "auc": {
+                "ci_high": 0.612884,
+                "ci_low": 0.587228,
+                "mean": 0.600266,
+                "n": 1992,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.011266,
+                "ci_low": 0.010346,
+                "distinct_articles": 858,
+                "mean": 0.013152,
+                "n": 1992
+              },
+              "degenerate_slice": "this slice holds 99.6% of the sample; its complement holds 0.4%. A comparison between the two is not a comparison.",
+              "diversity": {
+                "ci_high": 0.238561,
+                "ci_low": 0.237694,
+                "mean": 0.238114,
+                "n": 1992,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.334927,
+                "ci_low": 0.306821,
+                "mean": 0.320642,
+                "n": 1992,
+                "n_excluded": 0
+              },
+              "n": 1992,
+              "ndcg@10": {
+                "ci_high": 0.379355,
+                "ci_low": 0.350976,
+                "mean": 0.365098,
+                "n": 1992,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.3182,
+                "ci_low": 0.289919,
+                "mean": 0.303575,
+                "n": 1992,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.71863,
+                "ci_low": 17.68166,
+                "mean": 17.700661,
+                "n": 1992,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.941973,
+                "ci_low": 0.932784,
+                "mean": 0.937575,
+                "n": 1992,
+                "n_excluded": 0
+              },
+              "share": 0.996
+            },
+            "cold_start": {
+              "auc": {
+                "ci_high": 0.563087,
+                "ci_low": 0.412251,
+                "mean": 0.488667,
+                "n": 62,
+                "n_excluded": 0,
+                "verdict": "indistinguishable_from_random"
+              },
+              "ci_warning": "n=62 is below MIN_TRUSTWORTHY_N=500; the bootstrap interval here is narrower than its nominal 95%",
+              "coverage": {
+                "ci_high": 0.001809,
+                "ci_low": 0.001364,
+                "distinct_articles": 130,
+                "mean": 0.001993,
+                "n": 62
+              },
+              "degenerate_slice": "this slice holds 3.1% of the sample; its complement holds 96.9%. A comparison between the two is not a comparison.",
+              "diversity": {
+                "ci_high": 0.243973,
+                "ci_low": 0.238951,
+                "mean": 0.241303,
+                "n": 62,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.347741,
+                "ci_low": 0.226589,
+                "mean": 0.282254,
+                "n": 62,
+                "n_excluded": 0
+              },
+              "n": 62,
+              "ndcg@10": {
+                "ci_high": 0.419299,
+                "ci_low": 0.273724,
+                "mean": 0.34545,
+                "n": 62,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.383688,
+                "ci_low": 0.22618,
+                "mean": 0.301474,
+                "n": 62,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.795111,
+                "ci_low": 17.555637,
+                "mean": 17.682559,
+                "n": 62,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.958183,
+                "ci_low": 0.897696,
+                "mean": 0.930184,
+                "n": 62,
+                "n_excluded": 0
+              },
+              "share": 0.031
+            },
+            "history_long": {
+              "auc": {
+                "ci_high": 0.626368,
+                "ci_low": 0.581331,
+                "mean": 0.604183,
+                "n": 500,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.005947,
+                "ci_low": 0.005303,
+                "distinct_articles": 450,
+                "mean": 0.006898,
+                "n": 500
+              },
+              "diversity": {
+                "ci_high": 0.238322,
+                "ci_low": 0.236733,
+                "mean": 0.237489,
+                "n": 500,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.33563,
+                "ci_low": 0.279657,
+                "mean": 0.306449,
+                "n": 500,
+                "n_excluded": 0
+              },
+              "n": 500,
+              "ndcg@10": {
+                "ci_high": 0.361214,
+                "ci_low": 0.311115,
+                "mean": 0.334864,
+                "n": 500,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.294902,
+                "ci_low": 0.239354,
+                "mean": 0.26611,
+                "n": 500,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.766066,
+                "ci_low": 17.694352,
+                "mean": 17.730975,
+                "n": 500,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.953786,
+                "ci_low": 0.938099,
+                "mean": 0.946071,
+                "n": 500,
+                "n_excluded": 0
+              },
+              "share": 0.25
+            },
+            "history_short": {
+              "auc": {
+                "ci_high": 0.614366,
+                "ci_low": 0.561666,
+                "mean": 0.589365,
+                "n": 511,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.005488,
+                "ci_low": 0.004798,
+                "distinct_articles": 410,
+                "mean": 0.006285,
+                "n": 511
+              },
+              "diversity": {
+                "ci_high": 0.240061,
+                "ci_low": 0.238402,
+                "mean": 0.239257,
+                "n": 511,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.352837,
+                "ci_low": 0.293531,
+                "mean": 0.324415,
+                "n": 511,
+                "n_excluded": 0
+              },
+              "n": 511,
+              "ndcg@10": {
+                "ci_high": 0.412661,
+                "ci_low": 0.354295,
+                "mean": 0.384045,
+                "n": 511,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.358407,
+                "ci_low": 0.292563,
+                "mean": 0.327113,
+                "n": 511,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.713275,
+                "ci_low": 17.633988,
+                "mean": 17.672341,
+                "n": 511,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.939942,
+                "ci_low": 0.921455,
+                "mean": 0.930329,
+                "n": 511,
+                "n_excluded": 0
+              },
+              "share": 0.2555
+            },
+            "warm": {
+              "auc": {
+                "ci_high": 0.61768,
+                "ci_low": 0.591264,
+                "mean": 0.604347,
+                "n": 1938,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.011205,
+                "ci_low": 0.010362,
+                "distinct_articles": 859,
+                "mean": 0.013167,
+                "n": 1938
+              },
+              "degenerate_slice": "this slice holds 96.9% of the sample; its complement holds 3.1%. A comparison between the two is not a comparison.",
+              "diversity": {
+                "ci_high": 0.238449,
+                "ci_low": 0.23755,
+                "mean": 0.238,
+                "n": 1938,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.335314,
+                "ci_low": 0.306477,
+                "mean": 0.321211,
+                "n": 1938,
+                "n_excluded": 0
+              },
+              "n": 1938,
+              "ndcg@10": {
+                "ci_high": 0.378716,
+                "ci_low": 0.350289,
+                "mean": 0.365151,
+                "n": 1938,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.317695,
+                "ci_low": 0.286906,
+                "mean": 0.302788,
+                "n": 1938,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.716862,
+                "ci_low": 17.67885,
+                "mean": 17.698661,
+                "n": 1938,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.941789,
+                "ci_low": 0.933176,
+                "mean": 0.937553,
+                "n": 1938,
+                "n_excluded": 0
+              },
+              "share": 0.969
+            }
+          }
+        },
+        "retrieval_only_baseline": {
+          "degenerate_impressions": {},
+          "overall": {
+            "auc": {
+              "ci_high": 0.611291,
+              "ci_low": 0.584893,
+              "mean": 0.598547,
+              "n": 2000,
+              "n_excluded": 0,
+              "verdict": "better_than_random"
+            },
+            "coverage": {
+              "ci_high": 0.01237,
+              "ci_low": 0.011481,
+              "distinct_articles": 929,
+              "mean": 0.01424,
+              "n": 2000
+            },
+            "diversity": {
+              "ci_high": 0.224685,
+              "ci_low": 0.222963,
+              "mean": 0.223807,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "mrr": {
+              "ci_high": 0.333235,
+              "ci_low": 0.305013,
+              "mean": 0.318694,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "ndcg@10": {
+              "ci_high": 0.374341,
+              "ci_low": 0.345501,
+              "mean": 0.359739,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "ndcg@5": {
+              "ci_high": 0.319355,
+              "ci_low": 0.288321,
+              "mean": 0.303877,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "novelty": {
+              "ci_high": 17.272983,
+              "ci_low": 17.20381,
+              "mean": 17.23912,
+              "n": 2000,
+              "n_excluded": 0
+            },
+            "novelty_unseen_fraction": {
+              "ci_high": 0.858883,
+              "ci_low": 0.844965,
+              "mean": 0.852125,
+              "n": 2000,
+              "n_excluded": 0
+            }
+          },
+          "slices": {
+            "article_head": {
+              "auc": {
+                "ci_high": 0.622371,
+                "ci_low": 0.587947,
+                "mean": 0.60475,
+                "n": 1194,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.007803,
+                "ci_low": 0.007036,
+                "distinct_articles": 582,
+                "mean": 0.008921,
+                "n": 1194
+              },
+              "diversity": {
+                "ci_high": 0.229815,
+                "ci_low": 0.227804,
+                "mean": 0.228789,
+                "n": 1194,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.386902,
+                "ci_low": 0.349407,
+                "mean": 0.368572,
+                "n": 1194,
+                "n_excluded": 0
+              },
+              "n": 1194,
+              "ndcg@10": {
+                "ci_high": 0.436635,
+                "ci_low": 0.399504,
+                "mean": 0.418034,
+                "n": 1194,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.378259,
+                "ci_low": 0.337478,
+                "mean": 0.358337,
+                "n": 1194,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.337484,
+                "ci_low": 17.254578,
+                "mean": 17.294971,
+                "n": 1194,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.869042,
+                "ci_low": 0.851943,
+                "mean": 0.860637,
+                "n": 1194,
+                "n_excluded": 0
+              },
+              "share": 0.597
+            },
+            "article_head_train": {
+              "auc": {
+                "ci_high": 0.918337,
+                "ci_low": 0.621482,
+                "mean": 0.786565,
+                "n": 8,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "ci_warning": "n=8 is below MIN_TRUSTWORTHY_N=500; the bootstrap interval here is narrower than its nominal 95%",
+              "coverage": {
+                "ci_high": 0.000889,
+                "ci_low": 0.00046,
+                "distinct_articles": 64,
+                "mean": 0.000981,
+                "n": 8
+              },
+              "degenerate_slice": "this slice holds 0.4% of the sample; its complement holds 99.6%. A comparison between the two is not a comparison.",
+              "diversity": {
+                "ci_high": 0.212611,
+                "ci_low": 0.186463,
+                "mean": 0.200057,
+                "n": 8,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.758131,
+                "ci_low": 0.205345,
+                "mean": 0.473876,
+                "n": 8,
+                "n_excluded": 0
+              },
+              "n": 8,
+              "ndcg@10": {
+                "ci_high": 0.732705,
+                "ci_low": 0.209723,
+                "mean": 0.466502,
+                "n": 8,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.684449,
+                "ci_low": 0.153287,
+                "mean": 0.4188,
+                "n": 8,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 16.979412,
+                "ci_low": 15.280067,
+                "mean": 16.145644,
+                "n": 8,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.825,
+                "ci_low": 0.5,
+                "mean": 0.6625,
+                "n": 8,
+                "n_excluded": 0
+              },
+              "share": 0.004
+            },
+            "article_tail": {
+              "auc": {
+                "ci_high": 0.61132,
+                "ci_low": 0.569045,
+                "mean": 0.589359,
+                "n": 806,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.01073,
+                "ci_low": 0.009902,
+                "distinct_articles": 807,
+                "mean": 0.01237,
+                "n": 806
+              },
+              "diversity": {
+                "ci_high": 0.217729,
+                "ci_low": 0.215138,
+                "mean": 0.216427,
+                "n": 806,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.267676,
+                "ci_low": 0.22156,
+                "mean": 0.244804,
+                "n": 806,
+                "n_excluded": 0
+              },
+              "n": 806,
+              "ndcg@10": {
+                "ci_high": 0.297295,
+                "ci_low": 0.249932,
+                "mean": 0.273382,
+                "n": 806,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.248654,
+                "ci_low": 0.19833,
+                "mean": 0.223201,
+                "n": 806,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.208056,
+                "ci_low": 17.103174,
+                "mean": 17.156381,
+                "n": 806,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.849521,
+                "ci_low": 0.829015,
+                "mean": 0.839515,
+                "n": 806,
+                "n_excluded": 0
+              },
+              "share": 0.403
+            },
+            "article_tail_train": {
+              "auc": {
+                "ci_high": 0.611191,
+                "ci_low": 0.583829,
+                "mean": 0.597792,
+                "n": 1992,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.012279,
+                "ci_low": 0.011465,
+                "distinct_articles": 923,
+                "mean": 0.014148,
+                "n": 1992
+              },
+              "degenerate_slice": "this slice holds 99.6% of the sample; its complement holds 0.4%. A comparison between the two is not a comparison.",
+              "diversity": {
+                "ci_high": 0.22479,
+                "ci_low": 0.222954,
+                "mean": 0.223902,
+                "n": 1992,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.332334,
+                "ci_low": 0.303522,
+                "mean": 0.31807,
+                "n": 1992,
+                "n_excluded": 0
+              },
+              "n": 1992,
+              "ndcg@10": {
+                "ci_high": 0.373167,
+                "ci_low": 0.344582,
+                "mean": 0.35931,
+                "n": 1992,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.3187,
+                "ci_low": 0.287399,
+                "mean": 0.303416,
+                "n": 1992,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.276824,
+                "ci_low": 17.210048,
+                "mean": 17.243511,
+                "n": 1992,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.859635,
+                "ci_low": 0.846278,
+                "mean": 0.852886,
+                "n": 1992,
+                "n_excluded": 0
+              },
+              "share": 0.996
+            },
+            "cold_start": {
+              "auc": {
+                "ci_high": 0.560858,
+                "ci_low": 0.399605,
+                "mean": 0.478577,
+                "n": 62,
+                "n_excluded": 0,
+                "verdict": "indistinguishable_from_random"
+              },
+              "ci_warning": "n=62 is below MIN_TRUSTWORTHY_N=500; the bootstrap interval here is narrower than its nominal 95%",
+              "coverage": {
+                "ci_high": 0.002039,
+                "ci_low": 0.001579,
+                "distinct_articles": 148,
+                "mean": 0.002269,
+                "n": 62
+              },
+              "degenerate_slice": "this slice holds 3.1% of the sample; its complement holds 96.9%. A comparison between the two is not a comparison.",
+              "diversity": {
+                "ci_high": 0.241193,
+                "ci_low": 0.23451,
+                "mean": 0.237646,
+                "n": 62,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.375113,
+                "ci_low": 0.201839,
+                "mean": 0.283469,
+                "n": 62,
+                "n_excluded": 0
+              },
+              "n": 62,
+              "ndcg@10": {
+                "ci_high": 0.413701,
+                "ci_low": 0.234377,
+                "mean": 0.320115,
+                "n": 62,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.374454,
+                "ci_low": 0.185206,
+                "mean": 0.273529,
+                "n": 62,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 16.881075,
+                "ci_low": 15.968679,
+                "mean": 16.487001,
+                "n": 62,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.7628,
+                "ci_low": 0.59216,
+                "mean": 0.688249,
+                "n": 62,
+                "n_excluded": 0
+              },
+              "share": 0.031
+            },
+            "history_long": {
+              "auc": {
+                "ci_high": 0.636871,
+                "ci_low": 0.586177,
+                "mean": 0.611917,
+                "n": 500,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.006745,
+                "ci_low": 0.006024,
+                "distinct_articles": 499,
+                "mean": 0.007649,
+                "n": 500
+              },
+              "diversity": {
+                "ci_high": 0.221737,
+                "ci_low": 0.218173,
+                "mean": 0.219841,
+                "n": 500,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.373636,
+                "ci_low": 0.314723,
+                "mean": 0.342967,
+                "n": 500,
+                "n_excluded": 0
+              },
+              "n": 500,
+              "ndcg@10": {
+                "ci_high": 0.385558,
+                "ci_low": 0.327849,
+                "mean": 0.355599,
+                "n": 500,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.330497,
+                "ci_low": 0.272631,
+                "mean": 0.300197,
+                "n": 500,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.280887,
+                "ci_low": 17.16032,
+                "mean": 17.218168,
+                "n": 500,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.867462,
+                "ci_low": 0.842163,
+                "mean": 0.854671,
+                "n": 500,
+                "n_excluded": 0
+              },
+              "share": 0.25
+            },
+            "history_short": {
+              "auc": {
+                "ci_high": 0.589136,
+                "ci_low": 0.534422,
+                "mean": 0.562292,
+                "n": 511,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.007097,
+                "ci_low": 0.006285,
+                "distinct_articles": 535,
+                "mean": 0.008201,
+                "n": 511
+              },
+              "diversity": {
+                "ci_high": 0.23072,
+                "ci_low": 0.22773,
+                "mean": 0.229261,
+                "n": 511,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.325798,
+                "ci_low": 0.27288,
+                "mean": 0.30021,
+                "n": 511,
+                "n_excluded": 0
+              },
+              "n": 511,
+              "ndcg@10": {
+                "ci_high": 0.381613,
+                "ci_low": 0.327553,
+                "mean": 0.356001,
+                "n": 511,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.326539,
+                "ci_low": 0.265465,
+                "mean": 0.297565,
+                "n": 511,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.302778,
+                "ci_low": 17.149141,
+                "mean": 17.22753,
+                "n": 511,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.85711,
+                "ci_low": 0.827778,
+                "mean": 0.842853,
+                "n": 511,
+                "n_excluded": 0
+              },
+              "share": 0.2555
+            },
+            "warm": {
+              "auc": {
+                "ci_high": 0.616189,
+                "ci_low": 0.588121,
+                "mean": 0.602385,
+                "n": 1938,
+                "n_excluded": 0,
+                "verdict": "better_than_random"
+              },
+              "coverage": {
+                "ci_high": 0.01214,
+                "ci_low": 0.011266,
+                "distinct_articles": 913,
+                "mean": 0.013995,
+                "n": 1938
+              },
+              "degenerate_slice": "this slice holds 96.9% of the sample; its complement holds 3.1%. A comparison between the two is not a comparison.",
+              "diversity": {
+                "ci_high": 0.2243,
+                "ci_low": 0.222476,
+                "mean": 0.223364,
+                "n": 1938,
+                "n_excluded": 0
+              },
+              "mrr": {
+                "ci_high": 0.334509,
+                "ci_low": 0.305679,
+                "mean": 0.319821,
+                "n": 1938,
+                "n_excluded": 0
+              },
+              "n": 1938,
+              "ndcg@10": {
+                "ci_high": 0.375824,
+                "ci_low": 0.346143,
+                "mean": 0.361007,
+                "n": 1938,
+                "n_excluded": 0
+              },
+              "ndcg@5": {
+                "ci_high": 0.320648,
+                "ci_low": 0.288631,
+                "mean": 0.304848,
+                "n": 1938,
+                "n_excluded": 0
+              },
+              "novelty": {
+                "ci_high": 17.294107,
+                "ci_low": 17.231856,
+                "mean": 17.263181,
+                "n": 1938,
+                "n_excluded": 0
+              },
+              "novelty_unseen_fraction": {
+                "ci_high": 0.863382,
+                "ci_low": 0.851134,
+                "mean": 0.857367,
+                "n": 1938,
+                "n_excluded": 0
+              },
+              "share": 0.969
+            }
+          }
+        }
+      }
+    }
+  },
+  "impression_set": "recall.sample_impressions(test, RECALL_SAMPLE_SIZE, GLOBAL_SEED) \u2014 the identical call eval.json makes, asserted by the fingerprint, so every delta_vs_baseline is a genuine paired comparison",
+  "metrics_source": "eval/harness.py's own _per_impression/_metric_block/_slice_block \u2014 this stage computes no metric of its own, so a number here and a number in eval.json are the same measurement",
+  "ranked_pool": "the impression's own candidate_ids, not the corpus",
+  "report": "rerank_eval",
+  "requirement": "A2.Q5.1-A2.Q5.4",
+  "slices": {
+    "note": "A2 Q5.2 requires at least two; both of the pairs it names (cold_start/warm, article_head/article_tail) are here, plus the history quartiles and the training-period head/tail cut A1's Q4.5 mandated. article_head/article_tail use TEST-period popularity and are analysis descriptors, never model inputs.",
+    "test_period": [
+      "article_head",
+      "article_tail"
+    ],
+    "training_period": [
+      "cold_start",
+      "warm",
+      "history_short",
+      "history_long",
+      "article_head_train",
+      "article_tail_train"
+    ]
+  }
+}

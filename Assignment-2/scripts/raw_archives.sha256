@@ -1,0 +1,50 @@
+# SHA256 of the raw archives `make download` fetches into Data/ (Q1.1).
+# Paths are relative to Data/. Verified with `sha256sum -c` from inside Data/.
+#
+# Recorded 2026-08-19 from the archives already on disk, downloaded from the URLs
+# in Assignment1_v1.pdf. `make download` skips any archive that is present and
+# matches; a mismatch is a hard failure, never a silent re-download, so a
+# truncated or replaced upstream file cannot quietly change every downstream
+# number.
+#
+# Every hash below is of an archive that also passes `unzip -t`, so these are
+# checksums of complete files rather than of whatever happened to be on disk.
+#
+# google_bert_base_multilingual_cased.zip was added later, on 2026-08-19 22:15,
+# once its download finished. Its hash was deliberately withheld while wget was
+# still writing the file: the partial was 134 MB and then 143 MB at two points
+# and failed `unzip -t`, whereas the complete archive is 361 MB. Recording
+# either partial would have baked a wrong checksum into the repo permanently and
+# made every future `make download` verify against a truncated file.
+a966e5138ad103376e9817e02395719bf1c62ec56e6e98c30d46fbb991a7fafa  MIND/MINDsmall_train.zip
+b315cde1c9b9d45008b5a7c4b2e1f87647659f09f74892ae3899c0005d5d6155  MIND/MINDsmall_dev.zip
+fb28b4f95249c6571f2fe52ed4083a810ba7da651aa38123d16b232bbeca72c2  EB-NeRD/ebnerd_demo.zip
+84fc6fc902b8e8dad8383835c90185d54e0916060586d428ced391da4a92bd4f  EB-NeRD/ebnerd_small.zip
+0248d9bf6374f40df55407d2508aa0b8e5728f33f7f3d6112a1539bd69bd8df0  EB-NeRD/Ekstra_Bladet_word2vec.zip
+8781fe47ba2825d20de105c0735a42a4a20b9afaa99cf65e6b00a6c121ae5d38  EB-NeRD/google_bert_base_multilingual_cased.zip
+
+# MINDlarge_test is the Codabench submission target (OQ-7). It arrived as an
+# extracted directory rather than an archive, so `unzip -t` cannot vouch for it.
+# `make record-checksum` therefore applied its weaker TSV completeness test --
+# last line has the same field count as the first, file ends in a newline -- and
+# both files passed. Two independent facts also corroborate completeness:
+# behaviors.tsv holds 2,370,727 impressions and news.tsv 120,961 articles, which
+# are the published MIND-large test counts. This is stated rather than glossed:
+# a TSV check is weaker evidence than an archive check.
+709201b4ecc24e5073d694ab65e9552a9eb5e7d3b08067b90633b5d8b68534df  MIND/MINDlarge_test/behaviors.tsv
+50c4dec24a9f8ddb2e2283d4fcaf86b1622b14109b6597df6f862232017553aa  MIND/MINDlarge_test/news.tsv
+
+# The EB-NeRD test set (OQ-2), the RecSys 2024 Challenge leaderboard target.
+# Obtained as extracted Parquet rather than as an archive, so these are hashes of
+# the data files themselves. `make record-checksum` verified each by parsing its
+# Parquet FOOTER, which -- like a zip's central directory -- lives at the end of
+# the file and cannot be read from a prefix. That is strong evidence, on a par
+# with `unzip -t`, not the weaker heuristic used for the MIND TSVs above.
+# Verified contents: articles 125,541 rows x 21 cols; test/behaviors 13,536,710
+# rows x 14 cols; test/history 807,677 rows x 5 cols.
+#
+# The 1.5 GB ebnerd_testset.zip download was abandoned at 156 MB and deliberately
+# NOT checksummed -- it is a redundant copy of data already present here.
+07ee3568d8f003c04f67ff8c47a4b70609208ca8146ea5700fc5f4a9e620f74b  EB-NeRD/ebnerd_testset/articles.parquet
+f42c0b8ee2a887d052412f88e9ba017aa104ecba9b4620b65ef44e305882281f  EB-NeRD/ebnerd_testset/test/behaviors.parquet
+8b272180bf6137320f48539fe5daad77d6b9b085983fe9bea3086e3ebb16ace8  EB-NeRD/ebnerd_testset/test/history.parquet

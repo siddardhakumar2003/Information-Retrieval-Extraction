@@ -1,0 +1,122 @@
+{
+  "ann": {
+    "ebnerd_demo": {
+      "ann_search": 0.179,
+      "build": 0.089,
+      "by_ef_search": {
+        "128": 0.116,
+        "256": 0.179,
+        "512": 0.322,
+        "64": 0.091
+      },
+      "exact_search_numpy": 0.32,
+      "speedup_vs_exact": 1.79
+    },
+    "ebnerd_small": {
+      "ann_search": 0.302,
+      "build": 0.046,
+      "by_ef_search": {
+        "128": 0.196,
+        "256": 0.302,
+        "512": 0.68,
+        "64": 0.101
+      },
+      "exact_search_numpy": 0.555,
+      "speedup_vs_exact": 1.84
+    },
+    "mind_small": {
+      "ann_search": 0.683,
+      "build": 0.147,
+      "by_ef_search": {
+        "128": 0.322,
+        "256": 0.683,
+        "512": 1.054,
+        "64": 0.186
+      },
+      "exact_search_numpy": 1.64,
+      "speedup_vs_exact": 2.4
+    }
+  },
+  "bm25_recall": {
+    "ebnerd_demo": {
+      "index_build": 0.617,
+      "per_impression_ms": 7.983,
+      "retrieval_total": 15.965
+    },
+    "ebnerd_small": {
+      "index_build": 1.028,
+      "per_impression_ms": 11.981,
+      "retrieval_total": 23.962
+    },
+    "mind_small": {
+      "index_build": 4.645,
+      "per_impression_ms": 15.278,
+      "retrieval_total": 30.556
+    }
+  },
+  "embed": {
+    "ebnerd_demo": {
+      "articles": 11777,
+      "device": "cuda",
+      "encode_total": 4.12,
+      "per_article_ms": 0.35
+    },
+    "ebnerd_small": {
+      "articles": 20738,
+      "device": "cuda",
+      "encode_total": 6.97,
+      "per_article_ms": 0.336
+    },
+    "mind_small": {
+      "articles": 65238,
+      "device": "cuda",
+      "encode_total": 30.97,
+      "per_article_ms": 0.475
+    }
+  },
+  "eval": {
+    "ebnerd_demo": {
+      "bm25": 11.475,
+      "semantic": 0.418
+    },
+    "ebnerd_small": {
+      "bm25": 15.927,
+      "semantic": 0.493
+    },
+    "mind_small": {
+      "bm25": 10.334,
+      "semantic": 0.274
+    }
+  },
+  "lexical_vs_semantic": {
+    "ebnerd_demo": {
+      "lexical": 5.287,
+      "semantic": 0.246
+    },
+    "ebnerd_small": {
+      "lexical": 8.026,
+      "semantic": 0.401
+    },
+    "mind_small": {
+      "lexical": 10.773,
+      "semantic": 0.685
+    }
+  },
+  "semantic_recall": {
+    "ebnerd_demo": {
+      "ann_search": 0.396,
+      "per_impression_ms": 0.378,
+      "pool_user_vectors": 0.36
+    },
+    "ebnerd_small": {
+      "ann_search": 0.353,
+      "per_impression_ms": 0.37,
+      "pool_user_vectors": 0.388
+    },
+    "mind_small": {
+      "ann_search": 0.679,
+      "per_impression_ms": 0.414,
+      "pool_user_vectors": 0.148
+    }
+  }
+}

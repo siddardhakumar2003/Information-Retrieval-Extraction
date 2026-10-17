@@ -1,0 +1,10 @@
+truth: /app/input/ref/truth.txt 67305 bytes
+pred : /app/input/res/predictions.txt 79874 bytes
+rows read: 2000
+AUC                  0.5895070066850356
+MRR                  0.37278756991455747
+nDCG@5               0.4193270554813934
+nDCG@10              0.4897465798216875
+impressions_scored   2000
+degenerate_excluded  0
+bad_rows             0

@@ -1,0 +1,825 @@
+{
+  "bootstrap": {
+    "ci": 0.95,
+    "n_resamples": 1000
+  },
+  "comparison": "lexical_vs_semantic",
+  "datasets": {
+    "ebnerd_demo": {
+      "corpus_articles": 11777,
+      "dataset": "ebnerd_demo",
+      "freshness": {
+        "by_slice": {
+          "article_head": {
+            "lexical": 19480.744,
+            "semantic": 19477.274
+          },
+          "article_tail": {
+            "lexical": 19480.417,
+            "semantic": 19476.951
+          },
+          "history_long": {
+            "lexical": 19480.388,
+            "semantic": 19477.274
+          },
+          "history_short": {
+            "lexical": 19480.934,
+            "semantic": 19476.951
+          },
+          "warm": {
+            "lexical": 19480.644,
+            "semantic": 19476.951
+          }
+        },
+        "clicked": 19505.631,
+        "k": 200,
+        "overall": {
+          "lexical": 19480.644,
+          "semantic": 19476.951
+        },
+        "unit": "days_since_epoch_median"
+      },
+      "impression_set_fingerprint": "85b159e16c16406f",
+      "impressions_evaluated": 2000,
+      "overall": {
+        "100": {
+          "ci_high": 0.0035,
+          "ci_low": -0.012,
+          "delta": -0.004,
+          "established": false,
+          "lexical": 0.0185,
+          "n": 2000,
+          "semantic": 0.0145,
+          "winner": "neither"
+        },
+        "200": {
+          "ci_high": 0.0085,
+          "ci_low": -0.011,
+          "delta": -0.0015,
+          "established": false,
+          "lexical": 0.0295,
+          "n": 2000,
+          "semantic": 0.028,
+          "winner": "neither"
+        },
+        "50": {
+          "ci_high": 0.002,
+          "ci_low": -0.009,
+          "delta": -0.0035,
+          "established": false,
+          "lexical": 0.01,
+          "n": 2000,
+          "semantic": 0.0065,
+          "winner": "neither"
+        }
+      },
+      "paired": true,
+      "slices": {
+        "article_head": {
+          "k": {
+            "100": {
+              "ci_high": 0.004107,
+              "ci_low": -0.01848,
+              "delta": -0.007187,
+              "established": false,
+              "lexical": 0.020534,
+              "n": 974,
+              "semantic": 0.013347,
+              "winner": "neither"
+            },
+            "200": {
+              "ci_high": 0.01232,
+              "ci_low": -0.015426,
+              "delta": -0.002053,
+              "established": false,
+              "lexical": 0.030801,
+              "n": 974,
+              "semantic": 0.028747,
+              "winner": "neither"
+            },
+            "50": {
+              "ci_high": 0.0,
+              "ci_low": -0.014374,
+              "delta": -0.007187,
+              "established": false,
+              "lexical": 0.011294,
+              "n": 974,
+              "semantic": 0.004107,
+              "winner": "neither"
+            }
+          },
+          "n": 974,
+          "share": 0.487
+        },
+        "article_tail": {
+          "k": {
+            "100": {
+              "ci_high": 0.009747,
+              "ci_low": -0.011696,
+              "delta": -0.000975,
+              "established": false,
+              "lexical": 0.016569,
+              "n": 1026,
+              "semantic": 0.015595,
+              "winner": "neither"
+            },
+            "200": {
+              "ci_high": 0.012671,
+              "ci_low": -0.015595,
+              "delta": -0.000975,
+              "established": false,
+              "lexical": 0.028265,
+              "n": 1026,
+              "semantic": 0.02729,
+              "winner": "neither"
+            },
+            "50": {
+              "ci_high": 0.007797,
+              "ci_low": -0.007822,
+              "delta": 0.0,
+              "established": false,
+              "lexical": 0.008772,
+              "n": 1026,
+              "semantic": 0.008772,
+              "winner": "neither"
+            }
+          },
+          "n": 1026,
+          "share": 0.513
+        },
+        "cold_start": {
+          "k": {
+            "100": {
+              "n": 0,
+              "winner": "empty_slice"
+            },
+            "200": {
+              "n": 0,
+              "winner": "empty_slice"
+            },
+            "50": {
+              "n": 0,
+              "winner": "empty_slice"
+            }
+          },
+          "n": 0,
+          "share": 0.0
+        },
+        "history_long": {
+          "k": {
+            "100": {
+              "ci_high": 0.021912,
+              "ci_low": -0.00996,
+              "delta": 0.005976,
+              "established": false,
+              "lexical": 0.011952,
+              "n": 502,
+              "semantic": 0.017928,
+              "winner": "neither"
+            },
+            "200": {
+              "ci_high": 0.023904,
+              "ci_low": -0.013944,
+              "delta": 0.003984,
+              "established": false,
+              "lexical": 0.021912,
+              "n": 502,
+              "semantic": 0.025896,
+              "winner": "neither"
+            },
+            "50": {
+              "ci_high": 0.00996,
+              "ci_low": -0.00996,
+              "delta": 0.0,
+              "established": false,
+              "lexical": 0.005976,
+              "n": 502,
+              "semantic": 0.005976,
+              "winner": "neither"
+            }
+          },
+          "n": 502,
+          "share": 0.251
+        },
+        "history_short": {
+          "k": {
+            "100": {
+              "ci_high": 0.007984,
+              "ci_low": -0.024002,
+              "delta": -0.007984,
+              "established": false,
+              "lexical": 0.01996,
+              "n": 501,
+              "semantic": 0.011976,
+              "winner": "neither"
+            },
+            "200": {
+              "ci_high": 0.01996,
+              "ci_low": -0.021956,
+              "delta": 0.0,
+              "established": false,
+              "lexical": 0.031936,
+              "n": 501,
+              "semantic": 0.031936,
+              "winner": "neither"
+            },
+            "50": {
+              "ci_high": 0.007984,
+              "ci_low": -0.011976,
+              "delta": -0.001996,
+              "established": false,
+              "lexical": 0.007984,
+              "n": 501,
+              "semantic": 0.005988,
+              "winner": "neither"
+            }
+          },
+          "n": 501,
+          "share": 0.2505
+        },
+        "warm": {
+          "k": {
+            "100": {
+              "ci_high": 0.0035,
+              "ci_low": -0.012,
+              "delta": -0.004,
+              "established": false,
+              "lexical": 0.0185,
+              "n": 2000,
+              "semantic": 0.0145,
+              "winner": "neither"
+            },
+            "200": {
+              "ci_high": 0.0085,
+              "ci_low": -0.011,
+              "delta": -0.0015,
+              "established": false,
+              "lexical": 0.0295,
+              "n": 2000,
+              "semantic": 0.028,
+              "winner": "neither"
+            },
+            "50": {
+              "ci_high": 0.002,
+              "ci_low": -0.009,
+              "delta": -0.0035,
+              "established": false,
+              "lexical": 0.01,
+              "n": 2000,
+              "semantic": 0.0065,
+              "winner": "neither"
+            }
+          },
+          "n": 2000,
+          "share": 1.0
+        }
+      }
+    },
+    "ebnerd_small": {
+      "corpus_articles": 20738,
+      "dataset": "ebnerd_small",
+      "freshness": {
+        "by_slice": {
+          "article_head": {
+            "lexical": 19448.657,
+            "semantic": 19397.56
+          },
+          "article_tail": {
+            "lexical": 19448.252,
+            "semantic": 19399.163
+          },
+          "history_long": {
+            "lexical": 19444.166,
+            "semantic": 19378.0
+          },
+          "history_short": {
+            "lexical": 19450.234,
+            "semantic": 19409.096
+          },
+          "warm": {
+            "lexical": 19448.531,
+            "semantic": 19398.587
+          }
+        },
+        "clicked": 19505.472,
+        "k": 200,
+        "overall": {
+          "lexical": 19448.531,
+          "semantic": 19398.587
+        },
+        "unit": "days_since_epoch_median"
+      },
+      "impression_set_fingerprint": "fd21438470e38846",
+      "impressions_evaluated": 2000,
+      "overall": {
+        "100": {
+          "ci_high": 0.0,
+          "ci_low": -0.011,
+          "delta": -0.0055,
+          "established": false,
+          "lexical": 0.011,
+          "n": 2000,
+          "semantic": 0.0055,
+          "winner": "neither"
+        },
+        "200": {
+          "ci_high": 0.004,
+          "ci_low": -0.013,
+          "delta": -0.004,
+          "established": false,
+          "lexical": 0.0205,
+          "n": 2000,
+          "semantic": 0.0165,
+          "winner": "neither"
+        },
+        "50": {
+          "ci_high": 0.0005,
+          "ci_low": -0.0075,
+          "delta": -0.0035,
+          "established": false,
+          "lexical": 0.0065,
+          "n": 2000,
+          "semantic": 0.003,
+          "winner": "neither"
+        }
+      },
+      "paired": true,
+      "slices": {
+        "article_head": {
+          "k": {
+            "100": {
+              "ci_high": -0.006869,
+              "ci_low": -0.022571,
+              "delta": -0.013739,
+              "established": true,
+              "lexical": 0.01472,
+              "n": 1019,
+              "semantic": 0.000981,
+              "winner": "lexical"
+            },
+            "200": {
+              "ci_high": -0.006869,
+              "ci_low": -0.030422,
+              "delta": -0.017664,
+              "established": true,
+              "lexical": 0.027478,
+              "n": 1019,
+              "semantic": 0.009814,
+              "winner": "lexical"
+            },
+            "50": {
+              "ci_high": -0.002944,
+              "ci_low": -0.01472,
+              "delta": -0.007851,
+              "established": true,
+              "lexical": 0.007851,
+              "n": 1019,
+              "semantic": 0.0,
+              "winner": "lexical"
+            }
+          },
+          "n": 1019,
+          "share": 0.5095
+        },
+        "article_tail": {
+          "k": {
+            "100": {
+              "ci_high": 0.011213,
+              "ci_low": -0.004077,
+              "delta": 0.003058,
+              "established": false,
+              "lexical": 0.007136,
+              "n": 981,
+              "semantic": 0.010194,
+              "winner": "neither"
+            },
+            "200": {
+              "ci_high": 0.021407,
+              "ci_low": 0.0,
+              "delta": 0.010194,
+              "established": false,
+              "lexical": 0.013252,
+              "n": 981,
+              "semantic": 0.023445,
+              "winner": "neither"
+            },
+            "50": {
+              "ci_high": 0.007136,
+              "ci_low": -0.005097,
+              "delta": 0.001019,
+              "established": false,
+              "lexical": 0.005097,
+              "n": 981,
+              "semantic": 0.006116,
+              "winner": "neither"
+            }
+          },
+          "n": 981,
+          "share": 0.4905
+        },
+        "cold_start": {
+          "k": {
+            "100": {
+              "n": 0,
+              "winner": "empty_slice"
+            },
+            "200": {
+              "n": 0,
+              "winner": "empty_slice"
+            },
+            "50": {
+              "n": 0,
+              "winner": "empty_slice"
+            }
+          },
+          "n": 0,
+          "share": 0.0
+        },
+        "history_long": {
+          "k": {
+            "100": {
+              "ci_high": 0.007984,
+              "ci_low": -0.011976,
+              "delta": -0.001996,
+              "established": false,
+              "lexical": 0.007984,
+              "n": 501,
+              "semantic": 0.005988,
+              "winner": "neither"
+            },
+            "200": {
+              "ci_high": 0.016018,
+              "ci_low": -0.01996,
+              "delta": -0.001996,
+              "established": false,
+              "lexical": 0.021956,
+              "n": 501,
+              "semantic": 0.01996,
+              "winner": "neither"
+            },
+            "50": {
+              "ci_high": 0.011976,
+              "ci_low": -0.003992,
+              "delta": 0.003992,
+              "established": false,
+              "lexical": 0.001996,
+              "n": 501,
+              "semantic": 0.005988,
+              "winner": "neither"
+            }
+          },
+          "n": 501,
+          "share": 0.2505
+        },
+        "history_short": {
+          "k": {
+            "100": {
+              "ci_high": 0.007874,
+              "ci_low": -0.017717,
+              "delta": -0.003937,
+              "established": false,
+              "lexical": 0.011811,
+              "n": 508,
+              "semantic": 0.007874,
+              "winner": "neither"
+            },
+            "200": {
+              "ci_high": 0.01378,
+              "ci_low": -0.017717,
+              "delta": -0.001969,
+              "established": false,
+              "lexical": 0.017717,
+              "n": 508,
+              "semantic": 0.015748,
+              "winner": "neither"
+            },
+            "50": {
+              "ci_high": 0.003937,
+              "ci_low": -0.011811,
+              "delta": -0.003937,
+              "established": false,
+              "lexical": 0.005906,
+              "n": 508,
+              "semantic": 0.001969,
+              "winner": "neither"
+            }
+          },
+          "n": 508,
+          "share": 0.254
+        },
+        "warm": {
+          "k": {
+            "100": {
+              "ci_high": 0.0,
+              "ci_low": -0.011,
+              "delta": -0.0055,
+              "established": false,
+              "lexical": 0.011,
+              "n": 2000,
+              "semantic": 0.0055,
+              "winner": "neither"
+            },
+            "200": {
+              "ci_high": 0.004,
+              "ci_low": -0.013,
+              "delta": -0.004,
+              "established": false,
+              "lexical": 0.0205,
+              "n": 2000,
+              "semantic": 0.0165,
+              "winner": "neither"
+            },
+            "50": {
+              "ci_high": 0.0005,
+              "ci_low": -0.0075,
+              "delta": -0.0035,
+              "established": false,
+              "lexical": 0.0065,
+              "n": 2000,
+              "semantic": 0.003,
+              "winner": "neither"
+            }
+          },
+          "n": 2000,
+          "share": 1.0
+        }
+      }
+    },
+    "mind_small": {
+      "corpus_articles": 65238,
+      "dataset": "mind_small",
+      "freshness": null,
+      "impression_set_fingerprint": "bf8eb9407bd482dc",
+      "impressions_evaluated": 2000,
+      "overall": {
+        "100": {
+          "ci_high": -0.005301,
+          "ci_low": -0.014626,
+          "delta": -0.010079,
+          "established": true,
+          "lexical": 0.015805,
+          "n": 2000,
+          "semantic": 0.005726,
+          "winner": "lexical"
+        },
+        "200": {
+          "ci_high": -0.011787,
+          "ci_low": -0.024598,
+          "delta": -0.018066,
+          "established": true,
+          "lexical": 0.027464,
+          "n": 2000,
+          "semantic": 0.009398,
+          "winner": "lexical"
+        },
+        "50": {
+          "ci_high": -0.001328,
+          "ci_low": -0.007415,
+          "delta": -0.004411,
+          "established": true,
+          "lexical": 0.007233,
+          "n": 2000,
+          "semantic": 0.002821,
+          "winner": "lexical"
+        }
+      },
+      "paired": true,
+      "slices": {
+        "article_head": {
+          "k": {
+            "100": {
+              "ci_high": -0.004286,
+              "ci_low": -0.014338,
+              "delta": -0.009059,
+              "established": true,
+              "lexical": 0.011412,
+              "n": 1194,
+              "semantic": 0.002353,
+              "winner": "lexical"
+            },
+            "200": {
+              "ci_high": -0.009999,
+              "ci_low": -0.02505,
+              "delta": -0.017434,
+              "established": true,
+              "lexical": 0.022327,
+              "n": 1194,
+              "semantic": 0.004894,
+              "winner": "lexical"
+            },
+            "50": {
+              "ci_high": -0.001916,
+              "ci_low": -0.009365,
+              "delta": -0.005387,
+              "established": true,
+              "lexical": 0.006085,
+              "n": 1194,
+              "semantic": 0.000698,
+              "winner": "lexical"
+            }
+          },
+          "n": 1194,
+          "share": 0.597
+        },
+        "article_tail": {
+          "k": {
+            "100": {
+              "ci_high": -0.002976,
+              "ci_low": -0.021332,
+              "delta": -0.011589,
+              "established": true,
+              "lexical": 0.022312,
+              "n": 806,
+              "semantic": 0.010723,
+              "winner": "lexical"
+            },
+            "200": {
+              "ci_high": -0.007581,
+              "ci_low": -0.033004,
+              "delta": -0.019003,
+              "established": true,
+              "lexical": 0.035073,
+              "n": 806,
+              "semantic": 0.01607,
+              "winner": "lexical"
+            },
+            "50": {
+              "ci_high": 0.002399,
+              "ci_low": -0.009005,
+              "delta": -0.002966,
+              "established": false,
+              "lexical": 0.008933,
+              "n": 806,
+              "semantic": 0.005967,
+              "winner": "neither"
+            }
+          },
+          "n": 806,
+          "share": 0.403
+        },
+        "cold_start": {
+          "k": {
+            "100": {
+              "ci_high": 0.0,
+              "ci_low": 0.0,
+              "delta": 0.0,
+              "established": false,
+              "lexical": 0.0,
+              "n": 62,
+              "semantic": 0.0,
+              "winner": "neither"
+            },
+            "200": {
+              "ci_high": 0.0,
+              "ci_low": 0.0,
+              "delta": 0.0,
+              "established": false,
+              "lexical": 0.0,
+              "n": 62,
+              "semantic": 0.0,
+              "winner": "neither"
+            },
+            "50": {
+              "ci_high": 0.0,
+              "ci_low": 0.0,
+              "delta": 0.0,
+              "established": false,
+              "lexical": 0.0,
+              "n": 62,
+              "semantic": 0.0,
+              "winner": "neither"
+            }
+          },
+          "n": 62,
+          "share": 0.031
+        },
+        "history_long": {
+          "k": {
+            "100": {
+              "ci_high": 0.003573,
+              "ci_low": -0.013133,
+              "delta": -0.004799,
+              "established": false,
+              "lexical": 0.010704,
+              "n": 500,
+              "semantic": 0.005905,
+              "winner": "neither"
+            },
+            "200": {
+              "ci_high": -0.00694,
+              "ci_low": -0.030773,
+              "delta": -0.018385,
+              "established": true,
+              "lexical": 0.027909,
+              "n": 500,
+              "semantic": 0.009524,
+              "winner": "lexical"
+            },
+            "50": {
+              "ci_high": 0.005559,
+              "ci_low": -0.005707,
+              "delta": -0.000463,
+              "established": false,
+              "lexical": 0.004415,
+              "n": 500,
+              "semantic": 0.003952,
+              "winner": "neither"
+            }
+          },
+          "n": 500,
+          "share": 0.25
+        },
+        "history_short": {
+          "k": {
+            "100": {
+              "ci_high": 0.003914,
+              "ci_low": -0.009785,
+              "delta": -0.002935,
+              "established": false,
+              "lexical": 0.008806,
+              "n": 511,
+              "semantic": 0.005871,
+              "winner": "neither"
+            },
+            "200": {
+              "ci_high": 0.008611,
+              "ci_low": -0.010959,
+              "delta": -0.000587,
+              "established": false,
+              "lexical": 0.010763,
+              "n": 511,
+              "semantic": 0.010176,
+              "winner": "neither"
+            },
+            "50": {
+              "ci_high": 0.0,
+              "ci_low": -0.002935,
+              "delta": -0.000978,
+              "established": false,
+              "lexical": 0.002935,
+              "n": 511,
+              "semantic": 0.001957,
+              "winner": "neither"
+            }
+          },
+          "n": 511,
+          "share": 0.2555
+        },
+        "warm": {
+          "k": {
+            "100": {
+              "ci_high": -0.005758,
+              "ci_low": -0.015678,
+              "delta": -0.010401,
+              "established": true,
+              "lexical": 0.01631,
+              "n": 1938,
+              "semantic": 0.005909,
+              "winner": "lexical"
+            },
+            "200": {
+              "ci_high": -0.012082,
+              "ci_low": -0.026241,
+              "delta": -0.018644,
+              "established": true,
+              "lexical": 0.028343,
+              "n": 1938,
+              "semantic": 0.009698,
+              "winner": "lexical"
+            },
+            "50": {
+              "ci_high": -0.001374,
+              "ci_low": -0.007751,
+              "delta": -0.004552,
+              "established": true,
+              "lexical": 0.007464,
+              "n": 1938,
+              "semantic": 0.002912,
+              "winner": "lexical"
+            }
+          },
+          "n": 1938,
+          "share": 0.969
+        }
+      }
+    }
+  },
+  "delta_sign": "semantic minus lexical; positive means semantic retrieved more",
+  "impression_sets_match_committed_reports": true,
+  "k_values": [
+    50,
+    100,
+    200
+  ],
+  "paired": true,
+  "requirement": "Q3.6",
+  "slice_definitions": {
+    "article_head": "impression's clicked set includes an article in the test-period top 50% of clicks",
+    "article_tail": "impression's clicked set includes no such article",
+    "cold_start": "no legitimate prior click; both retrievers serve the identical popularity fallback, so a non-zero delta here is a bug",
+    "history_long": "user history length >= this dataset's 75th percentile",
+    "history_short": "user history length <= this dataset's 25th percentile",
+    "warm": "has a user vector"
+  },
+  "slice_note": "Head/tail is defined by TEST-period popularity. That is an analysis-time descriptor, not a serving-time feature: no score, ranking or model input sees it, and every number was computed before the slice existed."
+}
