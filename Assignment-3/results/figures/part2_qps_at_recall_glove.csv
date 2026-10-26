@@ -1,0 +1,4 @@
+index_type,qps_at_recall_0.90,qps_at_recall_0.95
+hnsw,not reached,not reached
+ivf_flat,not reached,not reached
+ivf_pq,34804.37819861575,34804.37819861575
