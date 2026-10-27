@@ -29,10 +29,24 @@ before** that experiment is run, so the git history shows the hypothesis predate
 
 ## Part 4: experiment on self-generated data
 
-*(Not yet started. Fill in the chosen property to vary, the settings to test, and a short
-hypothesis here, commit it, then implement the generator + `scripts/part4_*.py`.)*
+- **Property varied:** Dimensionality (d) of self-generated uniform-random synthetic data
+  (`annbench.synthetic.generate_uniform`, points drawn i.i.d. uniform in `[-1, 1]^d`). Dataset
+  size and random seed are held fixed — only `d` changes between settings. Tested on HNSW and
+  IVF-Flat (exact search included as the unaffected reference), each at one fixed build+search
+  configuration (not swept to a recall target, unlike Parts 1-3).
 
-- **Property varied:**
-- **Settings tested (>=3 plus a control):**
-- **Hypothesis:**
-- **Reasoning:**
+- **Settings tested (>=3 plus a control):** d = 32 (control), 64, 128, 256.
+
+- **Hypothesis:** Recall@10 at a fixed HNSW `ef` and a fixed IVF-Flat `nprobe` will degrade
+  monotonically as d increases from 32 to 256, because the ratio of nearest-to-farthest
+  neighbour distance shrinks as dimensionality grows ("distance concentration" / the curse of
+  dimensionality), making distance-based pruning less able to discriminate true near neighbours
+  from distractors — both HNSW's graph search and IVF-Flat's cluster-probe pruning rely on
+  exactly that discrimination. Exact search's recall should stay at 1.0 throughout, since
+  brute-force search never prunes and only its absolute distances change, not its ranking.
+
+- **Reasoning:** This is the standard, well-documented curse-of-dimensionality argument — the
+  assignment names this exact phenomenon as an example ("with uniform random vectors, nearest
+  neighbours become barely closer than everything else as the dimension grows"). High
+  confidence of confirmation is expected here, which the assignment says is fine: "a hypothesis
+  that turns out wrong is fine; we grade the reasoning and the care of the experiment."

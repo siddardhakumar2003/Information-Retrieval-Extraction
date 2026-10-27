@@ -29,6 +29,9 @@ python3 scripts/part2_benchmark.py $QUICK_FLAG
 echo "== Part 3: scaling experiment (SIFT) =="
 python3 scripts/part3_scaling.py $QUICK_FLAG
 
+echo "== Part 4: dimensionality experiment (self-generated data) =="
+python3 scripts/part4_dimensionality.py $QUICK_FLAG
+
 echo "== done =="
 echo "results: ../results/results.csv"
 echo "figures/tables: ../results/figures/"
