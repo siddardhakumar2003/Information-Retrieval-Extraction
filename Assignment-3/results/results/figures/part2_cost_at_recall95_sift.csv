@@ -1,4 +1,0 @@
-index_type,build_time_s,index_size_bytes,bytes_per_vector,achieved_recall
-hnsw,58.484458931256086,597164908,597.164908,0.97026
-ivf_flat,4.718799869995564,520260139,520.260139,0.9665
-ivf_pq,not reached,not reached,not reached,not reached
