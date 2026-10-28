@@ -20,6 +20,9 @@ fi
 echo "== unit tests =="
 python3 -m pytest tests/ -q
 
+echo "== capturing environment (specs + library versions) =="
+python3 scripts/capture_environment.py
+
 echo "== Part 1: exact baseline =="
 python3 scripts/part1_exact_baseline.py $QUICK_FLAG
 

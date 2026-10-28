@@ -1,0 +1,18 @@
+Environment
+===========
+Captured: 2026-10-29T00:24:43
+OS: Linux-5.15.0-194-generic-x86_64-with-glibc2.35
+CPU: Intel(R) Xeon(R) CPU E5-2640 v4 @ 2.40GHz (40 logical cores)
+RAM: 131.9 GB
+Python: 3.10.12
+GPU: none visible to faiss (CPU-only run)
+
+Library versions:
+  faiss-cpu: 1.15.1
+  faiss-gpu: not installed
+  hnswlib: 0.8.0
+  h5py: 3.16.0
+  numpy: 2.2.6
+  pandas: 2.3.3
+  matplotlib: 3.10.9
+  pytest: 9.1.1

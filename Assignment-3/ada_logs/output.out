@@ -1,0 +1,24 @@
+== activating venv ==
+== sanity check: data files present? ==
+-rw-r--r-- 1 cs4406.16 cs4406 485413888 Oct 25 16:31 /home2/cs4406.16/Assignment-3/data/glove-100-angular.hdf5
+-rw-r--r-- 1 cs4406.16 cs4406 525128288 Oct 25 16:32 /home2/cs4406.16/Assignment-3/data/sift-128-euclidean.hdf5
+== sanity check: GPU visible to faiss? ==
+faiss sees 0 GPU(s)
+== running only part4 ==
+
+=== Part 4 (dimensionality): d=32, n_train=50,000 ===
+  recall@10: exact=1.000 hnsw=0.815 ivf_flat=0.567
+
+=== Part 4 (dimensionality): d=64, n_train=50,000 ===
+  recall@10: exact=1.000 hnsw=0.528 ivf_flat=0.379
+
+=== Part 4 (dimensionality): d=128, n_train=50,000 ===
+  recall@10: exact=1.000 hnsw=0.350 ivf_flat=0.276
+
+=== Part 4 (dimensionality): d=256, n_train=50,000 ===
+  recall@10: exact=1.000 hnsw=0.256 ivf_flat=0.216
+
+wrote /home2/cs4406.16/Assignment-3/results/figures/part4_dimensionality_recall.png
+wrote /home2/cs4406.16/Assignment-3/results/figures/part4_dimensionality_table.csv
+
+Part 4 done. Appended 12 rows to /home2/cs4406.16/Assignment-3/results/results.csv

@@ -1,10 +1,12 @@
 #!/bin/bash
 # SLURM submission script for the Ada cluster. Submit from inside code/ with:
-#   sbatch run_ada.sh
+#   sbatch run_ada.sh            runs the full pipeline (Part 1 -> 2 -> 3 -> 4)
+#   sbatch run_ada.sh part1      runs only Part 1 (same for part2 / part3 / part4)
 #
-# Runs the FULL (non-quick) Part 1 + Part 2 pipeline by calling run_all.sh —
-# the actual benchmark logic lives there and in scripts/, this file only
-# handles SLURM resource requests and environment activation.
+# Each part is independent -- none reads another part's output, and
+# results.csv rows are replaced per (part, dataset) on write -- so running
+# parts as separate job submissions (e.g. one per day, under the 6h wall
+# limit) is always safe, in any order, any number of times.
 #
 # IMPORTANT: Ada's compute nodes have no internet access, so data.py's
 # auto-download will NOT work here. Copy
@@ -14,8 +16,8 @@
 # already exist under code/ (this script no longer creates it).
 
 #SBATCH --job-name=ann-benchmark
-#SBATCH --output=/home2/cs4406.16/Assignment-3/code/ada_logs/%x_%j.out
-#SBATCH --error=/home2/cs4406.16/Assignment-3/code/ada_logs/%x_%j.err
+#SBATCH --output=ada_logs/output.out
+#SBATCH --error=ada_logs/error.err
 #SBATCH --gres=gpu:1
 #SBATCH --time=06:00:00           # EDIT ME: wall-clock limit (HH:MM:SS); adjust to your partition's max
 #SBATCH --nodes=1
@@ -46,7 +48,24 @@ ls -la "$PROJECT_ROOT/data/sift-128-euclidean.hdf5" "$PROJECT_ROOT/data/glove-10
 echo "== sanity check: GPU visible to faiss? =="
 python3 -c "import faiss; print('faiss sees', faiss.get_num_gpus(), 'GPU(s)')"
 
-echo "== running full pipeline (Part 1 + Part 2) =="
 # venv already has the deps installed and compute nodes have no internet access,
 # so skip run_all.sh's `pip install -r requirements.txt` step.
-SKIP_DEPS_INSTALL=1 bash "$CODE_DIR/run_all.sh"
+export SKIP_DEPS_INSTALL=1
+
+PART="${1:-all}"
+case "$PART" in
+    all)
+        echo "== running full pipeline (Part 1 -> 2 -> 3 -> 4) =="
+        bash "$CODE_DIR/run_all.sh"
+        ;;
+    part1|part2|part3|part4)
+        echo "== capturing environment (specs + library versions, this machine) =="
+        python3 "$CODE_DIR"/scripts/capture_environment.py
+        echo "== running only $PART =="
+        python3 "$CODE_DIR"/scripts/"$PART"_*.py
+        ;;
+    *)
+        echo "Unknown argument '$PART'. Use: all | part1 | part2 | part3 | part4" >&2
+        exit 1
+        ;;
+esac
