@@ -34,26 +34,24 @@ avoid selection bias on the tuning split. Exact recall@10 was verified against t
 stored ground truth (recall $=1.0000$ on both). All search timing is single query at a time,
 single thread, median of 3 repeats (1 repeat in \texttt{--quick} mode).
 
-Part 1 ran on a laptop (Intel i5-1155G7, 8 cores, 20.2\,GB RAM, Python 3.12.3). Parts 2--4 ran on
-an IIIT-H Ada cluster node (Intel Xeon E5-2640 v4, 40 cores, 131.9\,GB RAM, Python 3.10.12),
-CPU-only for search in both cases (IVF training used GPU acceleration on Ada where available,
-never benchmarked search). Both machines used \texttt{faiss-cpu 1.15.1}, \texttt{hnswlib 0.8.0}.
-Full specs/versions for both machines are in \texttt{results/environment\_laptop\_part1.txt} and
-\texttt{results/environment\_ada\_part2to4.txt}. This two-machine split (driven by the 6-hour Ada
-wall-clock limit) is a deliberate deviation from the ``one machine'' ground rule, discussed in
-Q5 below; Parts 2--4 are internally consistent with each other (same machine), and Part 1's
-numbers are used only for their own section and for the Q4 sanity check, not mixed into Part 2's
-comparisons.
+All four parts ran on a single machine: an IIIT-H Ada cluster node (Intel Xeon E5-2640 v4,
+40 cores, 131.9\,GB RAM, Python 3.10.12), CPU-only for search (IVF training used GPU
+acceleration where available, never benchmarked search). Library versions:
+\texttt{faiss-cpu 1.15.1}, \texttt{hnswlib 0.8.0}, \texttt{numpy 2.2.6}, \texttt{pandas 2.3.3}.
+Full specs/versions are in \texttt{results/environment.txt}. Because the full (non-\texttt{--quick})
+sweep exceeds Ada's 6-hour job wall-clock limit in one run, the four parts were submitted as
+separate jobs on the same node/account over several days rather than one continuous job; every
+reported number nonetheless comes from this one machine.
 
 \section*{Part 1: Exact baseline}
 \begin{center}
 \small
 \begin{tabular}{lccccc}
 \toprule
-dataset & build time (s) & recall@10 & single-query QPS & batched QPS (1 thr) & batched QPS (8 thr) \\
+dataset & build time (s) & recall@10 & single-query QPS & batched QPS (1 thr) & batched QPS (40 thr) \\
 \midrule
-SIFT (1M, 128d)     & 0.19 & 1.0000 & 37.3 & 274.0 & 462.9 \\
-GloVe (1.18M, 100d)  & 0.20 & 1.0000 & 39.8 & 261.8 & 389.9 \\
+SIFT (1M, 128d)     & 0.41 & 1.0000 & 27.3 & 259.1 & 395.5 \\
+GloVe (1.18M, 100d)  & 0.31 & 1.0000 & 28.6 & 268.7 & 369.2 \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -62,9 +60,10 @@ amortises the fixed Python/FAISS call overhead (argument marshalling, GIL handof
 setup) across all 5000 queries instead of paying it once per query, and lets FAISS issue one
 large, cache-friendly matrix--matrix distance computation (effectively a GEMM) instead of 5000
 separate matrix--vector calls, which is far more efficient per floating-point operation on modern
-CPUs. The further jump from 1 to 8 threads comes from FAISS parallelising that batched distance
+CPUs. The further jump from 1 to 40 threads comes from FAISS parallelising that batched distance
 computation itself across cores -- a benefit a single one-row query cannot use, since there is
-nothing to split across threads.
+nothing to split across threads (the gain is sub-linear in core count because only the
+distance-computation inner loop parallelises; call overhead and result aggregation stay serial).
 
 \section*{Part 2: Benchmarking HNSW, IVF-Flat, IVF-PQ}
 
@@ -212,19 +211,23 @@ accepting its lower recall ceiling.
 
 \textbf{5. Two ways this benchmark could be misleading.} (a) \emph{Single-query, single-thread
 QPS understates real serving throughput.} Part 1 directly measured this: batching alone (still
-one thread) gave 7.3--7.6$\times$ higher QPS than one-at-a-time search, and adding 7 more threads
-gave a further 1.5--1.7$\times$. A deployment that batches or parallelises queries -- the common
-case for a real retrieval service -- would see substantially higher throughput than every QPS
-number reported for Parts 2--4, which all use the single-query, single-thread convention the
-assignment specifies. \emph{Tested}: yes, explicitly, in Part 1 -- but that comparison was never
-carried into the Part 2--4 sweeps, so the gap is documented but not quantified for ANN indexes
-specifically. (b) \emph{Running Part 1 on a different machine than Parts 2--4} (forced by Ada's
-6-hour job limit) means Part 1's absolute QPS numbers are not directly comparable to Part 3's
-exact-search numbers at the same scale on different hardware (e.g.\ Part 1's laptop gives 37.3
-single-query QPS for SIFT at 1M, while Part 3's Ada run gives 26.6 QPS for the identical
-configuration -- a $\sim$1.4$\times$ gap attributable purely to CPU, not the algorithm). Relative
-comparisons \emph{within} Parts 2--4 remain valid since those all share one machine. \emph{Tested}:
-yes -- flagged explicitly here and in the Methodology section, rather than silently presenting
-cross-machine numbers as if they were comparable.
+one thread) gave $\sim$9.4$\times$ higher QPS than one-at-a-time search, and adding 39 more
+threads gave a further $\sim$1.4--1.5$\times$. A deployment that batches or parallelises queries
+-- the common case for a real retrieval service -- would see substantially higher throughput than
+every QPS number reported for Parts 2--4, which all use the single-query, single-thread
+convention the assignment specifies. \emph{Tested}: yes, explicitly, in Part 1 -- but that
+comparison was never carried into the Part 2--4 sweeps, so the gap is documented but not
+quantified for ANN indexes specifically. (b) \emph{The reported QPS-at-recall-X numbers are a
+coarse read-off of a discrete parameter grid, not the true Pareto-optimal curve.} Part 2 only
+built 3 configs per index (e.g.\ HNSW $M\in\{8,16,32\}$) and swept a handful of discrete
+ef/nprobe values on top; ``QPS at recall 0.95'' is \emph{not} interpolated to that exact recall
+-- it is the QPS of whichever swept point was the first to reach recall $\geq 0.95$, which often
+overshoots (e.g.\ reaching 0.971 instead of landing near 0.950). Since QPS falls as recall rises,
+reporting the QPS of an overshot point systematically \emph{understates} the true achievable QPS
+at exactly 0.95 -- a finer ef/nprobe grid would find an intermediate point closer to 0.95 with
+higher QPS. So our numbers are a conservative lower bound on each index's best achievable QPS at
+a given recall, not the true optimum. \emph{Tested}: partially -- we used a log-spaced ef/nprobe
+sequence (1,2,4,...,512), which keeps the overshoot small in relative terms, but did not run a
+grid-doubling convergence check to quantify how much QPS is left on the table.
 
 \end{document}

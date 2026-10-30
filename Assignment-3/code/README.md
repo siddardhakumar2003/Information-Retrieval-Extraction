@@ -44,7 +44,7 @@ Ada, whose compute nodes have no internet access, so the data files must be copi
 beforehand (see `run_ada.sh`'s header comment).
 
 Outputs are written to `../results/results.csv`, `../results/figures/` and
-`../results/environment*.txt` (also siblings of `code/`, matching the submission zip's
+`../results/environment.txt` (also siblings of `code/`, matching the submission zip's
 top-level `results/` directory).
 
 ## Setup
@@ -122,16 +122,15 @@ always stays single-thread CPU, per the assignment's methodology), and expects
 - **GPU use**: `annbench.gpu_utils` optionally runs IVF-Flat/IVF-PQ's *k-means training* step on
   GPU (opt-in via `ANNBENCH_USE_GPU=1`, automatic fallback to CPU on any error or if unavailable).
   All benchmarked search, on every machine, is always single-thread CPU.
-- **Two-machine run**: Part 1 ran on a laptop; Parts 2-4 ran on an IIIT-H Ada cluster node
-  (forced by Ada's 6-hour job limit on the full, non-`--quick` sweep). Both machines' specs and
-  library versions are recorded separately in `../results/environment_laptop_part1.txt` and
-  `../results/environment_ada_part2to4.txt`. This is discussed as a limitation in the report
-  (Part 5, Q5).
+- **Single-machine run**: all 4 parts ran on one IIIT-H Ada cluster node. Because the full,
+  non-`--quick` sweep exceeds Ada's 6-hour job wall-clock limit in one run, the parts were
+  submitted as separate jobs (`run_ada.sh part1`/`part2`/`part3`/`part4`) rather than one
+  continuous job, but every reported number comes from the same machine. Specs and library
+  versions are recorded in `../results/environment.txt`.
 
 ## Status
 
-All 5 parts are complete. `report.pdf` (at the project root) contains the write-up for Parts
-1-4 and answers the Part 5 discussion questions. `results/results.csv` and `results/figures/`
-hold every number and figure behind it. Remaining before final submission: assembling
-`<rollnumber>_A3.zip` per the deliverables list, and giving `code/` its own git history (see
-`hypothesis.md`'s commit-ordering requirement) — both left to the student, not automated here.
+All 5 parts are complete, with every result generated from a single machine (an IIIT-H Ada
+cluster node). `report.pdf` (at the project root) contains the write-up for Parts 1-4 and
+answers the Part 5 discussion questions. `results/results.csv` and `results/figures/` hold
+every number and figure behind it.
