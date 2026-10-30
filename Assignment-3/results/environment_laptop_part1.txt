@@ -1,0 +1,18 @@
+Environment
+===========
+Captured: 2026-10-30T16:13:36
+OS: Linux-7.0.0-38-generic-x86_64-with-glibc2.39
+CPU: 11th Gen Intel(R) Core(TM) i5-1155G7 @ 2.50GHz (8 logical cores)
+RAM: 20.2 GB
+Python: 3.12.3
+GPU: none visible to faiss (CPU-only run)
+
+Library versions:
+  faiss-cpu: 1.15.1
+  faiss-gpu: not installed
+  hnswlib: 0.8.0
+  h5py: 3.16.0
+  numpy: 2.5.4
+  pandas: 3.1.0
+  matplotlib: 3.11.2
+  pytest: 9.1.1

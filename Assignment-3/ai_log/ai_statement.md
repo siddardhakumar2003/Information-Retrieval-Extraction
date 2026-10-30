@@ -16,6 +16,7 @@ All files below are under `code/`.
 | File | Classification |
 |---|---|
 | `run_ada.sh` | AI-generated, then human-edited (SLURM resource values, output/error log paths edited directly by the student on the Ada cluster) |
+| `run_ada_env.sh` | AI-generated |
 | `README.md` | AI-generated |
 | `requirements.txt` | AI-generated |
 | `hypothesis.md` | AI-generated (content for Part 3 and Part 4 hypotheses, written and reviewed before each experiment was run, per the assignment's requirement) |
@@ -48,3 +49,12 @@ All files below are under `code/`.
 | `tests/test_recall.py` | AI-generated |
 
 No file in `code/` was written by the student without AI assistance.
+
+## Report
+
+| File | Classification |
+|---|---|
+| `report.pdf` (built from `report_src/report.tex`, outside `code/`) | AI-generated. The student chose which Part 3/Part 4 experiments to run and reviewed/approved every number before it went into the report; the AI selected the discussion framing, wrote the analysis text (including the Part 5 answers) from the actual `results.csv`/figures, and typeset it in LaTeX. All figures and tables are regenerated directly by `run_all.sh` from the benchmark runs, not hand-edited. |
+
+`report_src/` (the `.tex` source and build log) is a working directory for the report only and
+is not part of the submission zip — only `report.pdf` is.
